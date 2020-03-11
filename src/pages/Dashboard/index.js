@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Menu,Layout} from 'antd';
 import Link from 'umi/link';
 import cls from 'classnames';
-import { ScrollBar } from 'seid';
+import { ScrollBar } from 'suid';
 import styles from './index.less';
 
 const {Header,Content}=Layout;
