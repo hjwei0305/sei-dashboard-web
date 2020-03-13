@@ -13,10 +13,17 @@ export default [
     routes: [
       { path: '/dashboard', component: './Dashboard' },
       {
-        path: "/moduleName",
-        name: "moduleName",
+        path: "/backConfig",
+        name: "backConfig",
         routes: [
-          { path: "/moduleName/demo", component: "./Demo" },
+          { path: "/backConfig/demo", component: "./BackConfig" },
+        ]
+      },
+      {
+        path: "/dashboard",
+        name: "dashboard",
+        routes: [
+          { path: "/dashboard/portalHome", component: "./Portal/Home" },
         ]
       }
     ],

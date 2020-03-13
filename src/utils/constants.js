@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-02-21 18:03:16 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-02-21 18:05:05
+ * @Last Modified time: 2020-03-13 14:00:15
  */
 import { base } from '../../public/app.config.json';
 
@@ -53,10 +53,16 @@ const APP_MODULE_BTN_KEY = {
   "DELETE": `${APP_BASE}_DELETE`
 };
 
+/** 组件类型*/
+const COMPONENT_TYPE = {
+  "ECHART_PIE": "EchartPie",
+};
+
 export default {
   APP_BASE,
   LOCAL_PATH,
   SERVER_PATH,
   APP_MODULE_BTN_KEY,
   LOGIN_STATUS,
+  COMPONENT_TYPE,
 };
