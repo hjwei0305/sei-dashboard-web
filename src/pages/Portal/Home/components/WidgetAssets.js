@@ -37,7 +37,8 @@ class PanelAssets extends Component {
     };
 
     renderAvatar = ({ item }) => {
-        const { icon } = item;
+        const { component } = item;
+        const { icon } = component;
         return (
             <ExtIcon
                 type={icon.type}
@@ -56,7 +57,7 @@ class PanelAssets extends Component {
             customTool: () => null,
             itemField: {
                 avatar: this.renderAvatar,
-                title: item => item.title,
+                title: item => item.name,
                 description: item => item.description,
                 extra: this.renderExtra,
             },

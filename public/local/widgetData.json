@@ -1,14 +1,16 @@
 [
   {
     "id": "1001",
-    "title": "用户访问来源",
-    "icon": {
-      "type": "pie-chart",
-      "color": "#eb2f96"
-    },
+    "name": "用户访问来源",
     "description": "可以对系统用户流量分析",
     "component": {
       "type": "EchartPie",
+      "icon": {
+        "type": "pie-chart",
+        "color": "#eb2f96"
+      },
+      "name":"饼状图",
+      "remark": "使用要求:1.仅有一个要绘制的数据系列。 2.要绘制的数值没有负值。 3.要绘制的数值几乎没有零值。",
       "props": {
         "title": "用户访问流量统计",
         "store": {
@@ -24,14 +26,16 @@
   },
   {
     "id": "1002",
-    "title": "我的单据",
-    "icon": {
-      "type": "pie-chart",
-      "color": "#2db7f5"
-    },
+    "name": "我的单据",
     "description": "创建的单据种类统计",
     "component": {
       "type": "EchartPie",
+      "icon": {
+        "type": "pie-chart",
+        "color": "#2db7f5"
+      },
+      "name":"饼状图",
+      "remark": "使用要求:1.仅有一个要绘制的数据系列。 2.要绘制的数值没有负值。 3.要绘制的数值几乎没有零值。",
       "props": {
         "title": "我的单据统计",
         "store": {

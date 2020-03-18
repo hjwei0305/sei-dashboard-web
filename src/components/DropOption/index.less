@@ -1,0 +1,26 @@
+@import '../../themes/vars';
+
+.container {
+  :global {
+    .anticon {
+      margin-right: 8px;
+    }
+    .ant-dropdown-menu-item {
+      min-width: 140px;
+    }
+  }
+  > *:global(:not(.ant-dropdown-menu)) {
+    background-color: @body-background;
+    box-shadow: @shadow-1-down;
+    border-radius: 4px;
+  }
+}
+
+@media screen and (max-width: @screen-xs) {
+  .container {
+    width: 100% !important;
+  }
+  .container > * {
+    border-radius: 0 !important;
+  }
+}

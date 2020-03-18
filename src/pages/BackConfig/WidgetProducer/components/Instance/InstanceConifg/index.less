@@ -1,0 +1,67 @@
+@import '../../../../../../themes/vars.less';
+.widget-instance-config-box {
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  :global {
+    .ant-drawer-header {
+      z-index: 1;
+    }
+    .ant-drawer-body {
+      padding: 0;
+      height: calc(100% - 55px);
+    }
+    .form-body {
+      width: 100%;
+      height: calc(100% - 48px);
+      overflow: hidden;
+      .scrollbar-container {
+        width: 100%;
+      }
+      .box-item {
+        .title {
+          color: fade(@black, 85%);
+          font-weight: 700;
+          height: 48px;
+          line-height: 48px;
+          padding: 0 24px;
+        }
+      }
+      .widget-box {
+        padding: 24px;
+        .widget-icon {
+          text-align: center;
+          cursor: pointer;
+          .ant-avatar {
+            background-color: transparent;
+            color: fade(@black, 45%);
+          }
+        }
+        .tool-box {
+          width: 320px;
+          > div {
+            width: 100%;
+          }
+          button {
+            display: block;
+          }
+          .desc {
+            margin-top: 8px;
+            color: fade(@black, 45%);
+          }
+        }
+      }
+    }
+    .footer-tool-box {
+      display: flex;
+      align-items: center;
+      height: 48px;
+      line-height: 48px;
+      justify-content: space-between;
+      position: relative;
+      padding: 0 24px;
+      border-top: 1px solid @border-color;
+    }
+  }
+}

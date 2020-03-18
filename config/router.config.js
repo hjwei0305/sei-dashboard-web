@@ -16,14 +16,15 @@ export default [
         path: "/backConfig",
         name: "backConfig",
         routes: [
-          { path: "/backConfig/demo", component: "./BackConfig" },
+          { path: "/backConfig/widgetType", component: "./BackConfig/WidgetType" },
+          { path: "/backConfig/widgetProducer", component: "./BackConfig/WidgetProducer" },
         ]
       },
       {
-        path: "/dashboard",
-        name: "dashboard",
+        path: "/portal",
+        name: "portal",
         routes: [
-          { path: "/dashboard/portalHome", component: "./Portal/Home" },
+          { path: "/portal/home", component: "./Portal/Home" },
         ]
       }
     ],
