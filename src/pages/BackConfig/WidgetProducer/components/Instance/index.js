@@ -11,7 +11,7 @@ import styles from './index.less';
 const { SERVER_PATH } = constants;
 
 @connect(({ widgetInstance, widgetGroup, loading }) => ({ widgetInstance, widgetGroup, loading }))
-class FeaturePage extends Component {
+class WidgetInstance extends Component {
 
     constructor(props) {
         super(props);
@@ -227,4 +227,4 @@ class FeaturePage extends Component {
     }
 }
 
-export default FeaturePage;
+export default WidgetInstance;
