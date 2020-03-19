@@ -1,4 +1,4 @@
-import { getWidgetAssets } from "./service";
+import { getWidgetInstanceList } from "./service";
 import { message } from "antd";
 import { utils } from 'suid';
 
@@ -14,7 +14,7 @@ export default modelExtend(model, {
     },
     effects: {
         * getWidgetAssets({ payload }, { call, put }) {
-            const re = yield call(getWidgetAssets, payload);
+            const re = yield call(getWidgetInstanceList, payload);
             if (re.success) {
                 yield put({
                     type: "updateState",
