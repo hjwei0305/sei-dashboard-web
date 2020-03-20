@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
-    "start": "umi dev",
-    "start:no-mock": "cross-env MOCK_SERVER=none umi dev",
+    "start": "cross-env MOCK=none umi dev",
+    "start:mock": "cross-env MOCK=yes umi dev",
     "initpage": "sei-tools initPage",
     "build": "umi build",
     "test": "umi test",

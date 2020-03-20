@@ -61,7 +61,7 @@ export default {
     '@': resolve(__dirname, './src'),
   },
   define: {
-    'process.env.MOCK_SERVER': process.env.MOCK_SERVER,
+    'process.env.MOCK': process.env.MOCK,
   },
   extraBabelPlugins: [
     [

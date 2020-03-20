@@ -1,36 +1,22 @@
+/*
+ * @Author: Eason 
+ * @Date: 2020-03-20 14:52:21 
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-03-20 15:28:18
+ */
 import React, { Component } from 'react';
 import cls from 'classnames';
 import { connect } from "dva";
 import { Button } from 'antd';
-import { PortalPanel, ScrollBar, utils } from 'suid';
+import { PortalPanel, ScrollBar, utils, ExtIcon } from 'suid';
 import WidgetAssets from './components/WidgetAssets';
-import { EchartPie } from '../../../components';
+import { Widgets } from '../../../components';
 import { constants } from '../../../utils';
 import styles from './index.less';
 
+const { EchartPie, EchartBarLine } = Widgets;
 const { storage } = utils;
 const { COMPONENT_TYPE } = constants;
-
-// const layouts = {
-//     lg: [
-//         { w: 3, h: 1, x: 0, y: 0, i: '1' },
-//         { w: 3, h: 1, x: 3, y: 0, i: '2' },
-//         { w: 4, h: 2, x: 6, y: 0, i: '3' },
-//         { w: 6, h: 1, x: 0, y: 1, i: '4' },
-//     ],
-//     md: [
-//         { w: 3, h: 1, x: 0, y: 0, i: '1' },
-//         { w: 3, h: 1, x: 3, y: 0, i: '2' },
-//         { w: 4, h: 2, x: 6, y: 0, i: '3' },
-//         { w: 6, h: 1, x: 0, y: 1, i: '4' },
-//     ],
-//     sm: [
-//         { w: 3, h: 1, x: 0, y: 0, i: '1' },
-//         { w: 3, h: 1, x: 3, y: 0, i: '2' },
-//         { w: 6, h: 2, x: 0, y: 0, i: '3' },
-//         { w: 6, h: 1, x: 0, y: 1, i: '4' },
-//     ],
-// };
 
 @connect(({ portalHome, loading }) => ({ portalHome, loading }))
 class Home extends Component {
@@ -39,8 +25,34 @@ class Home extends Component {
         super(props);
         this.state = {
             widgets: [],
+            widgetRenderData: [],
+            layouts: {},
         };
     }
+
+    componentDidMount() {
+        this.initWidgets();
+    }
+
+    initWidgets = () => {
+        const { widgetRenderData = [], layouts = {} } = storage.localStorage.get('demo-portal') || {};
+        const widgets = [];
+        widgetRenderData.forEach(w => {
+            const layoutKeys = Object.keys(layouts);
+            let layout = null;
+            if (layoutKeys.length > 0) {
+                const tmps = layouts[layoutKeys[0]].filter(l => l.i === w.id);
+                if (tmps.length > 0) {
+                    layout = tmps[0];
+                }
+            }
+            const cmp = this.getWidget(w, layout);
+            if (cmp) {
+                widgets.push(cmp);
+            }
+        });
+        this.setState({ widgets, layouts, widgetRenderData });
+    };
 
     handlerAddWidgetAssets = () => {
         const { dispatch } = this.props;
@@ -65,35 +77,52 @@ class Home extends Component {
         });
     };
 
-    handlerAddWidget = (widget) => {
-        const { widgets: originWidgets } = this.state;
+    getWidget = (widget, layout) => {
         const { component } = widget;
-        const widgets = [...originWidgets];
+        const defaultLayout = layout || {
+            w: 4,
+            h: 4,
+            x: 0,
+            y: 0,
+            i: widget.id,
+        };
         switch (component.type) {
             case COMPONENT_TYPE.ECHART_PIE:
-                widgets.push({
+                return {
                     id: widget.id,
                     widget: <EchartPie {...component.props} />,
                     closable: true,
-                    layout: {
-                        w: 4,
-                        h: 4,
-                        x: 0,
-                        y: 0,
-                        i: widget.id,
-                    },
-                });
-                break;
+                    layout: defaultLayout,
+                };
+            case COMPONENT_TYPE.ECHART_BAR_LINE:
+                return {
+                    id: widget.id,
+                    widget: <EchartBarLine {...component.props} />,
+                    closable: true,
+                    layout: defaultLayout,
+                };
             default:
+                return null;
         }
-        this.setState({
-            widgets
-        });
+    };
+
+    handlerAddWidget = (widget) => {
+        const { widgets: originWidgets, layouts, widgetRenderData } = this.state;
+        const widgets = [...originWidgets];
+        const cmp = this.getWidget(widget);
+        if (cmp) {
+            widgets.push(cmp);
+            this.setState({
+                widgets
+            }, () => {
+                widgetRenderData.push(widget);
+                storage.localStorage.set('demo-portal', { layouts, widgetRenderData });
+            });
+        }
     };
 
     onLayoutChange = (layout, layouts) => {
-        console.log(layouts);
-        const { widgets } = this.state;
+        const { widgets, widgetRenderData } = this.state;
         widgets.forEach(widget => {
             const lt = layout.filter(l => l.i === widget.id);
             if (lt.length === 1) {
@@ -102,24 +131,35 @@ class Home extends Component {
         });
         this.setState({
             widgets,
+            layouts,
         }, () => {
-            storage.localStorage.set('demo-portal', layouts);
+            storage.localStorage.set('demo-portal', { layouts, widgetRenderData });
+        });
+    };
+
+    handlerClose = (id) => {
+        const { widgets: originWidgets, layouts, widgetRenderData: originWidgetData } = this.state;
+        const widgets = originWidgets.filter(w => w.id !== id);
+        const widgetRenderData = originWidgetData.filter(w => w.id !== id);
+        this.setState({ widgets, widgetRenderData }, () => {
+            storage.localStorage.set('demo-portal', { layouts, widgetRenderData });
         });
     };
 
     render() {
-        const { widgets } = this.state;
+        const { widgets, layouts } = this.state;
         const { portalHome, loading } = this.props;
         const { widgetData, showWidgetAssets } = portalHome;
-        const layoutsData = storage.localStorage.get('demo-portal') || {};
         const portalPanelProps = {
             widgets,
-            layouts: layoutsData,
+            layouts,
             rowHeight: 100,
+            draggableHandle: '.panel-header',
             onLayoutChange: this.onLayoutChange,
             preventCollision: true,
             verticalCompact: false,
             margin: [4, 4],
+            onClose: this.handlerClose,
         };
         const loadingWidgetAssets = loading.effects['portalHome/getWidgetAssets'];
         const doneKeys = widgets.map(w => w.id);
@@ -134,14 +174,8 @@ class Home extends Component {
         return (
             <div className={cls(styles['portal-home-box'])}>
                 <div className="action-tool-bar">
-                    <Button
-                        icon="plus"
-                        type="primary"
-                        loading={loadingWidgetAssets}
-                        onClick={this.handlerAddWidgetAssets}
-                    >
-                        添加组件
-                    </Button>
+                    <ExtIcon type="plus" className='action-item primary' spin={loadingWidgetAssets} onClick={this.handlerAddWidgetAssets} tooltip={{ title: '添加组件' }} antd />
+                    <ExtIcon type="skin" className="action-item" antd />
                 </div>
                 <div className="portal-box">
                     <ScrollBar>

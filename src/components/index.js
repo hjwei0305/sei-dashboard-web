@@ -1,9 +1,9 @@
 import Loader from './Loader';
-import EchartPie from './EchartPie';
-import ColorSelect from './ColorSelect'
+import Widgets from './Widgets';
+import ColorSelect from './ColorSelect';
 
 export {
   Loader,
-  EchartPie,
+  Widgets,
   ColorSelect,
 };

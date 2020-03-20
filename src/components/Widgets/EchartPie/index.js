@@ -77,13 +77,17 @@ class EchartPie extends PureComponent {
 
     render() {
         const { legendData, seriesData, loading } = this.state;
-        console.log(legendData, seriesData);
         const { title, seriesName } = this.props;
         const echartPieProps = {
             option: {
                 title: {
                     text: title,
                     x: 'center',
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: { show: true }
+                    }
                 },
                 legend: {
                     bottom: 4,

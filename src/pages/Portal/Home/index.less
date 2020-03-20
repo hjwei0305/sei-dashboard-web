@@ -8,12 +8,30 @@
   :global {
     .action-tool-bar {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
       align-items: center;
       height: 42px !important;
       line-height: 42px;
       background-color: @white;
-      padding: 0 16px;
+      padding: 0 24px;
+      .action-item{
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        line-height: 34px;
+        border-radius: 4px;
+        margin-left: 8px;
+        cursor: pointer;
+        transition: all ease-in 0.2s;
+        &.primary{
+          color: @primary-color;
+        }
+        &.ant-dropdown-open,
+        &:hover {
+          color: @primary-color;
+          background-color: fade(@black, 5%);
+        }
+      }
     }
     .portal-box {
       height: calc(100% - 42px) !important;

@@ -10,6 +10,7 @@ import { constants } from '../../../../../../utils'
 import styles from "./index.less";
 
 const EchartPie = React.lazy(() => import("./Forms/EchartPie"));
+const EchartBarLine = React.lazy(() => import("./Forms/EchartBarLine"));
 
 const { COMPONENT_TYPE } = constants;
 
@@ -111,6 +112,12 @@ class InstanceConfig extends PureComponent {
                     return (
                         <Suspense fallback={<ListLoader />}>
                             <EchartPie {...formProps} />
+                        </Suspense>
+                    );
+                case COMPONENT_TYPE.ECHART_BAR_LINE:
+                    return (
+                        <Suspense fallback={<ListLoader />}>
+                            <EchartBarLine {...formProps} />
                         </Suspense>
                     );
                 default:

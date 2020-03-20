@@ -2,9 +2,15 @@
  * @Author: Eason 
  * @Date: 2020-02-21 18:03:16 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-03-13 14:00:15
+ * @Last Modified time: 2020-03-20 14:35:29
  */
 import { base } from '../../public/app.config.json';
+
+/** 服务接口基地址，默认是当前站点的域名地址 */
+const BASE_DOMAIN = '/';
+
+/** 网关地址 */
+const GATEWAY = 'mobileapi-gateway';
 
 /** 
 * 非生产环境下是使用mocker开发，还是与真实后台开发或联调 
@@ -14,20 +20,14 @@ import { base } from '../../public/app.config.json';
 */
 const getServerPath = function () {
   if (process.env.NODE_ENV !== 'production') {
-    if (process.env.MOCK_SERVER === 'none') {
-      return '/service.api'
-    } else {
+    if (process.env.MOCK === 'yes') {
       return '/mocker.api'
+    } else {
+      return '/service.api'
     }
   }
   return `${BASE_DOMAIN}${GATEWAY}`
 }
-
-/** 服务接口基地址，默认是当前站点的域名地址 */
-const BASE_DOMAIN = '/';
-
-/** 网关地址 */
-const GATEWAY = 'mobileapi-gateway';
 
 /** 项目的站点基地址 */
 const APP_BASE = base;
@@ -56,6 +56,7 @@ const APP_MODULE_BTN_KEY = {
 /** 组件类型*/
 const COMPONENT_TYPE = {
   "ECHART_PIE": "EchartPie",
+  "ECHART_BAR_LINE": "EchartBarLine",
 };
 
 export default {
