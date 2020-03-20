@@ -2,12 +2,11 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-03-20 15:28:18
+ * @Last Modified time: 2020-03-20 15:35:30
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
 import { connect } from "dva";
-import { Button } from 'antd';
 import { PortalPanel, ScrollBar, utils, ExtIcon } from 'suid';
 import WidgetAssets from './components/WidgetAssets';
 import { Widgets } from '../../../components';
