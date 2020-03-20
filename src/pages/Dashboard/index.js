@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Menu,Layout} from 'antd';
 import Link from 'umi/link';
 import cls from 'classnames';
-import { ScrollBar } from 'seid';
+import { ScrollBar } from 'suid';
 import styles from './index.less';
 
 const {Header,Content}=Layout;
@@ -11,12 +11,28 @@ const { SubMenu } = Menu;
 const menuData = [
   {
     id: '10',
-    name: 'moduleName',
+    name: '后台管理',
     children: [
       {
         id: '100',
-        name: 'menuName',
-        path: '/moduleName/demo',
+        name: '组件注册',
+        path: '/backConfig/widgetType',
+      },
+      {
+        id: '101',
+        name: '组件实例',
+        path: '/backConfig/widgetProducer',
+      },
+    ],
+  },
+  {
+    id: '20',
+    name: '仪表盘管理',
+    children: [
+      {
+        id: '200',
+        name: '首页仪表盘',
+        path: '/portal/home',
       },
     ],
   },

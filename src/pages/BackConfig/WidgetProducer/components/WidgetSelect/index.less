@@ -1,0 +1,49 @@
+@import '../../../../../themes/vars.less';
+
+.widget-box-popover {
+  :global {
+    .ant-popover-inner-content {
+      padding: 0;
+    }
+    .ant-list-item-content {
+      flex: 0;
+      margin-left: 16px;
+    }
+    .widget-box-wrap {
+      width: 320px;
+      height: 332px;
+      .icon-box {
+        padding: 8px;
+        display: grid;
+        grid-template-columns: 96px 96px 96px;
+        grid-template-rows: 100px 100px 100px;
+        grid-gap: 8px;
+        .widget-item {
+          position: relative;
+          cursor: pointer;
+          transition: all 0.3s ease-in-out;
+          border-radius: 3px;
+          border: 1px solid transparent;
+          padding: 4px;
+          &:last-child {
+            margin-right: 0;
+          }
+          &:hover {
+            color: fade(@primary-color, 65%);
+          }
+          .title {
+            margin-top: 8px;
+            padding: 0 8px;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+.selected {
+  color: @primary-color;
+  border-color: fade(@primary-color, 45%) !important;
+  background-color: fade(@primary-color, 10%);
+}
