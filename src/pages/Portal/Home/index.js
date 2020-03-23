@@ -2,16 +2,16 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-03-23 11:32:28
+ * @Last Modified time: 2020-03-23 14:00:31
  */
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import cls from 'classnames';
 import { connect } from "dva";
-import { isEqual } from 'lodash'
+import { isEqual, omit } from 'lodash'
 import { PortalPanel, ScrollBar, utils, ExtIcon } from 'suid';
 import WidgetAssets from './components/WidgetAssets';
 import Settings from './components/Settings';
-import { Widgets } from '../../../components';
+import { Widgets, DynamicPoint } from '../../../components';
 import { constants } from '../../../utils';
 import styles from './index.less';
 
@@ -121,15 +121,17 @@ class Home extends Component {
             case COMPONENT_TYPE.ECHART_PIE:
                 return {
                     id: widget.id,
-                    widget: <EchartPie {...component.props} skin={echart} />,
+                    widget: <EchartPie {...omit(component.props, ['title'])} skin={echart} />,
                     closable: true,
+                    title: component.props.title,
                     layout: defaultLayout,
                 };
             case COMPONENT_TYPE.ECHART_BAR_LINE:
                 return {
                     id: widget.id,
-                    widget: <EchartBarLine {...component.props} skin={echart} />,
+                    widget: <EchartBarLine {...omit(component.props, ['title'])} skin={echart} />,
                     closable: true,
+                    title: component.props.title,
                     layout: defaultLayout,
                 };
             default:
@@ -207,34 +209,41 @@ class Home extends Component {
             onSettingsClose: this.handlerCloseSettings,
         };
         return (
-            <div className={cls(styles['portal-home-box'])}>
-                <div className={cls('portal-body', primarySkin)}>
-                    <div className="action-tool-bar">
-                        <ExtIcon
-                            type="plus"
-                            className='action-item primary'
-                            spin={loadingWidgetAssets}
-                            onClick={this.handlerAddWidgetAssets}
-                            tooltip={{ title: '添加组件' }}
-                            antd
-                        />
-                        <ExtIcon
-                            type="setting"
-                            className="action-item"
-                            tooltip={{ title: '数据可视化设置' }}
-                            onClick={this.handlerShowSettings}
-                            antd
-                        />
+            <Fragment>
+                <div className={cls(styles['portal-home-box'])}>
+                    <div className={cls('portal-body', primarySkin)}>
+                        <div className="action-tool-bar">
+                            <ExtIcon
+                                type="plus"
+                                className='action-item primary'
+                                spin={loadingWidgetAssets}
+                                onClick={this.handlerAddWidgetAssets}
+                                tooltip={{ title: '添加组件' }}
+                                antd
+                            />
+                            <ExtIcon
+                                type="setting"
+                                className="action-item"
+                                tooltip={{ title: '数据可视化设置' }}
+                                onClick={this.handlerShowSettings}
+                                antd
+                            />
+                        </div>
+                        <div className="portal-box">
+                            <ScrollBar>
+                                <PortalPanel {...portalPanelProps} />
+                            </ScrollBar>
+                        </div>
+                        <WidgetAssets {...widgetAssetsProps} />
+                        <Settings {...settingsProps} />
                     </div>
-                    <div className="portal-box">
-                        <ScrollBar>
-                            <PortalPanel {...portalPanelProps} />
-                        </ScrollBar>
-                    </div>
-                    <WidgetAssets {...widgetAssetsProps} />
-                    <Settings {...settingsProps} />
                 </div>
-            </div>
+                {
+                    primarySkin !== 'light'
+                        ? <DynamicPoint />
+                        : null
+                }
+            </Fragment>
         )
     }
 }
