@@ -92,14 +92,19 @@ class EchartBarLine extends PureComponent {
                     show: true,
                     ...xAxis.axisLine
                 },
+                axisPointer: {
+                    type: 'shadow'
+                },
             });
+            if (!x.hasOwnProperty('type')) {
+                x.type = 'category';
+            }
         });
         yAxisData.forEach(y => {
             Object.assign(y, {
                 splitLine: {
                     show: true,
                     lineStyle: {
-                        type: 'solid',
                         ...yAxis.lineStyle
                     }
                 },
@@ -108,6 +113,14 @@ class EchartBarLine extends PureComponent {
                     ...yAxis.axisLine
                 }
             });
+            if (!y.hasOwnProperty('type')) {
+                y.type = 'value';
+            }
+        });
+        seriesData.forEach(s => {
+            if (!s.hasOwnProperty('type')) {
+                s.type = 'bar';
+            }
         });
         return {
             title: {

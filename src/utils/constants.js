@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-02-21 18:03:16 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-03-23 13:37:43
+ * @Last Modified time: 2020-03-23 16:55:45
  */
 import { base } from '../../public/app.config.json';
 
@@ -111,7 +111,7 @@ const ECHART = {
     },
     yAxis: {
       lineStyle: {
-        color: ['#454548'],
+        color: ['#333'],
         type: 'solid'
       },
       axisLine: {
@@ -141,7 +141,7 @@ const ECHART = {
     },
     yAxis: {
       lineStyle: {
-        color: ['#233e64'],
+        color: ['#445b7e'],
         type: 'solid'
       },
       axisLine: {

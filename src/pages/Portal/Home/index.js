@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-03-23 14:00:31
+ * @Last Modified time: 2020-03-23 14:39:11
  */
 import React, { Component, Fragment } from 'react';
 import cls from 'classnames';
@@ -187,7 +187,6 @@ class Home extends Component {
             widgets,
             layouts,
             rowHeight: 100,
-            draggableHandle: '.panel-header',
             onLayoutChange: this.onLayoutChange,
             preventCollision: true,
             compactType: null,

@@ -85,19 +85,6 @@ class FeatureGroupForm extends PureComponent {
             )}
           </FormItem>
           <div className='title-group'>数据配置</div>
-          <FormItem label="系列名称" hasFeedback>
-            {getFieldDecorator('seriesName', {
-              initialValue: get(formData, 'component.props.seriesName', null),
-              rules: [
-                {
-                  required: true,
-                  message: '数据接口不能为空',
-                },
-              ],
-            })(
-              <Input />
-            )}
-          </FormItem>
           <FormItem label="数据接口" hasFeedback>
             {getFieldDecorator('storeUrl', {
               initialValue: get(formData, 'component.props.store.url', null),
