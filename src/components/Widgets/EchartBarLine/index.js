@@ -84,12 +84,14 @@ class EchartBarLine extends PureComponent {
 
     getOption = () => {
         const { legendData, seriesData, xAxisData, yAxisData } = this.state;
-        const { title } = this.props;
+        const { title, skin } = this.props;
+        const { xAxis = {}, yAxis = {} } = skin;
         xAxisData.forEach(x => {
             Object.assign(x, {
                 axisLine: {
-                    show: true
-                }
+                    show: true,
+                    ...xAxis.axisLine
+                },
             });
         });
         yAxisData.forEach(y => {
@@ -97,12 +99,13 @@ class EchartBarLine extends PureComponent {
                 splitLine: {
                     show: true,
                     lineStyle: {
-                        color: ['#eee'],
-                        type: 'solid'
+                        type: 'solid',
+                        ...yAxis.lineStyle
                     }
                 },
                 axisLine: {
-                    show: true
+                    show: true,
+                    ...yAxis.axisLine
                 }
             });
         });
@@ -110,6 +113,7 @@ class EchartBarLine extends PureComponent {
             title: {
                 text: title,
                 x: 'center',
+                ...skin.title || {}
             },
             tooltip: {
                 trigger: 'axis',
@@ -129,6 +133,7 @@ class EchartBarLine extends PureComponent {
                 bottom: 4,
                 left: 'center',
                 data: legendData,
+                ...skin.legend || {}
             },
             xAxis: xAxisData,
             yAxis: yAxisData,

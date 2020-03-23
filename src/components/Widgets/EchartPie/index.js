@@ -77,12 +77,13 @@ class EchartPie extends PureComponent {
 
     render() {
         const { legendData, seriesData, loading } = this.state;
-        const { title, seriesName } = this.props;
+        const { title, seriesName, skin } = this.props;
         const echartPieProps = {
             option: {
                 title: {
                     text: title,
                     x: 'center',
+                    ...skin.title || {}
                 },
                 toolbox: {
                     feature: {
@@ -93,6 +94,7 @@ class EchartPie extends PureComponent {
                     bottom: 4,
                     left: 'center',
                     data: legendData,
+                    ...skin.legend || {}
                 },
                 tooltip: {
                     trigger: 'item',

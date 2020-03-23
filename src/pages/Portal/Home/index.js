@@ -2,13 +2,15 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-03-20 15:35:30
+ * @Last Modified time: 2020-03-23 11:32:28
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
 import { connect } from "dva";
+import { isEqual } from 'lodash'
 import { PortalPanel, ScrollBar, utils, ExtIcon } from 'suid';
 import WidgetAssets from './components/WidgetAssets';
+import Settings from './components/Settings';
 import { Widgets } from '../../../components';
 import { constants } from '../../../utils';
 import styles from './index.less';
@@ -31,6 +33,14 @@ class Home extends Component {
 
     componentDidMount() {
         this.initWidgets();
+    }
+
+    componentDidUpdate(preProps) {
+        const { portalHome } = this.props;
+        const { theme } = portalHome;
+        if (!isEqual(preProps.portalHome.theme, theme)) {
+            this.initWidgets();
+        }
     }
 
     initWidgets = () => {
@@ -76,7 +86,29 @@ class Home extends Component {
         });
     };
 
+    handlerShowSettings = () => {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'portalHome/updateState',
+            payload: {
+                showSettings: true,
+            }
+        });
+    };
+
+    handlerCloseSettings = () => {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'portalHome/updateState',
+            payload: {
+                showSettings: false,
+            }
+        });
+    };
+
     getWidget = (widget, layout) => {
+        const { portalHome } = this.props;
+        const { theme: { echart } } = portalHome;
         const { component } = widget;
         const defaultLayout = layout || {
             w: 4,
@@ -89,14 +121,14 @@ class Home extends Component {
             case COMPONENT_TYPE.ECHART_PIE:
                 return {
                     id: widget.id,
-                    widget: <EchartPie {...component.props} />,
+                    widget: <EchartPie {...component.props} skin={echart} />,
                     closable: true,
                     layout: defaultLayout,
                 };
             case COMPONENT_TYPE.ECHART_BAR_LINE:
                 return {
                     id: widget.id,
-                    widget: <EchartBarLine {...component.props} />,
+                    widget: <EchartBarLine {...component.props} skin={echart} />,
                     closable: true,
                     layout: defaultLayout,
                 };
@@ -148,7 +180,7 @@ class Home extends Component {
     render() {
         const { widgets, layouts } = this.state;
         const { portalHome, loading } = this.props;
-        const { widgetData, showWidgetAssets } = portalHome;
+        const { widgetData, showWidgetAssets, showSettings, theme: { primarySkin } } = portalHome;
         const portalPanelProps = {
             widgets,
             layouts,
@@ -156,7 +188,7 @@ class Home extends Component {
             draggableHandle: '.panel-header',
             onLayoutChange: this.onLayoutChange,
             preventCollision: true,
-            verticalCompact: false,
+            compactType: null,
             margin: [4, 4],
             onClose: this.handlerClose,
         };
@@ -170,18 +202,38 @@ class Home extends Component {
             onAddWidget: this.handlerAddWidget,
             onPanelAssetsClose: this.handlerCloseWidgetAssets,
         };
+        const settingsProps = {
+            showSettings,
+            onSettingsClose: this.handlerCloseSettings,
+        };
         return (
             <div className={cls(styles['portal-home-box'])}>
-                <div className="action-tool-bar">
-                    <ExtIcon type="plus" className='action-item primary' spin={loadingWidgetAssets} onClick={this.handlerAddWidgetAssets} tooltip={{ title: '添加组件' }} antd />
-                    <ExtIcon type="skin" className="action-item" antd />
+                <div className={cls('portal-body', primarySkin)}>
+                    <div className="action-tool-bar">
+                        <ExtIcon
+                            type="plus"
+                            className='action-item primary'
+                            spin={loadingWidgetAssets}
+                            onClick={this.handlerAddWidgetAssets}
+                            tooltip={{ title: '添加组件' }}
+                            antd
+                        />
+                        <ExtIcon
+                            type="setting"
+                            className="action-item"
+                            tooltip={{ title: '数据可视化设置' }}
+                            onClick={this.handlerShowSettings}
+                            antd
+                        />
+                    </div>
+                    <div className="portal-box">
+                        <ScrollBar>
+                            <PortalPanel {...portalPanelProps} />
+                        </ScrollBar>
+                    </div>
+                    <WidgetAssets {...widgetAssetsProps} />
+                    <Settings {...settingsProps} />
                 </div>
-                <div className="portal-box">
-                    <ScrollBar>
-                        <PortalPanel {...portalPanelProps} />
-                    </ScrollBar>
-                </div>
-                <WidgetAssets {...widgetAssetsProps} />
             </div>
         )
     }

@@ -5,7 +5,7 @@
 <<<<<<< HEAD
  * @Last Modified time: 2020-03-20 14:35:29
 =======
- * @Last Modified time: 2020-03-20 15:36:42
+ * @Last Modified time: 2020-03-23 11:51:25
 >>>>>>> 799dd894e9577ee4bda99c742d1a7ef20515e475
  */
 import { base } from '../../public/app.config.json';
@@ -63,6 +63,100 @@ const COMPONENT_TYPE = {
   "ECHART_BAR_LINE": "EchartBarLine",
 };
 
+/** Echart Skin */
+const ECHART = {
+  "light": {
+    title: {
+      textStyle: {
+        color: "#333"
+      }
+    },
+    legend: {
+      textStyle: {
+        color: "#333"
+      }
+    },
+    xAxis: {
+      axisLine: {
+        lineStyle: {
+          color: "#333"
+        }
+      }
+    },
+    yAxis: {
+      lineStyle: {
+        color: ['#eee'],
+        type: 'solid'
+      },
+      axisLine: {
+        lineStyle: {
+          color: "#333"
+        }
+      }
+    }
+  },
+  "darkgrey": {
+    title: {
+      textStyle: {
+        color: "#999"
+      }
+    },
+    legend: {
+      textStyle: {
+        color: "#d7d9da"
+      }
+    },
+    xAxis: {
+      axisLine: {
+        lineStyle: {
+          color: "#d7d9da"
+        }
+      }
+    },
+    yAxis: {
+      lineStyle: {
+        color: ['#454548'],
+        type: 'solid'
+      },
+      axisLine: {
+        lineStyle: {
+          color: "#d7d9da"
+        }
+      }
+    }
+  },
+  "darkblue": {
+    title: {
+      textStyle: {
+        color: "#999"
+      }
+    },
+    legend: {
+      textStyle: {
+        color: "#d7d9da"
+      }
+    },
+    xAxis: {
+      axisLine: {
+        lineStyle: {
+          color: "#6595ce"
+        }
+      }
+    },
+    yAxis: {
+      lineStyle: {
+        color: ['#233e64'],
+        type: 'solid'
+      },
+      axisLine: {
+        lineStyle: {
+          color: "#6595ce"
+        }
+      }
+    }
+  }
+}
+
 export default {
   APP_BASE,
   LOCAL_PATH,
@@ -70,4 +164,5 @@ export default {
   APP_MODULE_BTN_KEY,
   LOGIN_STATUS,
   COMPONENT_TYPE,
+  ECHART,
 };
