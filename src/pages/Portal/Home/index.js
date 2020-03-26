@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-03-23 14:39:11
+ * @Last Modified time: 2020-03-24 17:29:32
  */
 import React, { Component, Fragment } from 'react';
 import cls from 'classnames';
@@ -189,6 +189,7 @@ class Home extends Component {
             rowHeight: 100,
             onLayoutChange: this.onLayoutChange,
             preventCollision: true,
+            draggableHandle: '.panel-header-title',
             compactType: null,
             margin: [4, 4],
             onClose: this.handlerClose,

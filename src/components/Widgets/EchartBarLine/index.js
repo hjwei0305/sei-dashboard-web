@@ -83,11 +83,12 @@ class EchartBarLine extends PureComponent {
     };
 
     getOption = () => {
-        const { legendData, seriesData, xAxisData, yAxisData } = this.state;
+        const { legendData, seriesData: seriesOrigin, xAxisData: xAxisOrigin, yAxisData: yAxisOrigin } = this.state;
         const { title, skin } = this.props;
         const { xAxis = {}, yAxis = {} } = skin;
-        xAxisData.forEach(x => {
-            Object.assign(x, {
+        const xAxisData = xAxisOrigin.map(x => {
+            const xObj = { ...x };
+            Object.assign(xObj, {
                 axisLine: {
                     show: true,
                     ...xAxis.axisLine
@@ -96,12 +97,14 @@ class EchartBarLine extends PureComponent {
                     type: 'shadow'
                 },
             });
-            if (!x.hasOwnProperty('type')) {
-                x.type = 'category';
+            if (!xObj.hasOwnProperty('type')) {
+                xObj.type = 'category';
             }
+            return xObj;
         });
-        yAxisData.forEach(y => {
-            Object.assign(y, {
+        const yAxisData = yAxisOrigin.map(y => {
+            const yObj = { ...y };
+            Object.assign(yObj, {
                 splitLine: {
                     show: true,
                     lineStyle: {
@@ -113,14 +116,17 @@ class EchartBarLine extends PureComponent {
                     ...yAxis.axisLine
                 }
             });
-            if (!y.hasOwnProperty('type')) {
-                y.type = 'value';
+            if (!yObj.hasOwnProperty('type')) {
+                yObj.type = 'value';
             }
+            return yObj;
         });
-        seriesData.forEach(s => {
-            if (!s.hasOwnProperty('type')) {
-                s.type = 'bar';
+        const seriesData = seriesOrigin.map(s => {
+            const sObj = { ...s };
+            if (!sObj.hasOwnProperty('type')) {
+                sObj.type = 'bar';
             }
+            return sObj;
         });
         return {
             title: {

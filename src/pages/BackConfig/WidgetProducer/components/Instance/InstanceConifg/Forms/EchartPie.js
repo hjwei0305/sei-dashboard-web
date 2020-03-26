@@ -123,6 +123,7 @@ class FeatureGroupForm extends PureComponent {
             })(
               <Input />
             )}
+              <p className='desc'>图例数据节点:接口返回数据结构请参照官网Echart的legend配置</p>
           </FormItem>
           <FormItem label="系列" hasFeedback>
             {getFieldDecorator('seriesData', {
@@ -136,6 +137,7 @@ class FeatureGroupForm extends PureComponent {
             })(
               <Input />
             )}
+             <p className='desc'>系列数据节点:接口返回数据结构请参照官网Echart的series配置</p>
           </FormItem>
         </Form>
       </div >
