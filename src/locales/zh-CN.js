@@ -15,6 +15,8 @@ export default {
   "global.name.required": "名称不能为空",
   "global.remark": "说明",
   "global.remark.required": "说明不能为空",
+  "global.description": "描述",
+  "global.description.required": "描述不能为空",
   "global.frozen": "冻结",
   "global.freezing": "已冻结",
   "global.rank": "序号",

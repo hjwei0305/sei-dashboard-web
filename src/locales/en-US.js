@@ -15,6 +15,8 @@ export default {
   "global.name.required": "Name is required",
   "global.remark": "Remark",
   "global.remark.required": "Remark is required",
+  "global.description": "Description",
+  "global.description.required": "Description is required",
   "global.frozen": "Frozen",
   "global.freezing": "Freezing",
   "global.add": "New",

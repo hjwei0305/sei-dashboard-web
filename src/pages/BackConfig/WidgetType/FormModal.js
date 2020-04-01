@@ -83,8 +83,8 @@ class FormModal extends PureComponent {
               }]
             })(<Input maxLength={50} />)}
           </FormItem>
-          <FormItem label={formatMessage({ id: "global.remark", defaultMessage: "说明" })}>
-            {getFieldDecorator("remark", {
+          <FormItem label={formatMessage({ id: "global.description", defaultMessage: "描述" })}>
+            {getFieldDecorator("description", {
               initialValue: rowData ? rowData.remark : ""
             })(
               <TextArea

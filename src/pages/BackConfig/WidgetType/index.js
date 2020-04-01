@@ -190,8 +190,8 @@ class WidgetType extends Component {
         required: true,
       },
       {
-        title: formatMessage({ id: "global.remark", defaultMessage: "说明" }),
-        dataIndex: "remark",
+        title: formatMessage({ id: "global.description", defaultMessage: "描述" }),
+        dataIndex: "description",
         width: 320,
       },
     ];

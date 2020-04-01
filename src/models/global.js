@@ -69,9 +69,11 @@ export default {
             setCurrentUser(data);
             setSessionId(sessionId);
             setCurrentPolicy(authorityPolicy);
-            const authData = yield call(getAuthorizedFeatures, userId);
-            if (authData.success) {
-              setCurrentAuth(authData.data);
+            if (process.env.NODE_ENV !== 'production') {
+              const authData = yield call(getAuthorizedFeatures, userId);
+              if (authData.success) {
+                setCurrentAuth(authData.data);
+              }
             }
             const { from } = locationQuery;
             if (from && from.indexOf("/user/login") === -1) {
