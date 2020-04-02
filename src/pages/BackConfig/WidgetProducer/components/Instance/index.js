@@ -50,18 +50,7 @@ class WidgetInstance extends Component {
         });
     };
 
-    showWidgetInstanceConfig = currentWidgetInstance => {
-        const { dispatch } = this.props;
-        dispatch({
-            type: "widgetInstance/updateState",
-            payload: {
-                showFeatureItem: true,
-                currentWidgetInstance,
-            }
-        });
-    };
-
-    save = data => {
+    save = (data) => {
         const { dispatch } = this.props;
         dispatch({
             type: "widgetInstance/saveWidgetInstance",
@@ -71,6 +60,7 @@ class WidgetInstance extends Component {
             callback: res => {
                 if (res.success) {
                     this.reloadData();
+                    this.closeWidgetinstanceConfigModal();
                 }
             }
         });
@@ -95,17 +85,6 @@ class WidgetInstance extends Component {
                     }
                 }
             });
-        });
-    };
-
-    add = _ => {
-        const { dispatch } = this.props;
-        dispatch({
-            type: "widgetInstance/updateState",
-            payload: {
-                showFormModal: true,
-                currentWidgetInstance: null
-            }
         });
     };
 
@@ -135,7 +114,7 @@ class WidgetInstance extends Component {
         return (
             <>
                 {`${currentWidgetGroup.name}`}
-                <span style={{ fontSize: 14, color: "#999", marginLeft: 8 }}>仪表组件实例管理</span>
+                <span style={{ fontSize: 14, color: "#999", marginLeft: 8 }}>看板组件实例管理</span>
             </>
         )
     };
@@ -173,16 +152,22 @@ class WidgetInstance extends Component {
                 )
             },
             {
-                title: formatMessage({ id: "global.code", defaultMessage: "代码" }),
-                dataIndex: "code",
-                width: 200,
-                optional: true,
-            },
-            {
                 title: formatMessage({ id: "global.name", defaultMessage: "名称" }),
                 dataIndex: "name",
-                width: 220,
+                width: 240,
                 required: true,
+            },
+            {
+                title: '描述',
+                dataIndex: "description",
+                width: 360,
+                required: true,
+            },
+            {
+                title: '组件类型',
+                dataIndex: "widgetTypeName",
+                width: 160,
+                optional: true,
             },
         ];
         const toolBarProps = {
@@ -207,11 +192,12 @@ class WidgetInstance extends Component {
             cascadeParams: { widgetGroupId: currentWidgetGroup ? currentWidgetGroup.id : null },
             onTableRef: ref => this.pageTableRef = ref,
             store: {
-                url: `${SERVER_PATH}/sei-dashborad/widgetInstance/findByWidgetGroup`
+                url: `${SERVER_PATH}/sei-dashboard/widgetInstance/getByWidgetGroup`
             }
         };
         const instanceConfigProps = {
             currentWidgetGroup,
+            save: this.save,
         };
         return (
             <div className={cls(styles['widget-instance-box'])}>

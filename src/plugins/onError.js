@@ -24,10 +24,17 @@ export default {
           callback({ success: false });
         }
       }
-      notification.error({
-        message: formatMessage({ id: "app.request.error", defaultMessage: "请求错误" }),
-        description: err.message
-      });
+      if (err.statusCode === -1) {
+        notification.info({
+          message: formatMessage({ id: "app.request.info", defaultMessage: "接口请求提示" }),
+          description: err.message
+        });
+      } else {
+        notification.error({
+          message: formatMessage({ id: "app.request.error", defaultMessage: "请求错误" }),
+          description: err.message
+        });
+      }
     }
   }
 };

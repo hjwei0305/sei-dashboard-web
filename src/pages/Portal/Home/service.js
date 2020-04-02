@@ -16,7 +16,7 @@ export async function getWidgetAssets() {
 
 /** 获取仪表组列表*/
 export async function getWidgetInstanceList(params) {
-    const url = `${SERVER_PATH}/sei-dashborad/widgetInstance/findByWidgetGroup`;
+    const url = `${SERVER_PATH}/sei-dashboard/widgetInstance/findByWidgetGroup`;
     return request({
         url,
         method: "GET",

@@ -1,11 +1,12 @@
 import React, { PureComponent } from "react";
 import cls from "classnames";
-import { toUpper, trim } from 'lodash'
+import { toUpper, trim, get } from 'lodash'
 import { formatMessage, FormattedMessage } from "umi-plugin-react/locale";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, InputNumber } from "antd";
 import { utils } from "suid";
 import styles from "./Form.less";
 
+const { TextArea } = Input;
 const { objectAssignAppend } = utils;
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -36,7 +37,7 @@ class FeatureGroupForm extends PureComponent {
   render() {
     const { form, groupData, saving } = this.props;
     const { getFieldDecorator } = form;
-    const title = groupData ? '编辑仪表组' : '新建仪表组';
+    const title = groupData ? '编辑看板组' : '新建看板组';
     return (
       <div key="form-box" className={cls(styles["form-box"])}>
         <div className="base-view-body">
@@ -71,6 +72,36 @@ class FeatureGroupForm extends PureComponent {
                   maxLength={30}
                   placeholder={formatMessage({ id: "global.code.tip", defaultMessage: "规则:名称各汉字首字母大写" })}
                 />
+              )}
+            </FormItem>
+            <FormItem label="描述">
+              {getFieldDecorator('description', {
+                initialValue: get(groupData, 'description', null),
+                rules: [
+                  {
+                    required: true,
+                    message: '功能描述不能为空',
+                  },
+                ],
+              })(
+                <TextArea
+                  style={{ resize: 'none' }}
+                  autoSize={false}
+                  rows={4}
+                />
+              )}
+            </FormItem>
+            <FormItem label="序号">
+              {getFieldDecorator('rank', {
+                initialValue: get(groupData, 'rank', null),
+                rules: [
+                  {
+                    required: true,
+                    message: '序号不能为空',
+                  },
+                ],
+              })(
+                <InputNumber precision={0} />
               )}
             </FormItem>
             <FormItem wrapperCol={{ span: 4, offset: 5 }} className="btn-submit">

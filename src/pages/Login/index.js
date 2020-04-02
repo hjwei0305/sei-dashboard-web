@@ -1,9 +1,10 @@
 import React, { PureComponent } from "react";
-import withRouter from "umi/withRouter";
-import { Button, Form, Icon, Input, Select } from "antd";
 import md5 from "md5";
 import { connect } from "dva";
+import withRouter from "umi/withRouter";
 import { formatMessage } from 'umi-plugin-react/locale'
+import { Button, Form, Input, Select } from "antd";
+import { utils, ExtIcon } from 'suid';
 import { title } from '../../../package.json'
 import styles from "./index.less";
 
@@ -15,12 +16,21 @@ const { Option } = Select;
 @Form.create()
 class LoginForm extends PureComponent {
 
+  static loginReqId = '';
+
+  componentDidMount() {
+    this.userInput.focus();
+    this.loginReqId = utils.getUUID();
+    this.handleVertify();
+  }
+
   handlerSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, user) => {
       if (!err) {
         const { dispatch, } = this.props;
         user.password = md5(user.password);
+        user.reqId = this.loginReqId;
         dispatch({
           type: "global/login",
           payload: {
@@ -31,9 +41,16 @@ class LoginForm extends PureComponent {
     });
   };
 
-  componentDidMount() {
-    this.userInput.focus();
-  }
+  handleVertify = () => {
+    const { dispatch } = this.props;
+    console.log(this.loginReqId);
+    dispatch({
+      type: 'global/getVerifyCode',
+      payload: {
+        reqId: this.loginReqId,
+      },
+    });
+  };
 
   handlerLocaleChange = (locale) => {
     const { dispatch } = this.props;
@@ -48,7 +65,7 @@ class LoginForm extends PureComponent {
   render() {
     const { loading, form, global } = this.props;
     const { getFieldDecorator } = form;
-    const { showTenant, locale } = global;
+    const { showTenant, locale, verifyCode, showVertifCode } = global;
     return (
       <div className={styles["login-form"]}>
         <div className={"login-form"}>
@@ -65,7 +82,7 @@ class LoginForm extends PureComponent {
                     <Input
                       autoFocus="autoFocus"
                       size="large"
-                      prefix={<Icon type="safety" style={{ color: "rgba(0,0,0,.25)" }} />}
+                      prefix={<ExtIcon antd type="safety" style={{ color: "rgba(0,0,0,.25)" }} />}
                       placeholder="租户账号"
                     />
                   )
@@ -82,7 +99,7 @@ class LoginForm extends PureComponent {
                       this.userInput = inst;
                     }}
                     size="large"
-                    prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+                    prefix={<ExtIcon antd type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
                     placeholder={formatMessage({ id: "login.account", defaultMessage: "用户名" })}
                   />
                 )
@@ -94,7 +111,7 @@ class LoginForm extends PureComponent {
                   rules: [{ required: true, message: "请输入密码!" }]
                 })(
                   <Input
-                    prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                    prefix={<ExtIcon antd type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
                     size="large"
                     type="password"
                     placeholder="密码"
@@ -102,6 +119,31 @@ class LoginForm extends PureComponent {
                 )
               }
             </Item>
+            {
+              showVertifCode && verifyCode
+                ? (
+                  <Item>
+                    {getFieldDecorator('verifyCode', {
+                      initialValue: '',
+                      rules: [
+                        {
+                          required: true,
+                          message: '请输入验证码!',
+                        },
+                      ],
+                    })(
+                      <Input
+                        size="large"
+                        disabled={loading.global}
+                        prefix={<ExtIcon antd type="code" style={{ color: "rgba(0,0,0,.25)" }} />}
+                        placeholder="验证码"
+                        addonAfter={<img alt="验证码" onClick={this.handleVertify} src={verifyCode} />}
+                      />
+                    )}
+                  </Item>
+                )
+                : null
+            }
             <Item>
               {
                 getFieldDecorator("locale", {

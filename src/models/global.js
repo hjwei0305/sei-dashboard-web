@@ -3,7 +3,7 @@ import { stringify } from "qs";
 import { message } from "antd";
 import { utils } from 'suid';
 import { userUtils, constants as localConstants } from '@/utils';
-import { login, getAuthorizedFeatures, } from "@/services/api";
+import { login, getAuthorizedFeatures, getVerifyCode } from "@/services/api";
 
 const {
   setCurrentAuth,
@@ -25,6 +25,8 @@ export default {
     locationPathName: "/",
     locationQuery: {},
     locale: locale,
+    verifyCode: '',
+    showVertifCode: true,
   },
   subscriptions: {
     setupHistory({ dispatch, history }) {
@@ -114,6 +116,20 @@ export default {
         }
       } else {
         message.error(msg || "登录失败");
+      }
+    },
+    *getVerifyCode({ payload }, { call, put }) {
+      const result = yield call(getVerifyCode, payload.reqId);
+      const { success, data, message: msg } = result || {};
+      if (success) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            verifyCode: data,
+          },
+        });
+      } else {
+        message.error(msg);
       }
     },
     * changeLocale({ payload }, { put, select }) {

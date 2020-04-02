@@ -1,7 +1,7 @@
 {
   "name": "sei-dashboard-web",
   "version": "1.0.0",
-  "title": "仪表板WEB",
+  "title": "数据看板WEB",
   "private": true,
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",
@@ -29,7 +29,7 @@
     "react-color": "^2.18.0",
     "react-dom": "^16.8.6",
     "react-fast-compare": "^2.0.4",
-    "suid": "^1.2.8"
+    "suid": "^1.2.17"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",

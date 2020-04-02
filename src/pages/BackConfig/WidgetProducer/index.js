@@ -175,7 +175,7 @@ class Feature extends Component {
         const selectedKeys = currentWidgetGroup ? [currentWidgetGroup.id] : [];
         const featureGroupprops = {
             className: 'left-content',
-            title: '仪表组',
+            title: '看板组',
             showSearch: false,
             loading: listLoading,
             dataSource: listData,

@@ -1,6 +1,6 @@
 import React, { PureComponent, Suspense } from "react";
 import cls from 'classnames';
-import { isEqual } from 'lodash'
+import { isEqual, get } from 'lodash'
 import { connect } from "dva";
 import { Drawer, Button, Avatar } from "antd";
 import { ScrollBar, ExtIcon, ListLoader } from 'suid';
@@ -28,22 +28,46 @@ class InstanceConfig extends PureComponent {
 
     componentDidUpdate(prevProps) {
         const { widgetInstance } = this.props;
-        const { showFormModal, currentWidgetInstance } = widgetInstance;
+        const { showFormModal } = widgetInstance;
         if (!isEqual(prevProps.widgetInstance.showFormModal, showFormModal) && showFormModal === true) {
-            let currentWidget = null;
-            let color = "";
-            if (currentWidgetInstance) {
-                const { component } = currentWidgetInstance;
-                currentWidget = {
-                    name: component.name,
-                    code: component.type,
-                    iconType: component.icon.type,
-                    remark: component.remark,
-                };
-                color = component.icon.color;
-            }
-            this.setState({ currentWidget, color });
             this.getWidgetList();
+            this.getCurrentWidgetInstance();
+        }
+    };
+
+    getCurrentWidgetInstance = () => {
+        const { widgetInstance, dispatch } = this.props;
+        const { currentWidgetInstance } = widgetInstance;
+        if (currentWidgetInstance) {
+            dispatch({
+                type: "widgetInstance/getWidgetInstanceById",
+                payload: {
+                    id: currentWidgetInstance.id,
+                },
+                callback: (res) => {
+                    if (res.success) {
+                        let currentWidget = null;
+                        let color = "";
+                        const { widgetTypeId, renderConfig } = res.data;
+                        const component = JSON.parse(renderConfig);
+                        currentWidget = {
+                            id: widgetTypeId,
+                            name: get(component, 'component.name', ''),
+                            code: get(component, 'component.type', ''),
+                            iconType: get(component, 'component.icon.type', ''),
+                            description: get(component, 'component.description', ''),
+                        };
+                        color = get(component, 'component.icon.color', '');
+                        this.setState({ currentWidget, color });
+                    }
+                }
+            });
+        } else {
+            this.setState({
+                color: "",
+                showShadow: false,
+                currentWidget: null,
+            });
         }
     };
 
@@ -54,20 +78,8 @@ class InstanceConfig extends PureComponent {
         });
     };
 
-    save = (data, handlerPopoverHide) => {
-        const { dispatch } = this.props;
-        dispatch({
-            type: "widgetInstance/saveWidgetInstance",
-            payload: {
-                ...data
-            },
-            callback: res => {
-                if (res.success) {
-                    handlerPopoverHide && handlerPopoverHide();
-                    this.reloadFeatrueData();
-                }
-            }
-        });
+    handlerFormRef = (ref) => {
+        this.formRef = ref;
     };
 
     handlerClose = () => {
@@ -89,22 +101,34 @@ class InstanceConfig extends PureComponent {
         this.setState({ color });
     };
 
+    handerScrollDown = () => {
+        this.setState({ showShadow: true })
+    };
+
+    handerYReachStart = () => {
+        this.setState({ showShadow: false })
+    };
+
     renderTitle = () => {
         const { widgetInstance } = this.props;
         const { currentWidgetInstance } = widgetInstance;
         if (currentWidgetInstance) {
-            return '编辑仪表组件实例';
+            return '编辑看板组件实例';
         }
-        return '新建仪表组件实例';
+        return '新建看板组件实例';
     };
 
     renderForm = () => {
-        const { currentWidget } = this.state;
-        const { widgetInstance } = this.props;
+        const { currentWidget, color } = this.state;
+        const { widgetInstance, currentWidgetGroup, save } = this.props;
         const { currentWidgetInstance } = widgetInstance;
         const formProps = {
+            widgetGroup: currentWidgetGroup,
             widget: currentWidget,
-            formData: currentWidgetInstance,
+            editData: currentWidgetInstance,
+            color,
+            save,
+            onFormRef: this.handlerFormRef,
         }
         if (currentWidget) {
             switch (currentWidget.code) {
@@ -125,19 +149,13 @@ class InstanceConfig extends PureComponent {
         }
     };
 
-    handerScrollDown = () => {
-        this.setState({ showShadow: true })
-    };
-
-    handerYReachStart = () => {
-        this.setState({ showShadow: false })
-    };
-
     render() {
         const { widgetInstance, loading } = this.props;
         const { showFormModal, widgetData } = widgetInstance;
         const { color, currentWidget, showShadow } = this.state;
         const widgetDataLoading = loading.effects['widgetInstance/getWidgetList'];
+        const widgetInstanceLoading = loading.effects['widgetInstance/getWidgetInstanceById'];
+        const saving = loading.effects['widgetInstance/saveWidgetInstance'];
         const headerStyle = {
             boxShadow: showShadow ? ' 0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
         };
@@ -154,57 +172,70 @@ class InstanceConfig extends PureComponent {
                 onClose={this.handlerClose}
                 style={{ position: 'absolute' }}
             >
-                <div className="form-body">
-                    <ScrollBar
-                        onYReachStart={this.handerYReachStart}
-                        onScrollDown={this.handerScrollDown}
-                    >
-                        <div className='box-item'>
-                            <div className='title'>组件信息</div>
-                            <div className="widget-box horizontal">
-                                <div className="row-start widget-icon">
-                                    <ColorSelect
-                                        onChange={this.handlerColorChange}
-                                        color={color}
-                                        triggerStyle={{ fontSize: '2.4rem' }}
+                {
+                    widgetInstanceLoading
+                        ? <ListLoader />
+                        : (
+                            <>
+                                <div className="form-body">
+                                    <ScrollBar
+                                        onYReachStart={this.handerYReachStart}
+                                        onScrollDown={this.handerScrollDown}
                                     >
-                                        {
-                                            currentWidget
-                                                ? <ExtIcon
-                                                    type={currentWidget.iconType}
-                                                    style={{ color, fontSize: 64 }}
-                                                    antd
-                                                />
-                                                : <Avatar
-                                                    shape="square"
-                                                    size={64}
-                                                    icon="question"
-                                                    style={{ color }}
-                                                />
-                                        }
-                                    </ColorSelect>
+                                        <div className='box-item'>
+                                            <div className='title'>组件信息</div>
+                                            <div className="widget-box horizontal">
+                                                <div className="row-start widget-icon">
+                                                    <ColorSelect
+                                                        onChange={this.handlerColorChange}
+                                                        color={color}
+                                                        triggerStyle={{ fontSize: '2.4rem' }}
+                                                    >
+                                                        {
+                                                            currentWidget
+                                                                ? <ExtIcon
+                                                                    type={currentWidget.iconType}
+                                                                    style={{ color, fontSize: 64 }}
+                                                                    antd
+                                                                />
+                                                                : <Avatar
+                                                                    shape="square"
+                                                                    size={64}
+                                                                    icon="question"
+                                                                    style={{ color }}
+                                                                />
+                                                        }
+                                                    </ColorSelect>
+                                                </div>
+                                                <div className="tool-box">
+                                                    <WidgetSelect
+                                                        dataSource={widgetData}
+                                                        widget={currentWidget}
+                                                        onChange={this.handlerWidgetChnage}
+                                                        loading={widgetDataLoading}
+                                                    />
+                                                    <div className="desc">{currentWidget ? currentWidget.description : '请选择组件类型!'}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="box-item">
+                                            {this.renderForm()}
+                                        </div>
+                                    </ScrollBar>
                                 </div>
-                                <div className="tool-box">
-                                    <WidgetSelect
-                                        dataSource={widgetData}
-                                        widget={currentWidget}
-                                        onChange={this.handlerWidgetChnage}
-                                        loading={widgetDataLoading}
-                                    />
-                                    <div className="desc">{currentWidget ? currentWidget.remark : '请选择组件类型!'}</div>
+                                <div className="footer-tool-box">
+                                    <Button
+                                        disabled={!currentWidget}
+                                        type="primary"
+                                        loading={saving}
+                                        onClick={() => this.formRef.handlerFormSubmit()}
+                                    >
+                                        保存
+                                    </Button>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="box-item">
-                            {this.renderForm()}
-                        </div>
-                    </ScrollBar>
-                </div>
-                <div className="footer-tool-box">
-                    <Button type="primary">
-                        保存
-                    </Button>
-                </div>
+                            </>
+                        )
+                }
             </Drawer>
         )
     }

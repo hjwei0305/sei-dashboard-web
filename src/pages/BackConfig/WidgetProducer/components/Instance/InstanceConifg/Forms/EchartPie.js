@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import cls from "classnames";
-import { toUpper, trim, get } from 'lodash'
+import { omit, get } from 'lodash'
 import { Form, Input } from "antd";
 import styles from "./EchartPie.less";
 
@@ -19,28 +19,65 @@ const formItemLayout = {
 @Form.create()
 class FeatureGroupForm extends PureComponent {
 
-  onFormSubmit = _ => {
-    const { form, save, currentPageRow, featureData, currentFeatureGroup, handlerPopoverHide } = this.props;
+  componentDidMount() {
+    const { onFormRef } = this.props;
+    if (onFormRef) {
+      onFormRef(this);
+    }
+  }
+
+  handlerFormSubmit = _ => {
+    const { form, save, editData, widget, widgetGroup, color } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
         return;
       }
       let params = {
-        featureType: 'Operate',
-        featureGroupId: currentFeatureGroup.id,
-        featureGroupCode: currentFeatureGroup.code,
-        featureGroupName: currentFeatureGroup.name,
-        groupCode: currentPageRow.groupCode,
+        id: get(editData, 'id', null),
+        name: formData.name,
+        description: formData.description,
+        iconColor: color || '#333333',
+        widgetGroupCode: widgetGroup.code,
+        widgetGroupId: widgetGroup.id,
+        widgetGroupName: widgetGroup.name,
+        widgetTypeCode: widget.code,
+        widgetTypeDescription: widget.description,
+        widgetTypeIconType: widget.iconType,
+        widgetTypeId: widget.id,
+        widgetTypeName: widget.name
       };
-      Object.assign(params, featureData || {});
-      Object.assign(params, formData);
-      params.code = `${currentFeatureGroup.code}-${toUpper(trim(params.code))}`;
-      save(params, handlerPopoverHide);
+      const rest = omit(formData, ['id', 'name', 'description', 'iconColor']);
+      const renderConfig = {
+        component: {
+          type: params.widgetTypeCode,
+          icon: {
+            type: params.widgetTypeIconType,
+            color: params.iconColor,
+          },
+          name: params.widgetTypeName,
+          description: params.widgetTypeDescription,
+          props: {
+            title: params.name,
+            store: {
+              url: rest.storeUrl,
+            },
+            seriesName: rest.seriesName,
+            reader: {
+              legendData: rest.legendData,
+              seriesData: rest.seriesData,
+            }
+          }
+        }
+      };
+      console.log(renderConfig);
+      params.renderConfig = JSON.stringify(renderConfig);
+      save(params);
     });
   };
 
   render() {
-    const { form, formData, widget } = this.props;
+    const { form, editData, widget } = this.props;
+    const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     const { getFieldDecorator } = form;
     return (
       <div className={cls(styles['form-box'])}>
@@ -48,17 +85,17 @@ class FeatureGroupForm extends PureComponent {
           <div className='title-group'>基本配置</div>
           <FormItem hasFeedback label="组件类型">
             {getFieldDecorator('widgetType', {
-              initialValue: get(formData, 'component.name', widget.name || null),
+              initialValue: get(editData, 'widgetTypeName', widget.name || null),
               rules: [
                 {
                   required: true,
                 },
               ],
-            })(<Input addonBefore={get(formData, 'component.type', widget.code || null)} disabled />)}
+            })(<Input addonBefore={get(editData, 'widgetTypeCode', widget.code || null)} disabled />)}
           </FormItem>
           <FormItem hasFeedback label="业务名称">
             {getFieldDecorator('name', {
-              initialValue: get(formData, 'name', null),
+              initialValue: get(editData, 'name', null),
               rules: [
                 {
                   required: true,
@@ -69,7 +106,7 @@ class FeatureGroupForm extends PureComponent {
           </FormItem>
           <FormItem label="功能描述">
             {getFieldDecorator('description', {
-              initialValue: get(formData, 'description', null),
+              initialValue: get(editData, 'description', null),
               rules: [
                 {
                   required: true,
@@ -87,7 +124,7 @@ class FeatureGroupForm extends PureComponent {
           <div className='title-group'>数据配置</div>
           <FormItem label="系列名称" hasFeedback>
             {getFieldDecorator('seriesName', {
-              initialValue: get(formData, 'component.props.seriesName', null),
+              initialValue: get(renderConfig, 'component.props.seriesName', null),
               rules: [
                 {
                   required: true,
@@ -100,7 +137,7 @@ class FeatureGroupForm extends PureComponent {
           </FormItem>
           <FormItem label="数据接口" hasFeedback>
             {getFieldDecorator('storeUrl', {
-              initialValue: get(formData, 'component.props.store.url', null),
+              initialValue: get(renderConfig, 'component.props.store.url', null),
               rules: [
                 {
                   required: true,
@@ -110,10 +147,11 @@ class FeatureGroupForm extends PureComponent {
             })(
               <Input />
             )}
+            <p className='desc'>数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
           </FormItem>
           <FormItem label="图例" hasFeedback>
             {getFieldDecorator('legendData', {
-              initialValue: get(formData, 'component.props.reader.legendData', null),
+              initialValue: get(renderConfig, 'component.props.reader.legendData', null),
               rules: [
                 {
                   required: true,
@@ -123,11 +161,11 @@ class FeatureGroupForm extends PureComponent {
             })(
               <Input />
             )}
-              <p className='desc'>图例数据节点:接口返回数据结构请参照官网Echart的legend配置</p>
+            <p className='desc'>图例数据节点:接口返回数据结构请参照官网Echart的legend配置</p>
           </FormItem>
           <FormItem label="系列" hasFeedback>
             {getFieldDecorator('seriesData', {
-              initialValue: get(formData, 'component.props.reader.seriesData', null),
+              initialValue: get(renderConfig, 'component.props.reader.seriesData', null),
               rules: [
                 {
                   required: true,
@@ -137,7 +175,7 @@ class FeatureGroupForm extends PureComponent {
             })(
               <Input />
             )}
-             <p className='desc'>系列数据节点:接口返回数据结构请参照官网Echart的series配置</p>
+            <p className='desc'>系列数据节点:接口返回数据结构请参照官网Echart的series配置</p>
           </FormItem>
         </Form>
       </div >

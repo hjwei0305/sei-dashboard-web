@@ -1,4 +1,4 @@
-import { delWidgetInstance, saveWidgetInstance, getWidgetList } from "../service";
+import { delWidgetInstance, saveWidgetInstance, getWidgetList, getWidgetInstanceById } from "../service";
 import { message } from "antd";
 import { formatMessage } from "umi-plugin-react/locale";
 import { utils } from 'suid';
@@ -25,6 +25,23 @@ export default modelExtend(model, {
           type: "updateState",
           payload: {
             showFormModal: false
+          }
+        });
+      } else {
+        message.error(re.message);
+      }
+      if (callback && callback instanceof Function) {
+        callback(re);
+      }
+    },
+    * getWidgetInstanceById({ payload, callback }, { call, put }) {
+      const re = yield call(getWidgetInstanceById, payload);
+      message.destroy();
+      if (re.success) {
+        yield put({
+          type: "updateState",
+          payload: {
+            currentWidgetInstance: re.data,
           }
         });
       } else {
