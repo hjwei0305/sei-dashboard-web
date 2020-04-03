@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-02-21 18:03:16 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-03-23 16:55:45
+ * @Last Modified time: 2020-04-03 23:50:35
  */
 import { base } from '../../public/app.config.json';
 
@@ -10,7 +10,7 @@ import { base } from '../../public/app.config.json';
 const BASE_DOMAIN = '/';
 
 /** 网关地址 */
-const GATEWAY = 'mobileapi-gateway';
+const GATEWAY = 'api-gateway';
 
 /** 
 * 非生产环境下是使用mocker开发，还是与真实后台开发或联调 
