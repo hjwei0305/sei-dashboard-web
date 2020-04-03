@@ -1,0 +1,158 @@
+@import '../../../themes/vars.less';
+.portal-home-box {
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  :global {
+    .portal-body {
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      background-color: @page-background-color;
+      .action-tool-bar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 42px !important;
+        line-height: 42px;
+        background-color: @white;
+        padding: 0 24px;
+        .action-item {
+          display: inline-block;
+          width: 32px;
+          height: 32px;
+          line-height: 34px;
+          border-radius: 4px;
+          margin-left: 8px;
+          cursor: pointer;
+          transition: all ease-in 0.2s;
+          &.primary {
+            color: @primary-color;
+          }
+          &.ant-dropdown-open,
+          &:hover {
+            color: @primary-color;
+            background-color: fade(@black, 5%);
+          }
+        }
+      }
+      .portal-box {
+        height: calc(100% - 42px) !important;
+        background-color: fade(@black, 5%);
+        .suid-portal-panel {
+          background-color: transparent;
+        }
+        .suid-panel .panel-header {
+          background-color: @white;
+        }
+        .panel-header-title {
+          cursor: move;
+        }
+      }
+      &.darkgrey {
+        color: #999;
+        background-color: fade(@black, 85%);
+        .action-tool-bar {
+          background-color: fade(#151619, 85%);
+          .action-item {
+            &.primary {
+              color: @primary-color;
+            }
+            &.ant-dropdown-open,
+            &:hover {
+              color: @primary-color;
+              background-color: fade(@white, 10%);
+            }
+          }
+        }
+        .suid-panel {
+          background-color: fade(#151619, 45%);
+          &.panel-bordered {
+            border-color: #2c2b2e;
+          }
+          &.panel-full-screen {
+            background-color: #151619;
+          }
+          .panel-header {
+            background-color: fade(#12141b, 80%);
+            color: #999;
+            .suid-drag-handler,
+            .toolbox .tool-item {
+              color: #555;
+              &:hover {
+                color: #1890ff;
+                background-color: rgba(255, 255, 255, 0.05);
+              }
+              &.remove:hover {
+                color: #ff4d4f;
+                background-color: rgba(255, 77, 79, 0.05);
+              }
+            }
+          }
+          .panel-body {
+            border-top-color: transparent;
+            background-color: transparent;
+          }
+        }
+        .react-draggable-dragging {
+          .suid-panel {
+            background-color: #151619;
+          }
+        }
+      }
+      &.darkblue {
+        color: #999;
+        background-color: fade(#061f59, 85%);
+        .action-tool-bar {
+          background-color: #072158;
+          .action-item {
+            &.primary {
+              color: @primary-color;
+            }
+            &.ant-dropdown-open,
+            &:hover {
+              color: @primary-color;
+              background-color: fade(@white, 10%);
+            }
+          }
+        }
+        .suid-panel {
+          background-color: transparent;
+          &.panel-bordered {
+            border-color: #233e64;
+          }
+          &.panel-full-screen {
+            background-color: #061f59;
+          }
+          .panel-header {
+            background-color: fade(@white, 1%);
+            color: #75a7dc;
+            .suid-drag-handler,
+            .toolbox .tool-item {
+              color: #4377ad;
+              &:hover {
+                color: #1890ff;
+                background-color: rgba(255, 255, 255, 0.05);
+              }
+              &.remove:hover {
+                color: #ff4d4f;
+                background-color: rgba(255, 77, 79, 0.05);
+              }
+            }
+          }
+          .panel-body {
+            border-top-color: transparent;
+            background-color: transparent;
+          }
+        }
+        .react-draggable-dragging {
+          .suid-panel {
+            background-color: #061f59;
+          }
+        }
+      }
+    }
+  }
+}

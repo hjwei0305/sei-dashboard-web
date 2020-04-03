@@ -69,7 +69,6 @@ class FeatureGroupForm extends PureComponent {
           }
         }
       };
-      console.log(renderConfig);
       params.renderConfig = JSON.stringify(renderConfig);
       save(params);
     });

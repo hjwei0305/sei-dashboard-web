@@ -21,10 +21,11 @@ export default [
         ]
       },
       {
-        path: "/portal",
-        name: "portal",
+        path: "/scene",
+        name: "scene",
         routes: [
-          { path: "/portal/home", component: "./Portal/Home" },
+          { path: "/scene/home", component: "./Scene" },
+          { path: "/scene/kanban/:code", component: "./Kanban" },
         ]
       }
     ],

@@ -1,0 +1,28 @@
+/*
+ * @Author: Eason 
+ * @Date: 2020-04-03 11:21:06 
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-04-03 14:57:26
+ */
+
+@import '../../../themes/vars.less';
+.assets-box {
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  :global {
+    .ant-drawer-body {
+      padding: 24px 16px;
+      height: calc(100% - 55px);
+      background-color: @page-background-color;
+      .ant-card-type-inner {
+        .ant-card-head {
+          background-color: @page-background-color;
+        }
+        .ant-card-body {
+          box-shadow: @box-shadow-base;
+        }
+      }
+    }
+  }
+}
