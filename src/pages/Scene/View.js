@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 16:13:01
+ * @Last Modified time: 2020-04-05 16:17:30
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -295,8 +295,8 @@ class SceneView extends Component {
         const { currentScene } = scene;
         return (
             <>
-                <span style={{ fontSize: 16, color: 'rgba(0,0,0,0.85)', fontWeight: 700 }}> {currentScene.name}</span>
-                <span style={{ marginLeft: 8, fontSize: 12, color: '#999' }}>场景组件实例配置</span>
+                <span className="header-title"> {currentScene.name}</span>
+                <span className="header-sub-title"style={{ marginLeft: 8, fontSize: 12, color: '#999' }}>场景组件实例配置</span>
             </>
         )
     };

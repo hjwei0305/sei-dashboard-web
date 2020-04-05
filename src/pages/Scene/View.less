@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:20 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 15:34:05
+ * @Last Modified time: 2020-04-05 16:22:43
  */
 @import '../../themes/vars.less';
 .scene-view-box {
@@ -29,6 +29,15 @@
         line-height: 42px;
         background-color: @white;
         padding: 0 24px;
+        .header-title {
+          font-size: 16px;
+          color: fade(@black, 85%);
+          font-weight: 700;
+        }
+        .header-sub-title {
+          font-size: 12px;
+          color: #999;
+        }
         .tool-desc {
           font-size: 12px;
           margin-left: 16px;
@@ -71,8 +80,20 @@
       &.darkgrey {
         color: #999;
         background-color: fade(@black, 85%);
+        .portal-box {
+          background-color: fade(@black, 85%);
+        }
         .action-tool-bar {
           background-color: fade(#151619, 85%);
+          .header-title {
+            font-size: 16px;
+            color: fade(@white, 85%);
+            font-weight: 700;
+          }
+          .header-sub-title {
+            font-size: 12px;
+            color: #999;
+          }
           .action-item {
             &.primary {
               color: @primary-color;
@@ -122,8 +143,20 @@
       &.darkblue {
         color: #999;
         background-color: fade(#061f59, 85%);
+        .portal-box {
+          background-color: fade(#061f59, 85%);
+        }
         .action-tool-bar {
           background-color: #072158;
+          .header-title {
+            font-size: 16px;
+            color: fade(@white, 85%);
+            font-weight: 700;
+          }
+          .header-sub-title {
+            font-size: 12px;
+            color: #999;
+          }
           .action-item {
             &.primary {
               color: @primary-color;
