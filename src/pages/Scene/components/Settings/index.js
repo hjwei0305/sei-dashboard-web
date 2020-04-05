@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 16:24:02 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-03 14:08:20
+ * @Last Modified time: 2020-04-05 14:01:11
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -40,7 +40,7 @@ class Settings extends Component {
     };
 
     handlerSkinChange = ({ key }) => {
-        const { dispatch } = this.props;
+        const { dispatch, triggerSaveConfig } = this.props;
         storage.localStorage.set("primarySkin", key);
         dispatch({
             type: 'scene/updateState',
@@ -51,6 +51,7 @@ class Settings extends Component {
                 }
             }
         });
+        triggerSaveConfig();
     };
 
     render() {

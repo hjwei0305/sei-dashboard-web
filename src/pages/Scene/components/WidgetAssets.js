@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:59 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-03 19:56:17
+ * @Last Modified time: 2020-04-05 12:04:42
  */
 
 import React, { Component } from 'react';
@@ -72,7 +72,7 @@ class WidgetAssets extends Component {
 
     render() {
         const { showShadow } = this.state;
-        const { showWidgetAssets, widgetData, loading } = this.props;
+        const { showWidgetAssets, widgetAssetList, loading } = this.props;
         const headerStyle = {
             boxShadow: showShadow ? ' 0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
         };
@@ -94,7 +94,7 @@ class WidgetAssets extends Component {
             >
                 <ScrollBar>
                     {
-                        widgetData.map(group => {
+                        widgetAssetList.map(group => {
                             const { name, children } = group;
                             if (children && children.length > 0) {
                                 return (

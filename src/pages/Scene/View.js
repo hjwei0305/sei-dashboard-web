@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-03 20:36:09
+ * @Last Modified time: 2020-04-05 14:00:16
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -10,7 +10,7 @@ import { connect } from "dva";
 import moment from 'moment';
 import { isEqual, omit } from 'lodash';
 import { Divider } from 'antd';
-import { ExtIcon, ScrollBar, utils, PortalPanel, ListLoader } from 'suid';
+import { ExtIcon, ScrollBar, PortalPanel, ListLoader } from 'suid';
 import { Widgets } from '../../components';
 import { constants } from '../../utils';
 import WidgetAssets from './components/WidgetAssets';
@@ -18,7 +18,6 @@ import Settings from './components/Settings';
 import styles from './View.less';
 
 const { EchartPie, EchartBarLine } = Widgets;
-const { storage } = utils;
 const { COMPONENT_TYPE } = constants;
 const duration = 10000;
 
@@ -31,14 +30,10 @@ class SceneView extends Component {
         super(props);
         this.state = {
             loadingWidgetId: null,
-            widgets: [],
-            widgetRenderData: [],
-            layouts: {},
         };
     }
 
     componentDidMount() {
-        this.initWidgets();
         this.getSceneData();
     }
 
@@ -50,7 +45,7 @@ class SceneView extends Component {
         const { scene } = this.props;
         const { theme } = scene;
         if (!isEqual(preProps.scene.theme, theme)) {
-            this.initWidgets();
+            this.reRenderWidgets();
         }
         if (!isEqual(preProps.scene.currentSceneId, scene.currentSceneId)) {
             this.getSceneData();
@@ -73,13 +68,15 @@ class SceneView extends Component {
                 type: 'scene/getSceneById',
                 payload: {
                     id: scene.currentSceneId,
-                }
+                },
+                getWidget: this.getWidget,
             });
         }
     };
 
-    initWidgets = () => {
-        const { widgetRenderData = [], layouts = {} } = storage.localStorage.get('demo-portal') || {};
+    reRenderWidgets = () => {
+        const { scene, dispatch } = this.props;
+        const { widgetRenderData, layouts, } = scene;
         const widgets = [];
         widgetRenderData.forEach(w => {
             const layoutKeys = Object.keys(layouts);
@@ -95,7 +92,14 @@ class SceneView extends Component {
                 widgets.push(cmp);
             }
         });
-        this.setState({ widgets, layouts, widgetRenderData });
+        dispatch({
+            type: 'scene/updateState',
+            payload: {
+                widgets,
+                layouts,
+                widgetRenderData,
+            }
+        });
     };
 
     handlerAddWidgetAssets = () => {
@@ -186,63 +190,57 @@ class SceneView extends Component {
             payload: {
                 id: widget.id,
             },
-            callback: res => {
-                if (res.success) {
-                    const { widgets: originWidgets, layouts, widgetRenderData } = this.state;
-                    const widgets = [...originWidgets];
-                    const widgetInstance = res.data;
-                    const cmp = this.getWidget(widgetInstance);
-                    if (cmp) {
-                        widgets.push(cmp);
-                        this.setState({
-                            widgets
-                        }, () => {
-                            widgetRenderData.push(widgetInstance);
-                            storage.localStorage.set('demo-portal', { layouts, widgetRenderData });
-                            this.startAutoSaveTimer();
-                        });
-                    }
-                }
-            }
-        })
+            getWidget: this.getWidget,
+            startAutoSaveTimer: this.startAutoSaveTimer,
+        });
     };
 
     onLayoutChange = (layout, layouts) => {
-        const { widgets, widgetRenderData } = this.state;
+        const { dispatch, scene } = this.props;
+        const { widgets } = scene;
         widgets.forEach(widget => {
             const lt = layout.filter(l => l.i === widget.id);
             if (lt.length === 1) {
                 widget.layout = lt[0];
             }
         });
-        this.setState({
-            widgets,
-            layouts,
-        }, () => {
-            storage.localStorage.set('demo-portal', { layouts, widgetRenderData });
-            this.startAutoSaveTimer();
+        dispatch({
+            type: 'scene/updateState',
+            payload: {
+                widgets,
+                layouts,
+            }
         });
+        this.startAutoSaveTimer();
     };
 
     handlerClose = (id) => {
-        const { widgets: originWidgets, layouts, widgetRenderData: originWidgetData } = this.state;
+        const { dispatch, scene } = this.props;
+        const { widgets: originWidgets, widgetRenderData: originWidgetAssets } = scene;
         const widgets = originWidgets.filter(w => w.id !== id);
-        const widgetRenderData = originWidgetData.filter(w => w.id !== id);
-        this.setState({ widgets, widgetRenderData }, () => {
-            storage.localStorage.set('demo-portal', { layouts, widgetRenderData });
-            this.startAutoSaveTimer();
+        const widgetRenderData = originWidgetAssets.filter(w => w.id !== id);
+        dispatch({
+            type: 'scene/updateState',
+            payload: {
+                widgets,
+                widgetRenderData,
+            }
         });
+        this.startAutoSaveTimer();
     };
 
     handlerSceneConfigSave = () => {
         const { dispatch, scene } = this.props;
-        const { currentSceneData } = scene;
-        const { layouts, widgetRenderData } = this.state;
+        const { currentSceneId, theme, layouts, widgetRenderData } = scene;
+        const config = {
+            layouts,
+            theme,
+        };
         dispatch({
             type: 'scene/saveSceneConfig',
             payload: {
-                id: currentSceneData.id,
-                config: JSON.stringify(layouts),
+                id: currentSceneId,
+                config: JSON.stringify(config),
                 widgetInstanceIds: JSON.stringify(widgetRenderData.map(w => w.id)),
             },
             callback: () => {
@@ -253,11 +251,10 @@ class SceneView extends Component {
 
     renderLasterUpdateDateTime = () => {
         const { scene, loading } = this.props;
-        const { currentSceneData, lastEditedDate } = scene;
+        const { currentSceneId, lastEditorName, lastEditedDate } = scene;
         const configSaving = loading.effects['scene/saveSceneConfig'];
         let duration = '';
-        if (currentSceneData) {
-            const { lastEditorName } = currentSceneData;
+        if (currentSceneId) {
             const end = moment(Date.now());
             const start = moment(lastEditedDate);
             duration = start.from(end);
@@ -293,9 +290,9 @@ class SceneView extends Component {
     };
 
     render() {
-        const { widgets, layouts, loadingWidgetId } = this.state;
+        const { loadingWidgetId } = this.state;
         const { scene, loading, onToggle, collapsed } = this.props;
-        const { widgetData, showWidgetAssets, showSettings, theme: { primarySkin } } = scene;
+        const { widgets, layouts, widgetAssetList, showWidgetAssets, showSettings, theme: { primarySkin } } = scene;
         const portalPanelProps = {
             widgets,
             layouts,
@@ -311,7 +308,7 @@ class SceneView extends Component {
         const loadingWidgetInstance = loading.effects['scene/getWidgetInstanceById'];
         const doneKeys = widgets.map(w => w.id);
         const widgetAssetsProps = {
-            widgetData,
+            widgetAssetList,
             loading: loadingWidgetAssets,
             loadingWidgetInstance,
             loadingWidgetId,
@@ -322,6 +319,7 @@ class SceneView extends Component {
         };
         const settingsProps = {
             showSettings,
+            triggerSaveConfig: this.startAutoSaveTimer,
             onSettingsClose: this.handlerCloseSettings,
         };
         const sceneDataLoading = loading.effects['scene/getSceneById'];
