@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:20 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 15:30:35
+ * @Last Modified time: 2020-04-05 15:34:05
  */
 @import '../../themes/vars.less';
 .scene-view-box {
@@ -11,6 +11,10 @@
   overflow: hidden;
   position: relative;
   :global {
+    .ps__rail-y,
+    .ps__rail-x {
+      z-index: 100;
+    }
     .portal-body {
       height: 100%;
       padding: 0;
