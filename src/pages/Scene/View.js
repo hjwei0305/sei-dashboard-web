@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 14:00:16
+ * @Last Modified time: 2020-04-05 16:13:01
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -47,7 +47,7 @@ class SceneView extends Component {
         if (!isEqual(preProps.scene.theme, theme)) {
             this.reRenderWidgets();
         }
-        if (!isEqual(preProps.scene.currentSceneId, scene.currentSceneId)) {
+        if (!isEqual(preProps.scene.currentScene, scene.currentScene)) {
             this.getSceneData();
         }
     }
@@ -63,11 +63,12 @@ class SceneView extends Component {
 
     getSceneData = () => {
         const { dispatch, scene } = this.props;
-        if (scene.currentSceneId) {
+        const { currentScene } = scene;
+        if (currentScene) {
             dispatch({
                 type: 'scene/getSceneById',
                 payload: {
-                    id: scene.currentSceneId,
+                    id: currentScene.id,
                 },
                 getWidget: this.getWidget,
             });
@@ -231,7 +232,7 @@ class SceneView extends Component {
 
     handlerSceneConfigSave = () => {
         const { dispatch, scene } = this.props;
-        const { currentSceneId, theme, layouts, widgetRenderData } = scene;
+        const { currentScene, theme, layouts, widgetRenderData } = scene;
         const config = {
             layouts,
             theme,
@@ -239,7 +240,7 @@ class SceneView extends Component {
         dispatch({
             type: 'scene/saveSceneConfig',
             payload: {
-                id: currentSceneId,
+                id: currentScene.id,
                 config: JSON.stringify(config),
                 widgetInstanceIds: JSON.stringify(widgetRenderData.map(w => w.id)),
             },
@@ -251,10 +252,10 @@ class SceneView extends Component {
 
     renderLasterUpdateDateTime = () => {
         const { scene, loading } = this.props;
-        const { currentSceneId, lastEditorName, lastEditedDate } = scene;
+        const { currentScene, lastEditorName, lastEditedDate } = scene;
         const configSaving = loading.effects['scene/saveSceneConfig'];
         let duration = '';
-        if (currentSceneId) {
+        if (currentScene) {
             const end = moment(Date.now());
             const start = moment(lastEditedDate);
             duration = start.from(end);
@@ -287,6 +288,17 @@ class SceneView extends Component {
             );
         }
         return duration;
+    };
+
+    renderTitle = () => {
+        const { scene } = this.props;
+        const { currentScene } = scene;
+        return (
+            <>
+                <span style={{ fontSize: 16, color: 'rgba(0,0,0,0.85)', fontWeight: 700 }}> {currentScene.name}</span>
+                <span style={{ marginLeft: 8, fontSize: 12, color: '#999' }}>场景组件实例配置</span>
+            </>
+        )
     };
 
     render() {
@@ -331,6 +343,7 @@ class SceneView extends Component {
                         : <div className={cls('portal-body', primarySkin)}>
                             <div className="action-tool-bar">
                                 <div>
+                                    {this.renderTitle()}
                                     {
                                         onToggle
                                             ? <ExtIcon

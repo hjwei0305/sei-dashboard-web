@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-03 23:33:46
+ * @Last Modified time: 2020-04-05 16:09:15
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -82,7 +82,7 @@ class SceneHome extends Component {
         dispatch({
             type: 'scene/updateState',
             payload: {
-                currentSceneId: currentScene.id,
+                currentScene,
             }
         });
     };
@@ -170,10 +170,10 @@ class SceneHome extends Component {
     render() {
         const { collapsed } = this.state;
         const { scene, loading } = this.props;
-        const { currentSceneId, sceneData } = scene;
+        const { currentScene, sceneData } = scene;
         const listLoading = loading.effects["scene/getSceneList"];
         const saving = loading.effects["scene/saveScene"];
-        const selectedKeys = currentSceneId ? [currentSceneId] : [];
+        const selectedKeys = currentScene ? [currentScene.id] : [];
         const listCardProps = {
             className: 'left-content',
             title: '场景列表',
@@ -214,7 +214,7 @@ class SceneHome extends Component {
                 </Sider>
                 <Content>
                     {
-                        currentSceneId
+                        currentScene
                             ? <SceneView {...sceneViewProps} />
                             : <div className='blank-empty'>
                                 <Empty

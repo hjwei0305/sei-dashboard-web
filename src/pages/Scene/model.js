@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:33 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 14:15:32
+ * @Last Modified time: 2020-04-05 16:06:10
  */
 
 import { formatMessage } from "umi-plugin-react/locale";
@@ -23,7 +23,7 @@ export default modelExtend(model, {
         lastEditedDate: null,
         lastEditorName: '',
         sceneData: [],
-        currentSceneId: '',
+        currentScene: '',
         widgetAssetList: [],
         showWidgetAssets: false,
         showSettings: false,
