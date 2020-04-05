@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get } from 'lodash';
 import { ExtEcharts, utils, ListLoader } from 'suid';
+import { formartUrl } from '../../../utils';
 import styles from './index.less'
 
 const { request } = utils;
@@ -46,7 +47,7 @@ class EchartPie extends PureComponent {
         this.setState({ loading: true });
         const requestOptions = {
             method: methodType,
-            url,
+            url: formartUrl(url),
             headers: { neverCancel: true },
         };
         if (params) {

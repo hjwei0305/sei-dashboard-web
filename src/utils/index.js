@@ -1,5 +1,6 @@
 import constants from './constants';
 import { utils } from 'suid'
+import { endsWith, startsWith } from 'lodash'
 import * as userUtils from './user';
 
 
@@ -21,7 +22,16 @@ const getHashCode = (len = 6) => {
   return str;
 }
 
+const formartUrl = (originUrl) => {
+  if (startsWith(originUrl, 'http')) {
+    return originUrl;
+  }
+  const url = startsWith(originUrl, '/') ? originUrl.substr(1) : originUrl;
+  return `/${url}`;
+}
+
 export {
+  formartUrl,
   constants,
   userUtils,
   getCurrentUserContext,
