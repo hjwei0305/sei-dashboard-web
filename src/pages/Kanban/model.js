@@ -24,12 +24,13 @@ const getWidget = (widget, layout, theme) => {
             y: 0,
             i: widget.id,
         };
+        const closable = false;
         switch (component.type) {
             case COMPONENT_TYPE.ECHART_PIE:
                 return {
                     id: widget.id,
                     widget: <EchartPie {...omit(component.props, ['title'])} skin={echart} />,
-                    closable: true,
+                    closable,
                     title: component.props.title,
                     layout: defaultLayout,
                 };
@@ -37,7 +38,7 @@ const getWidget = (widget, layout, theme) => {
                 return {
                     id: widget.id,
                     widget: <EchartBarLine {...omit(component.props, ['title'])} skin={echart} />,
-                    closable: true,
+                    closable,
                     title: component.props.title,
                     layout: defaultLayout,
                 };
