@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:59 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 12:04:42
+ * @Last Modified time: 2020-04-05 22:23:30
  */
 
 import React, { Component } from 'react';
@@ -82,7 +82,7 @@ class WidgetAssets extends Component {
         };
         return (
             <Drawer
-                title="添加组件资源"
+                title="添加组件资源 (快捷键关闭 ESC)"
                 placement="right"
                 width={420}
                 className={cls(styles["assets-box"])}

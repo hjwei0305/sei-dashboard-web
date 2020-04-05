@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 16:37:25
+ * @Last Modified time: 2020-04-05 22:43:44
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -10,13 +10,14 @@ import { connect } from "dva";
 import moment from 'moment';
 import { isEqual, omit } from 'lodash';
 import { Divider } from 'antd';
-import { ExtIcon, ScrollBar, PortalPanel, ListLoader } from 'suid';
+import { ExtIcon, ScrollBar, PortalPanel, ListLoader, HottedKey } from 'suid';
 import { Widgets } from '../../components';
 import { constants } from '../../utils';
 import WidgetAssets from './components/WidgetAssets';
 import Settings from './components/Settings';
 import styles from './View.less';
 
+const { GlobalHotKeys } = HottedKey;
 const { EchartPie, EchartBarLine } = Widgets;
 const { COMPONENT_TYPE } = constants;
 const duration = 10000;
@@ -278,7 +279,10 @@ class SceneView extends Component {
                                     type="save"
                                     className='action-item'
                                     onClick={this.handlerSceneConfigSave}
-                                    tooltip={{ title: '保存场景配置' }}
+                                    tooltip={{
+                                        overlayClassName: 'tip',
+                                        title: <>保存场景配置<br /><span style={{ fontSize: 12 }}>快捷键 Ctrl + S</span></>
+                                    }}
                                     antd
                                 />
                                 <span className='tool-desc'>{`${lastEditorName}于 ${duration} 更新`}</span>
@@ -335,60 +339,87 @@ class SceneView extends Component {
             onSettingsClose: this.handlerCloseSettings,
         };
         const sceneDataLoading = loading.effects['scene/getSceneById'];
+        const keyMap = {
+            SAVE: 'ctrl+s',
+            Add_WIDGET: 'ctrl+a',
+            COLLAPSED: 'alt+c',
+            SETTING: 'alt+s',
+        };
+        const handlers = {
+            SAVE: this.handlerSceneConfigSave,
+            COLLAPSED: onToggle ? onToggle : null,
+            Add_WIDGET: this.handlerAddWidgetAssets,
+            SETTING: this.handlerShowSettings,
+        };
         return (
-            <div className={cls(styles['scene-view-box'])}>
-                {
-                    sceneDataLoading
-                        ? <ListLoader />
-                        : <div className={cls('portal-body', primarySkin)}>
-                            <div className="action-tool-bar">
-                                <div>
-                                    {this.renderTitle()}
-                                    {
-                                        onToggle
-                                            ? <ExtIcon
-                                                type={collapsed ? 'menu-unfold' : 'menu-fold'}
-                                                className='action-item'
-                                                onClick={onToggle}
-                                                tooltip={{ title: collapsed ? '显示场景列表' : '隐藏场景列表' }}
+            <>
+                <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
+                    <div className={cls(styles['scene-view-box'])}>
+
+                        {
+                            sceneDataLoading
+                                ? <ListLoader />
+                                : <div className={cls('portal-body', primarySkin)}>
+                                    <div className="action-tool-bar">
+                                        <div>
+                                            {this.renderTitle()}
+                                            {
+                                                onToggle
+                                                    ? <ExtIcon
+                                                        type={collapsed ? 'menu-unfold' : 'menu-fold'}
+                                                        className='action-item'
+                                                        onClick={onToggle}
+                                                        tooltip={{
+                                                            overlayClassName: 'tip',
+                                                            title: <>{collapsed ? '显示场景列表' : '隐藏场景列表'}<br /><span style={{ fontSize: 12 }}>快捷键 Alt + C</span></>
+                                                        }}
+                                                        antd
+                                                    />
+                                                    : null
+                                            }
+                                            <Divider type='vertical' />
+                                            {
+                                                this.renderLasterUpdateDateTime()
+                                            }
+                                        </div>
+                                        <div className='right-tool-box'>
+                                            <ExtIcon
+                                                type="plus"
+                                                className='action-item primary'
+                                                spin={loadingWidgetAssets}
+                                                onClick={this.handlerAddWidgetAssets}
+                                                tooltip={{
+                                                    overlayClassName: 'tip',
+                                                    overlayStyle: { textAlign: 'center' },
+                                                    title: <>添加组件<br /><span style={{ fontSize: 12 }}>快捷键 Ctrl + A</span></>
+                                                }}
                                                 antd
                                             />
-                                            : null
-                                    }
-                                    <Divider type='vertical' />
-                                    {
-                                        this.renderLasterUpdateDateTime()
-                                    }
+                                            <Divider type='vertical' />
+                                            <ExtIcon
+                                                type="setting"
+                                                className="action-item"
+                                                onClick={this.handlerShowSettings}
+                                                tooltip={{
+                                                    overlayClassName: 'tip',
+                                                    title: <>看板设置<br /><span style={{ fontSize: 12 }}>快捷键 Alt + S</span></>
+                                                }}
+                                                antd
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="portal-box">
+                                        <ScrollBar>
+                                            <PortalPanel {...portalPanelProps} />
+                                        </ScrollBar>
+                                    </div>
+                                    <WidgetAssets {...widgetAssetsProps} />
+                                    <Settings {...settingsProps} />
                                 </div>
-                                <div className='right-tool-box'>
-                                    <ExtIcon
-                                        type="medicine-box"
-                                        className='action-item primary'
-                                        spin={loadingWidgetAssets}
-                                        onClick={this.handlerAddWidgetAssets}
-                                        tooltip={{ title: '添加组件' }}
-                                        antd
-                                    />
-                                    <Divider type='vertical' />
-                                    <ExtIcon
-                                        type="setting"
-                                        className="action-item"
-                                        tooltip={{ title: '看板设置' }}
-                                        onClick={this.handlerShowSettings}
-                                        antd
-                                    />
-                                </div>
-                            </div>
-                            <div className="portal-box">
-                                <ScrollBar>
-                                    <PortalPanel {...portalPanelProps} />
-                                </ScrollBar>
-                            </div>
-                            <WidgetAssets {...widgetAssetsProps} />
-                            <Settings {...settingsProps} />
-                        </div>
-                }
-            </div>
+                        }
+                    </div>
+                </GlobalHotKeys>
+            </>
         );
     }
 }

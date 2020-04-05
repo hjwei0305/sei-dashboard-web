@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 16:24:02 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 14:01:11
+ * @Last Modified time: 2020-04-05 22:23:24
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -67,7 +67,7 @@ class Settings extends Component {
         };
         return (
             <Drawer
-                title="数据可视化设置"
+                title="数据可视化设置 (快捷键关闭 ESC)"
                 placement="right"
                 width={420}
                 className={cls(styles["assets-box"])}
