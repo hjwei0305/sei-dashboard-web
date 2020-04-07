@@ -43,7 +43,6 @@ class LoginForm extends PureComponent {
 
   handleVertify = () => {
     const { dispatch } = this.props;
-    console.log(this.loginReqId);
     dispatch({
       type: 'global/getVerifyCode',
       payload: {
