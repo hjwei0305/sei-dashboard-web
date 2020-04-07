@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:33 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 16:06:10
+ * @Last Modified time: 2020-04-07 11:53:51
  */
 
 import { formatMessage } from "umi-plugin-react/locale";
@@ -64,7 +64,13 @@ export default modelExtend(model, {
             const re = yield call(getSceneById, payload);
             if (re.success) {
                 const { lastEditedDate, lastEditorName, config, instanceDtos } = re.data;
-                const { layouts, theme } = JSON.parse(config);
+                let layouts = {};
+                let theme = defaultSkin;
+                if (config) {
+                    const configData = JSON.parse(config);
+                    layouts = configData.layouts;
+                    theme = configData.theme;
+                }
                 const widgets = [];
                 instanceDtos.forEach(w => {
                     const layoutKeys = Object.keys(layouts);
