@@ -1,6 +1,12 @@
+/*
+ * @Author: Eason 
+ * @Date: 2020-04-07 09:01:14 
+ * @Last Modified by:   Eason 
+ * @Last Modified time: 2020-04-07 09:01:14 
+ */
 import constants from './constants';
 import { utils } from 'suid'
-import { endsWith, startsWith } from 'lodash'
+import { startsWith } from 'lodash'
 import * as userUtils from './user';
 
 

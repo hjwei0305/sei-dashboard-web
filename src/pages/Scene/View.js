@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 22:43:44
+ * @Last Modified time: 2020-04-07 09:14:36
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -251,6 +251,22 @@ class SceneView extends Component {
         });
     };
 
+    getActionTooltip = (title, shortcutTitle) => {
+        return {
+            overlayClassName: 'tip',
+            placement: 'bottom',
+            title: (
+                <>
+                    {title}
+                    <br />
+                    <span style={{ fontSize: 12 }}>
+                        {shortcutTitle}
+                    </span>
+                </>
+            )
+        };
+    };
+
     renderLasterUpdateDateTime = () => {
         const { scene, loading } = this.props;
         const { currentScene, lastEditorName, lastEditedDate } = scene;
@@ -279,10 +295,7 @@ class SceneView extends Component {
                                     type="save"
                                     className='action-item'
                                     onClick={this.handlerSceneConfigSave}
-                                    tooltip={{
-                                        overlayClassName: 'tip',
-                                        title: <>保存场景配置<br /><span style={{ fontSize: 12 }}>快捷键 Ctrl + S</span></>
-                                    }}
+                                    tooltip={this.getActionTooltip('保存场景配置', '快捷键 Ctrl + S')}
                                     antd
                                 />
                                 <span className='tool-desc'>{`${lastEditorName}于 ${duration} 更新`}</span>
@@ -355,7 +368,6 @@ class SceneView extends Component {
             <>
                 <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
                     <div className={cls(styles['scene-view-box'])}>
-
                         {
                             sceneDataLoading
                                 ? <ListLoader />
@@ -369,10 +381,7 @@ class SceneView extends Component {
                                                         type={collapsed ? 'menu-unfold' : 'menu-fold'}
                                                         className='action-item'
                                                         onClick={onToggle}
-                                                        tooltip={{
-                                                            overlayClassName: 'tip',
-                                                            title: <>{collapsed ? '显示场景列表' : '隐藏场景列表'}<br /><span style={{ fontSize: 12 }}>快捷键 Alt + C</span></>
-                                                        }}
+                                                        tooltip={this.getActionTooltip('显示场景列表', '快捷键 Alt + C')}
                                                         antd
                                                     />
                                                     : null
@@ -388,11 +397,7 @@ class SceneView extends Component {
                                                 className='action-item primary'
                                                 spin={loadingWidgetAssets}
                                                 onClick={this.handlerAddWidgetAssets}
-                                                tooltip={{
-                                                    overlayClassName: 'tip',
-                                                    overlayStyle: { textAlign: 'center' },
-                                                    title: <>添加组件<br /><span style={{ fontSize: 12 }}>快捷键 Ctrl + A</span></>
-                                                }}
+                                                tooltip={this.getActionTooltip('添加组件', '快捷键 Ctrl + A')}
                                                 antd
                                             />
                                             <Divider type='vertical' />
@@ -400,10 +405,7 @@ class SceneView extends Component {
                                                 type="setting"
                                                 className="action-item"
                                                 onClick={this.handlerShowSettings}
-                                                tooltip={{
-                                                    overlayClassName: 'tip',
-                                                    title: <>看板设置<br /><span style={{ fontSize: 12 }}>快捷键 Alt + S</span></>
-                                                }}
+                                                tooltip={this.getActionTooltip('看板设置', '快捷键 Alt + S')}
                                                 antd
                                             />
                                         </div>
