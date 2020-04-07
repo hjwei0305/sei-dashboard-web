@@ -28,7 +28,6 @@
     "react": "^16.8.6",
     "react-color": "^2.18.0",
     "react-dom": "^16.8.6",
-    "react-fast-compare": "^2.0.4",
     "suid": "^1.2.20"
   },
   "devDependencies": {

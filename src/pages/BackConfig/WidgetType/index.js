@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "dva";
 import cls from "classnames";
+import { isEqual } from 'lodash';
 import { Button, Popconfirm } from "antd";
 import { formatMessage, FormattedMessage } from "umi-plugin-react/locale";
-import isEqual from "react-fast-compare";
 import { ExtTable, utils, ExtIcon } from 'suid';
 import { constants } from "@/utils";
 import FormModal from "./FormModal";

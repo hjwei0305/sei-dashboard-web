@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "dva";
 import cls from "classnames";
-import isEqual from 'react-fast-compare';
+import { isEqual } from 'lodash';
 import { formatMessage } from "umi-plugin-react/locale";
 import { Row, Col, Input, Empty, Popconfirm } from "antd";
 import { ExtIcon, ListCard } from 'suid';
@@ -109,24 +109,16 @@ class Feature extends Component {
         this.listCardRef.handlerSearch();
     };
 
-    renderCustomTool = ({ total }) => {
-        const { loading } = this.props;
-        const saving = loading.effects["widgetGroup/saveWidgetGroup"];
+    renderCustomTool = () => {
         return (
             <>
-                <GroupAdd
-                    saving={saving}
-                    saveWidgetGroup={this.saveWidgetGroup}
+                <Search
+                    placeholder="输入代码或名称关键字查询"
+                    onChange={e => this.handlerSearchChange(e.target.value)}
+                    onSearch={this.handlerSearch}
+                    onPressEnter={this.handlerSearch}
+                    style={{ width: '100%' }}
                 />
-                <div>
-                    <Search
-                        placeholder="输入代码或名称关键字查询"
-                        onChange={e => this.handlerSearchChange(e.target.value)}
-                        onSearch={this.handlerSearch}
-                        onPressEnter={this.handlerSearch}
-                        style={{ width: 220 }}
-                    />
-                </div>
             </>
         );
     };
@@ -171,6 +163,7 @@ class Feature extends Component {
         const { loading, widgetGroup } = this.props;
         const { currentWidgetGroup } = widgetGroup;
         const { listData } = this.state;
+        const saving = loading.effects["widgetGroup/saveWidgetGroup"];
         const listLoading = loading.effects["widgetGroup/getWidgetGroupList"];
         const selectedKeys = currentWidgetGroup ? [currentWidgetGroup.id] : [];
         const featureGroupprops = {
@@ -183,6 +176,12 @@ class Feature extends Component {
             customTool: this.renderCustomTool,
             onListCardRef: ref => (this.listCardRef = ref),
             selectedKeys,
+            extra: (
+                <GroupAdd
+                    saving={saving}
+                    saveWidgetGroup={this.saveWidgetGroup}
+                />
+            ),
             itemField: {
                 title: this.renderTitle,
                 description: item => item.appModuleName,
@@ -192,10 +191,10 @@ class Feature extends Component {
         return (
             <div className={cls(styles["container-box"])} >
                 <Row gutter={8} className='auto-height'>
-                    <Col span={7} className='auto-height'>
+                    <Col span={6} className='auto-height'>
                         <ListCard {...featureGroupprops} />
                     </Col>
-                    <Col span={17} className={cls("main-content", 'auto-height')}>
+                    <Col span={18} className={cls("main-content", 'auto-height')}>
                         {
                             currentWidgetGroup
                                 ? <Instance />
