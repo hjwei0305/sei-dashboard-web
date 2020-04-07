@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-07 09:14:36
+ * @Last Modified time: 2020-04-07 12:51:25
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -199,7 +199,7 @@ class SceneView extends Component {
 
     onLayoutChange = (layout, layouts) => {
         const { dispatch, scene } = this.props;
-        const { widgets } = scene;
+        const { widgets, layouts: originLayouts } = scene;
         widgets.forEach(widget => {
             const lt = layout.filter(l => l.i === widget.id);
             if (lt.length === 1) {
@@ -213,7 +213,9 @@ class SceneView extends Component {
                 layouts,
             }
         });
-        this.startAutoSaveTimer();
+        if (!isEqual(layouts, originLayouts)) {
+            this.startAutoSaveTimer();
+        }
     };
 
     handlerClose = (id) => {
