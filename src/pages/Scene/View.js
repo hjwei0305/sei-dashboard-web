@@ -2,15 +2,16 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-07 12:51:25
+ * @Last Modified time: 2020-04-07 13:47:23
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
 import { connect } from "dva";
 import moment from 'moment';
 import { isEqual, omit } from 'lodash';
-import { Divider } from 'antd';
+import { Divider, Empty } from 'antd';
 import { ExtIcon, ScrollBar, PortalPanel, ListLoader, HottedKey } from 'suid';
+import empty from "@/assets/page_empty.svg";
 import { Widgets } from '../../components';
 import { constants } from '../../utils';
 import WidgetAssets from './components/WidgetAssets';
@@ -414,7 +415,17 @@ class SceneView extends Component {
                                     </div>
                                     <div className="portal-box">
                                         <ScrollBar>
-                                            <PortalPanel {...portalPanelProps} />
+                                            {
+                                                widgets.length > 0
+                                                    ? <PortalPanel {...portalPanelProps} />
+                                                    :
+                                                    <div className='blank-empty'>
+                                                        <Empty
+                                                            image={empty}
+                                                            description="暂时没有组件，可使用Ctrl + A快捷键添加组件"
+                                                        />
+                                                    </div>
+                                            }
                                         </ScrollBar>
                                     </div>
                                     <WidgetAssets {...widgetAssetsProps} />
