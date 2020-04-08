@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:21:32 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-08 17:57:18
+ * @Last Modified time: 2020-04-08 21:19:06
  */
 
 import React, { PureComponent } from "react";
@@ -77,8 +77,8 @@ class SceneForm extends PureComponent {
               )}
             </FormItem>
             <FormItem label={formatMessage({ id: "global.isHome", defaultMessage: "平台仪表盘" })}>
-            {getFieldDecorator("isHome", {
-              initialValue: get(editData, 'isHome', false),
+            {getFieldDecorator("home", {
+              initialValue: get(editData, 'home', false),
               valuePropName: "checked"
             })(<Switch size="small" />)}
           </FormItem>

@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-08 17:59:50
+ * @Last Modified time: 2020-04-08 21:19:52
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -130,7 +130,7 @@ class SceneHome extends Component {
     };
 
     renderTitle = (item) => {
-        if (item.isHome) {
+        if (item.home) {
             return (
                 <>
                     {item.name}

@@ -81,7 +81,13 @@ export default modelExtend(model, {
             const re = yield call(getSceneByCode, payload);
             if (re.success) {
                 const { config, instanceDtos } = re.data;
-                const { layouts, theme } = JSON.parse(config);
+                let layouts = {};
+                let theme = defaultSkin;
+                if (config) {
+                    const configData = JSON.parse(config);
+                    layouts = configData.layouts;
+                    theme = configData.theme;
+                }
                 const widgets = [];
                 instanceDtos.forEach(w => {
                     const layoutKeys = Object.keys(layouts);

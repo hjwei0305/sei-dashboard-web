@@ -2,12 +2,14 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 14:17:19
+ * @Last Modified time: 2020-04-08 21:27:58
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { connect } from "dva";
+import { Empty } from 'antd';
 import { ScrollBar, PortalPanel, ListLoader } from 'suid';
+import empty from "@/assets/page_empty.svg";
 import styles from './index.less';
 
 
@@ -37,7 +39,15 @@ class Kanban extends PureComponent {
                         : <div className={cls('portal-body', primarySkin)}>
                             <div className="portal-box">
                                 <ScrollBar>
-                                    <PortalPanel {...portalPanelProps} />
+                                    {
+                                        widgets.length > 0
+                                            ? <PortalPanel {...portalPanelProps} />
+                                            :
+                                            <div className='blank-empty'>
+                                                <Empty image={empty} />
+                                            </div>
+                                    }
+
                                 </ScrollBar>
                             </div>
                         </div>
