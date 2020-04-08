@@ -173,7 +173,7 @@ class WidgetType extends Component {
         className: 'icon',
         render: (text) => {
           if (text) {
-            return <ExtIcon type={text} antd style={{ fontSize: 24 }} />;
+            return <ExtIcon type={text} style={{ fontSize: 24 }} />;
           }
         }
       },

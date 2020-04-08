@@ -196,7 +196,6 @@ class InstanceConfig extends PureComponent {
                                                                 ? <ExtIcon
                                                                     type={currentWidget.iconType}
                                                                     style={{ color, fontSize: 64 }}
-                                                                    antd
                                                                 />
                                                                 : <Avatar
                                                                     shape="square"

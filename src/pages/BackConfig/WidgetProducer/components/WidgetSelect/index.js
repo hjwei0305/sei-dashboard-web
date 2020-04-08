@@ -73,7 +73,7 @@ class WidgetSelect extends PureComponent {
                       onClick={() => this.handlerChangeSelect(m)}
                     >
                       <div className='vertical ceneter' style={{ height: '100%', justifyContent: 'center' }}>
-                        <ExtIcon className='icon' type={m.iconType} antd style={{ fontSize: 36 }} />
+                        <ExtIcon className='icon' type={m.iconType} style={{ fontSize: 36 }} />
                         <div className='title'>{m.name}</div>
                       </div>
                     </div>

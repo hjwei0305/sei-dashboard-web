@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:59 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-05 22:23:30
+ * @Last Modified time: 2020-04-08 17:51:07
  */
 
 import React, { Component } from 'react';
@@ -64,8 +64,7 @@ class WidgetAssets extends Component {
         return (
             <ExtIcon
                 type={widgetTypeIconType}
-                antd
-                style={{ fontSize: 24, width: 42, height: 42, color: iconColor }}
+                style={{ fontSize: 42, width: 42, height: 42, color: iconColor }}
             />
         )
     };
