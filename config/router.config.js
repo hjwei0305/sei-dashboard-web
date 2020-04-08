@@ -25,6 +25,7 @@ export default [
         name: "scene",
         routes: [
           { path: "/scene/home", component: "./Scene" },
+          { path: "/scene/sei/home", component: "./Kanban" },
           { path: "/scene/kanban/:code", component: "./Kanban" },
         ]
       }

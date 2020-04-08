@@ -3,7 +3,7 @@ import { message } from "antd";
 import { utils } from 'suid';
 import { Widgets } from '../../components';
 import { constants } from '../../utils';
-import { getSceneByCode } from "./service";
+import { getSceneByCode, getSceneHome } from "./service";
 
 const { pathMatchRegexp, dvaModel, storage } = utils;
 const { modelExtend, model } = dvaModel;
@@ -67,9 +67,23 @@ export default modelExtend(model, {
                 const match = pathMatchRegexp('/scene/kanban/:code', location.pathname);
                 if (match) {
                     dispatch({
-                        type: "getSceneByCode",
+                        type: "getScene",
                         payload: {
                             code: match[1],
+                            home: false,
+                        }
+                    });
+                }
+            });
+        },
+        setupSeiHomeKanban({ dispatch, history }) {
+            history.listen(location => {
+                const match = pathMatchRegexp('/scene/sei/home', location.pathname);
+                if (match) {
+                    dispatch({
+                        type: "getScene",
+                        payload: {
+                            home: true
                         }
                     });
                 }
@@ -77,10 +91,16 @@ export default modelExtend(model, {
         }
     },
     effects: {
-        * getSceneByCode({ payload }, { call, put }) {
-            const re = yield call(getSceneByCode, payload);
+        * getScene({ payload }, { call, put }) {
+            const { code, home = false } = payload;
+            let re
+            if (home) {
+                re = yield call(getSceneHome);
+            } else {
+                re = yield call(getSceneByCode, { code });
+            }
             if (re.success) {
-                const { config, instanceDtos } = re.data;
+                const { config, instanceDtos } = re.data || { instanceDtos: [] };
                 let layouts = {};
                 let theme = defaultSkin;
                 if (config) {

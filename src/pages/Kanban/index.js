@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-08 21:27:58
+ * @Last Modified time: 2020-04-08 21:37:30
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -30,7 +30,7 @@ class Kanban extends PureComponent {
             compactType: null,
             margin: [4, 4],
         };
-        const sceneDataLoading = loading.effects['kanban/getSceneByCode'];
+        const sceneDataLoading = loading.effects['kanban/getScene'];
         return (
             <div className={cls(styles['kanban-box'])}>
                 {

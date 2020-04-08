@@ -17,3 +17,14 @@ export async function getSceneByCode(params) {
         params,
     });
 }
+
+/** 
+ * 获取平台首页实例应用场景
+ */
+export async function getSceneHome() {
+    const url = `${SERVER_PATH}/sei-dashboard/scene/getSceneHome`;
+    return request({
+        url,
+        method: "GET",
+    });
+}
