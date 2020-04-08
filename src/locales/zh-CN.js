@@ -8,6 +8,7 @@ export default {
   ...pwa,
   ...componentType,
   "global.operation": "操作",
+  "global.isHome": "平台首页",
   "global.code": "代码",
   "global.code.tip": "规则:名称各汉字首字母大写",
   "global.code.required": "代码不能为空",

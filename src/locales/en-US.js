@@ -7,6 +7,7 @@ export default {
   "app.request.401。message": "The current session timed out or failed, Please log in again",
   ...pwa,
   ...componentType,
+  "global.isHome": "Home Dashboard",
   "global.operation": "Action",
   "global.code": "Code",
   "global.code.tip": "Rule: capitalize the initial of each character",

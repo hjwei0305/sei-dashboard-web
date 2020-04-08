@@ -2,14 +2,14 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:21:32 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-03 23:20:08
+ * @Last Modified time: 2020-04-08 17:57:18
  */
 
 import React, { PureComponent } from "react";
 import cls from "classnames";
 import { trim, get } from 'lodash'
 import { formatMessage, FormattedMessage } from "umi-plugin-react/locale";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input,Switch } from "antd";
 import { utils } from "suid";
 import { getHashCode } from '../../../../utils'
 import styles from "./Form.less";
@@ -76,6 +76,12 @@ class SceneForm extends PureComponent {
                 <Input autoComplete='off' />
               )}
             </FormItem>
+            <FormItem label={formatMessage({ id: "global.isHome", defaultMessage: "平台仪表盘" })}>
+            {getFieldDecorator("isHome", {
+              initialValue: get(editData, 'isHome', false),
+              valuePropName: "checked"
+            })(<Switch size="small" />)}
+          </FormItem>
             <FormItem wrapperCol={{ span: 4, offset: 5 }} className="btn-submit">
               <Button
                 type="primary"
