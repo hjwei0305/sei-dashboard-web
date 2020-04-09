@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:17 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 16:37:03
+ * @Last Modified time: 2020-04-09 16:39:34
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -124,7 +124,7 @@ class StatisticGrid extends PureComponent {
                                             value,
                                             precision,
                                             valueStyle: color ? { color } : null,
-                                            prefix: iconType ? <ExtIcon type={iconType} /> : null,
+                                            prefix: iconType ? <ExtIcon type={iconType} antd /> : null,
                                             suffix: percent ? '%' : '',
                                         };
                                         return (
