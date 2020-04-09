@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:17 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 16:39:34
+ * @Last Modified time: 2020-04-09 17:26:33
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -117,7 +117,7 @@ class StatisticGrid extends PureComponent {
                         : data.length > 0
                             ? <Row gutter={16} className={skin}>
                                 {
-                                    data.map((item,index) => {
+                                    data.map((item, index) => {
                                         const { title, value = 0, precision = 2, iconType, color, percent = false } = item;
                                         const statisticProps = {
                                             title,
@@ -129,7 +129,7 @@ class StatisticGrid extends PureComponent {
                                         };
                                         return (
                                             <Col span={cols} key={index}>
-                                                <Card>
+                                                <Card bordered={false}>
                                                     <Statistic {...statisticProps} />
                                                 </Card>
                                             </Col>
