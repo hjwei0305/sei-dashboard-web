@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:20 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-07 13:44:07
+ * @Last Modified time: 2020-04-09 10:19:02
  */
 @import '../../themes/vars.less';
 .scene-view-box {
@@ -67,7 +67,11 @@
       .portal-box {
         height: calc(100% - 42px) !important;
         background-color: fade(@black, 5%);
-        .blank-empty{
+        .suid-panel.panel-bordered {
+          border-color: transparent;
+          box-shadow: none;
+        }
+        .blank-empty {
           background-color: transparent;
         }
         .suid-portal-panel {
