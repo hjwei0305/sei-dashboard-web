@@ -1,0 +1,29 @@
+@import '../../../../../../themes/vars.less';
+.timer-interval-box {
+  display: inline-block;
+  :global {
+    .trigger-item {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      margin-left: 0;
+      cursor: pointer;
+      border-radius: 0 3px 3px 0;
+      transition: all ease-in 0.3s;
+      border-left-color: transparent;
+      i {
+        transition: transform ease-in 0.2s;
+      }
+      &.ant-dropdown-open,
+      &:hover {
+        color: @primary-color;
+        border-left-color: @primary-color;
+      }
+      &.ant-dropdown-open {
+        i {
+          transform: translateY(-3px) rotate(-180deg);
+        }
+      }
+    }
+  }
+}

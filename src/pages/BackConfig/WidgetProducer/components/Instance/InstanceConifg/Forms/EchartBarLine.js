@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import cls from "classnames";
 import { omit, get } from 'lodash'
 import { Form, Input, Switch, InputNumber } from "antd";
+import TimerInterval from '../TimerInterval';
 import styles from "./EchartBarLine.less";
 
 const FormItem = Form.Item;
@@ -102,11 +103,19 @@ class FeatureGroupForm extends PureComponent {
     })
   };
 
+  handlerTimerIntervalChange = (interval) => {
+    const { form } = this.props;
+    form.setFieldsValue({
+      interval,
+    })
+  };
+
   render() {
     const { timer } = this.state;
     const { form, editData, widget } = this.props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     const { getFieldDecorator } = form;
+    const timerInterval = get(renderConfig, 'component.props.timer.interval', 0);
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
@@ -155,12 +164,16 @@ class FeatureGroupForm extends PureComponent {
           </FormItem>
           {
             timer
-              ? <FormItem layout="inline" className="timer-boday" label="间隔时间(分钟)"  {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+              ? <FormItem layout="inline" className="timer-body" label="间隔时间(分钟)"  {...formItemInlineLayout} style={{ marginBottom: 0 }}>
                 {getFieldDecorator('interval', {
-                  initialValue: get(renderConfig, 'component.props.timer.interval', 5),
+                  initialValue: timerInterval,
                 })(
                   <InputNumber precision={0} />
                 )}
+                <TimerInterval
+                  interval={timerInterval}
+                  onChange={this.handlerTimerIntervalChange}
+                />
               </FormItem>
               : null
           }
