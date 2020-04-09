@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import cls from "classnames";
 import { omit, get } from 'lodash'
-import { Form, Input } from "antd";
+import { Form, Input, Switch, InputNumber } from "antd";
 import styles from "./EchartPie.less";
 
 const FormItem = Form.Item;
@@ -15,9 +15,26 @@ const formItemLayout = {
   },
 };
 
+const formItemInlineLayout = {
+  labelCol: {
+    span: 6,
+  },
+  wrapperCol: {
+    span: 18,
+  },
+};
 
 @Form.create()
 class FeatureGroupForm extends PureComponent {
+
+  constructor(props) {
+    super(props);
+    const { editData } = props;
+    const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
+    this.state = {
+      timer: get(renderConfig, 'component.props.timer.interval', 0) > 0 ? true : false,
+    };
+  }
 
   componentDidMount() {
     const { onFormRef } = this.props;
@@ -27,6 +44,7 @@ class FeatureGroupForm extends PureComponent {
   }
 
   handlerFormSubmit = _ => {
+    const { timer } = this.state;
     const { form, save, editData, widget, widgetGroup, color } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
@@ -57,6 +75,9 @@ class FeatureGroupForm extends PureComponent {
           name: params.widgetTypeName,
           description: params.widgetTypeDescription,
           props: {
+            timer: {
+              interval: timer ? rest.interval : 0,
+            },
             title: params.name,
             store: {
               url: rest.storeUrl,
@@ -74,7 +95,14 @@ class FeatureGroupForm extends PureComponent {
     });
   };
 
+  handlerTimerChange = (checked) => {
+    this.setState({
+      timer: checked,
+    })
+  };
+
   render() {
+    const { timer } = this.state;
     const { form, editData, widget } = this.props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     const { getFieldDecorator } = form;
@@ -120,6 +148,21 @@ class FeatureGroupForm extends PureComponent {
               />
             )}
           </FormItem>
+          <div className='title-group'>定时器</div>
+          <FormItem label='启用定时器' {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+            <Switch size="small" checked={timer} onChange={this.handlerTimerChange} />
+          </FormItem>
+          {
+            timer
+              ? <FormItem layout="inline" className="timer-boday" label="间隔时间(分钟)"  {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+                {getFieldDecorator('interval', {
+                  initialValue: get(renderConfig, 'component.props.timer.interval', 5),
+                })(
+                  <InputNumber precision={0} />
+                )}
+              </FormItem>
+              : null
+          }
           <div className='title-group'>数据配置</div>
           <FormItem label="系列名称" hasFeedback>
             {getFieldDecorator('seriesName', {

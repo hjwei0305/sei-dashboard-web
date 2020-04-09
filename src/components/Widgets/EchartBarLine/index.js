@@ -10,8 +10,13 @@ const { request } = utils;
 
 class EchartBarLine extends PureComponent {
 
+    static timer = null;
+
     static propTypes = {
         title: PropTypes.string,
+        timer: PropTypes.shape({
+            interval: PropTypes.number,
+        }),
         store: PropTypes.shape({
             type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
             url: PropTypes.string,
@@ -26,6 +31,9 @@ class EchartBarLine extends PureComponent {
 
     static defaultProps = {
         title: '',
+        timer: {
+            interval: 0
+        },
     };
 
     constructor(props) {
@@ -40,14 +48,34 @@ class EchartBarLine extends PureComponent {
     }
 
     componentDidMount() {
+        this.startTimer();
         this.getData();
     }
 
-    getData = (params) => {
+    componentWillUnmount() {
+        this.endTimer();
+    }
+
+    startTimer = () => {
+        const { timer } = this.props;
+        if (timer.interval > 0) {
+            this.endTimer();
+            this.timer = setInterval(() => {
+                this.getData({ timerLoader: true });
+            }, timer.interval * 1000 * 60);
+        }
+    };
+
+    endTimer = () => {
+        window.clearInterval(this.timer);
+    };
+
+    getData = (p) => {
+        const { params = null, timerLoader = false } = p || {};
         const { store, reader } = this.props;
         const { url, type } = store || {};
         const methodType = type || 'get';
-        this.setState({ loading: true });
+        !timerLoader && this.setState({ loading: true });
         const requestOptions = {
             method: methodType,
             url: formartUrl(url),
@@ -78,7 +106,7 @@ class EchartBarLine extends PureComponent {
                     }
                 })
                 .finally(() => {
-                    this.setState({ loading: false });
+                    !timerLoader && this.setState({ loading: false });
                 });
         }
     };
@@ -133,7 +161,7 @@ class EchartBarLine extends PureComponent {
             title: {
                 text: title,
                 x: 'center',
-                ...skin.title || {}
+                ...(skin.title || {})
             },
             tooltip: {
                 trigger: 'axis',
@@ -153,7 +181,7 @@ class EchartBarLine extends PureComponent {
                 bottom: 4,
                 left: 'center',
                 data: legendData,
-                ...skin.legend || {}
+                ...(skin.legend || {})
             },
             xAxis: xAxisData,
             yAxis: yAxisData,

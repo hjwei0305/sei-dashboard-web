@@ -102,7 +102,10 @@ export default modelExtend(model, {
             if (re.success) {
                 const { config, instanceDtos } = re.data || { instanceDtos: [] };
                 let layouts = {};
-                let theme = defaultSkin;
+                let theme = {
+                    primarySkin: defaultSkin,
+                    echart: ECHART[defaultSkin],
+                };
                 if (config) {
                     const configData = JSON.parse(config);
                     layouts = configData.layouts;

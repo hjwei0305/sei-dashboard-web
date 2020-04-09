@@ -10,8 +10,13 @@ const { request } = utils;
 
 class EchartPie extends PureComponent {
 
+    static timer = null;
+
     static propTypes = {
         title: PropTypes.string,
+        timer: PropTypes.shape({
+            interval: PropTypes.number,
+        }),
         store: PropTypes.shape({
             type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
             url: PropTypes.string,
@@ -25,6 +30,9 @@ class EchartPie extends PureComponent {
 
     static defaultProps = {
         title: '',
+        timer: {
+            interval: 0
+        },
     };
 
     constructor(props) {
@@ -37,14 +45,34 @@ class EchartPie extends PureComponent {
     }
 
     componentDidMount() {
+        this.startTimer();
         this.getData();
     }
 
-    getData = (params) => {
+    componentWillUnmount() {
+        this.endTimer();
+    }
+
+    startTimer = () => {
+        const { timer } = this.props;
+        if (timer.interval > 0) {
+            this.endTimer();
+            this.timer = setInterval(() => {
+                this.getData({ timerLoader: true });
+            }, timer.interval * 1000 * 60);
+        }
+    };
+
+    endTimer = () => {
+        window.clearInterval(this.timer);
+    };
+
+    getData = (p) => {
+        const { params = null, timerLoader = false } = p || {};
         const { store, reader } = this.props;
         const { url, type } = store || {};
         const methodType = type || 'get';
-        this.setState({ loading: true });
+        !timerLoader && this.setState({ loading: true });
         const requestOptions = {
             method: methodType,
             url: formartUrl(url),
@@ -71,20 +99,20 @@ class EchartPie extends PureComponent {
                     }
                 })
                 .finally(() => {
-                    this.setState({ loading: false });
+                    !timerLoader && this.setState({ loading: false });
                 });
         }
     };
 
     render() {
         const { legendData, seriesData, loading } = this.state;
-        const { title, seriesName, skin } = this.props;
+        const { title, seriesName, skin = {} } = this.props;
         const echartPieProps = {
             option: {
                 title: {
                     text: title,
                     x: 'center',
-                    ...skin.title || {}
+                    ...(skin.title || {}),
                 },
                 toolbox: {
                     feature: {
@@ -95,7 +123,7 @@ class EchartPie extends PureComponent {
                     bottom: 4,
                     left: 'center',
                     data: legendData,
-                    ...skin.legend || {}
+                    ...(skin.legend || {})
                 },
                 tooltip: {
                     trigger: 'item',

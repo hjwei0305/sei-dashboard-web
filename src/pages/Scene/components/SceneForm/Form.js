@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:21:32 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-08 21:19:06
+ * @Last Modified time: 2020-04-09 09:04:30
  */
 
 import React, { PureComponent } from "react";
@@ -81,7 +81,7 @@ class SceneForm extends PureComponent {
               initialValue: get(editData, 'home', false),
               valuePropName: "checked"
             })(<Switch size="small" />)}
-          </FormItem>
+            </FormItem>
             <FormItem wrapperCol={{ span: 4, offset: 5 }} className="btn-submit">
               <Button
                 type="primary"

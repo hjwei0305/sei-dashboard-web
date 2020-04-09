@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:33 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-07 11:53:51
+ * @Last Modified time: 2020-04-09 09:57:35
  */
 
 import { formatMessage } from "umi-plugin-react/locale";
@@ -65,7 +65,10 @@ export default modelExtend(model, {
             if (re.success) {
                 const { lastEditedDate, lastEditorName, config, instanceDtos } = re.data;
                 let layouts = {};
-                let theme = defaultSkin;
+                let theme = {
+                    primarySkin: defaultSkin,
+                    echart: ECHART[defaultSkin],
+                };
                 if (config) {
                     const configData = JSON.parse(config);
                     layouts = configData.layouts;
