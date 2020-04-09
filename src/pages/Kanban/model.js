@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import { omit, toLower } from 'lodash';
 import { message } from "antd";
 import { utils } from 'suid';
 import { Widgets } from '../../components';
@@ -8,12 +8,12 @@ import { getSceneByCode, getSceneHome } from "./service";
 const { pathMatchRegexp, dvaModel, storage } = utils;
 const { modelExtend, model } = dvaModel;
 const { ECHART } = constants;
-const { EchartPie, EchartBarLine } = Widgets;
+const { EchartPie, EchartBarLine, StatisticGrid } = Widgets;
 const { COMPONENT_TYPE } = constants;
 const defaultSkin = storage.localStorage.get("primarySkin") || 'light';
 
 const getWidget = (widget, layout, theme) => {
-    const { echart } = theme;
+    const { primarySkin, echart } = theme;
     if (widget.renderConfig) {
         const renderConfig = JSON.parse(widget.renderConfig);
         const { component } = renderConfig;
@@ -25,22 +25,29 @@ const getWidget = (widget, layout, theme) => {
             i: widget.id,
         };
         const closable = false;
+        const props = {
+            id: widget.id,
+            closable,
+            title: component.props.title,
+            layout: defaultLayout,
+            className: toLower(component.type),
+        }
         switch (component.type) {
             case COMPONENT_TYPE.ECHART_PIE:
                 return {
-                    id: widget.id,
                     widget: <EchartPie {...omit(component.props, ['title'])} skin={echart} />,
-                    closable,
-                    title: component.props.title,
-                    layout: defaultLayout,
+                    ...props,
                 };
             case COMPONENT_TYPE.ECHART_BAR_LINE:
                 return {
-                    id: widget.id,
                     widget: <EchartBarLine {...omit(component.props, ['title'])} skin={echart} />,
-                    closable,
-                    title: component.props.title,
-                    layout: defaultLayout,
+                    ...props,
+                };
+            case COMPONENT_TYPE.STATISTIC_GRID:
+                return {
+                    widget: <StatisticGrid {...omit(component.props, ['title'])} skin={primarySkin} />,
+                    showHeader: false,
+                    ...props,
                 };
             default:
                 return null;

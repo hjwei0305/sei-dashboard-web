@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-02-21 18:03:16 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-03 23:50:35
+ * @Last Modified time: 2020-04-09 15:22:40
  */
 import { base } from '../../public/app.config.json';
 
@@ -23,7 +23,7 @@ const getServerPath = function () {
     if (process.env.MOCK === 'yes') {
       return '/mocker.api'
     } else {
-      return '/service.api'
+      return '/api-gateway'
     }
   }
   return `${BASE_DOMAIN}${GATEWAY}`
@@ -57,6 +57,7 @@ const APP_MODULE_BTN_KEY = {
 const COMPONENT_TYPE = {
   "ECHART_PIE": "EchartPie",
   "ECHART_BAR_LINE": "EchartBarLine",
+  "STATISTIC_GRID": "StatisticGrid",
 };
 
 /** Echart Skin */

@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-08 21:37:30
+ * @Last Modified time: 2020-04-09 15:48:11
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -22,7 +22,7 @@ class Kanban extends PureComponent {
         const portalPanelProps = {
             widgets,
             layouts,
-            rowHeight: 100,
+            rowHeight: 50,
             isDraggable: false,
             isResizable: false,
             preventCollision: true,

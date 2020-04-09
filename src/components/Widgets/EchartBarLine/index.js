@@ -1,13 +1,14 @@
 /*
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:12 
- * @Last Modified by:   Eason 
- * @Last Modified time: 2020-04-09 10:13:12 
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-04-09 15:34:52
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get } from 'lodash';
+import { Empty } from 'antd';
 import { ExtEcharts, utils, ListLoader } from 'suid';
 import { formartUrl } from '../../../utils';
 import styles from './index.less'
@@ -98,11 +99,10 @@ class EchartBarLine extends PureComponent {
             request(requestOptions)
                 .then((res) => {
                     if (res.success) {
-                        const resultData = res.data;
-                        const legendData = get(resultData, reader.legendData, []);
-                        const seriesData = get(resultData, reader.seriesData, []);
-                        const xAxisData = get(resultData, reader.xAxisData, []);
-                        const yAxisData = get(resultData, reader.yAxisData, [{ type: 'value' }]);
+                        const legendData = get(res, reader.legendData, []);
+                        const seriesData = get(res, reader.seriesData, []);
+                        const xAxisData = get(res, reader.xAxisData, []);
+                        const yAxisData = get(res, reader.yAxisData, [{ type: 'value' }]);
                         this.setState({
                             legendData,
                             seriesData,
@@ -196,17 +196,19 @@ class EchartBarLine extends PureComponent {
     };
 
     render() {
-        const { loading } = this.state;
+        const { loading, xAxisData } = this.state;
         const echartProps = {
             notMerge: false,
             option: this.getOption(),
         };
         return (
-            <div className={cls(styles["echart-bar-line-box"])}>
+            <div className={cls('echart-bar-line', styles["echart-bar-line-box"])}>
                 {
                     loading
                         ? <ListLoader />
-                        : <ExtEcharts {...echartProps} />
+                        : xAxisData.length > 0
+                            ? <ExtEcharts {...echartProps} />
+                            : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 }
             </div>
         );

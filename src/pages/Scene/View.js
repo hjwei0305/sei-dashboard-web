@@ -2,13 +2,13 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-07 13:47:23
+ * @Last Modified time: 2020-04-09 16:29:04
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
 import { connect } from "dva";
 import moment from 'moment';
-import { isEqual, omit } from 'lodash';
+import { isEqual, omit, toLower } from 'lodash';
 import { Divider, Empty } from 'antd';
 import { ExtIcon, ScrollBar, PortalPanel, ListLoader, HottedKey } from 'suid';
 import empty from "@/assets/page_empty.svg";
@@ -19,7 +19,7 @@ import Settings from './components/Settings';
 import styles from './View.less';
 
 const { GlobalHotKeys } = HottedKey;
-const { EchartPie, EchartBarLine } = Widgets;
+const { EchartPie, EchartBarLine, StatisticGrid } = Widgets;
 const { COMPONENT_TYPE } = constants;
 const duration = 10000;
 
@@ -150,7 +150,7 @@ class SceneView extends Component {
 
     getWidget = (widget, layout) => {
         const { scene } = this.props;
-        const { theme: { echart } } = scene;
+        const { theme: { echart, primarySkin } } = scene;
         if (widget.renderConfig) {
             const renderConfig = JSON.parse(widget.renderConfig);
             const { component } = renderConfig;
@@ -161,22 +161,28 @@ class SceneView extends Component {
                 y: 0,
                 i: widget.id,
             };
+            const props = {
+                id: widget.id,
+                closable: true,
+                title: component.props.title,
+                layout: defaultLayout,
+                className: toLower(component.type),
+            }
             switch (component.type) {
                 case COMPONENT_TYPE.ECHART_PIE:
                     return {
-                        id: widget.id,
                         widget: <EchartPie {...omit(component.props, ['title'])} skin={echart} />,
-                        closable: true,
-                        title: component.props.title,
-                        layout: defaultLayout,
+                        ...props
                     };
                 case COMPONENT_TYPE.ECHART_BAR_LINE:
                     return {
-                        id: widget.id,
                         widget: <EchartBarLine {...omit(component.props, ['title'])} skin={echart} />,
-                        closable: true,
-                        title: component.props.title,
-                        layout: defaultLayout,
+                        ...props
+                    };
+                case COMPONENT_TYPE.STATISTIC_GRID:
+                    return {
+                        widget: <StatisticGrid {...omit(component.props, ['title'])} skin={primarySkin} />,
+                        ...props,
                     };
                 default:
                     return null;
@@ -328,7 +334,7 @@ class SceneView extends Component {
         const portalPanelProps = {
             widgets,
             layouts,
-            rowHeight: 100,
+            rowHeight: 30,
             onLayoutChange: this.onLayoutChange,
             preventCollision: true,
             draggableHandle: '.panel-header-title',

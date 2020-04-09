@@ -5,10 +5,10 @@ export default {
       secure: false,
       pathRewrite: { '^/mocker.api': '' },
     },
-    '/service.api': {
+    '/api-gateway': {
       target: 'http://10.4.208.86:8100/api-gateway',
       changeOrigin: true,
       secure: false,
-      pathRewrite: { '^/service.api': '' },
+      pathRewrite: { '^/api-gateway': '' },
     },
   }

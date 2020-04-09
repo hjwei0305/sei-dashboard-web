@@ -26,7 +26,7 @@ const formItemInlineLayout = {
 };
 
 @Form.create()
-class FeatureGroupForm extends PureComponent {
+class EchartPieForm extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -238,4 +238,4 @@ class FeatureGroupForm extends PureComponent {
   }
 }
 
-export default FeatureGroupForm;
+export default EchartPieForm;

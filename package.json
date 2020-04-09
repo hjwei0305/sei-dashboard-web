@@ -28,7 +28,7 @@
     "react": "^16.8.6",
     "react-color": "^2.18.0",
     "react-dom": "^16.8.6",
-    "suid": "^1.2.23"
+    "suid": "^1.2.26"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",

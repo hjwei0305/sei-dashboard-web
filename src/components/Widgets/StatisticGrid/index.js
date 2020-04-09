@@ -2,20 +2,20 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:17 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 15:34:34
+ * @Last Modified time: 2020-04-09 16:37:03
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get } from 'lodash';
-import { Empty } from 'antd';
-import { ExtEcharts, utils, ListLoader } from 'suid';
+import { Row, Col, Statistic, Card, Empty } from 'antd'
+import { utils, ListLoader, ExtIcon } from 'suid';
 import { formartUrl } from '../../../utils';
 import styles from './index.less'
 
 const { request } = utils;
 
-class EchartPie extends PureComponent {
+class StatisticGrid extends PureComponent {
 
     static timer = null;
 
@@ -28,10 +28,8 @@ class EchartPie extends PureComponent {
             type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
             url: PropTypes.string,
         }).isRequired,
-        seriesName: PropTypes.string.isRequired,
         reader: PropTypes.shape({
-            legendData: PropTypes.string.isRequired,
-            seriesData: PropTypes.string.isRequired,
+            data: PropTypes.string.isRequired,
         }).isRequired
     };
 
@@ -46,8 +44,7 @@ class EchartPie extends PureComponent {
         super(props);
         this.state = {
             loading: false,
-            legendData: [],
-            seriesData: [],
+            data: [],
         };
     }
 
@@ -78,7 +75,7 @@ class EchartPie extends PureComponent {
         const { params = null, timerLoader = false } = p || {};
         const { store, reader } = this.props;
         const { url, type } = store || {};
-        const methodType = type || 'GET';
+        const methodType = type || 'get';
         !timerLoader && this.setState({ loading: true });
         const requestOptions = {
             method: methodType,
@@ -96,11 +93,9 @@ class EchartPie extends PureComponent {
             request(requestOptions)
                 .then((res) => {
                     if (res.success) {
-                        const legendData = get(res, reader.legendData, []);
-                        const seriesData = get(res, reader.seriesData, []);
+                        const data = get(res, reader.data, []);
                         this.setState({
-                            legendData,
-                            seriesData,
+                            data,
                         });
                     }
                 })
@@ -111,56 +106,37 @@ class EchartPie extends PureComponent {
     };
 
     render() {
-        const { legendData, seriesData, loading } = this.state;
-        const { title, seriesName, skin = {} } = this.props;
-        const echartPieProps = {
-            option: {
-                title: {
-                    text: title,
-                    x: 'center',
-                    ...(skin.title || {}),
-                },
-                toolbox: {
-                    feature: {
-                        saveAsImage: { show: true }
-                    }
-                },
-                legend: {
-                    bottom: 4,
-                    left: 'center',
-                    data: legendData,
-                    ...(skin.legend || {})
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{a}<br/>{b}:{c}({d}%)',
-                },
-                series: [
-                    {
-                        name: seriesName,
-                        type: 'pie',
-                        radius: '65%',
-                        center: ['50%', '50%'],
-                        selectedMode: 'single',
-                        data: seriesData,
-                        emphasis: {
-                            itemStyle: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    },
-                ],
-            },
-        };
+        const { data, loading } = this.state;
+        const { skin = {} } = this.props;
+        const cols = data.length > 0 ? 24 / data.length : 0;
         return (
-            <div className={cls('echart-pie', styles["echart-pie-box"])}>
+            <div className={cls('statistic-grid', styles["statistic-grid-box"])}>
                 {
                     loading
                         ? <ListLoader />
-                        : seriesData.length > 0
-                            ? <ExtEcharts {...echartPieProps} />
+                        : data.length > 0
+                            ? <Row gutter={16} className={skin}>
+                                {
+                                    data.map((item,index) => {
+                                        const { title, value = 0, precision = 2, iconType, color, percent = false } = item;
+                                        const statisticProps = {
+                                            title,
+                                            value,
+                                            precision,
+                                            valueStyle: color ? { color } : null,
+                                            prefix: iconType ? <ExtIcon type={iconType} /> : null,
+                                            suffix: percent ? '%' : '',
+                                        };
+                                        return (
+                                            <Col span={cols} key={index}>
+                                                <Card>
+                                                    <Statistic {...statisticProps} />
+                                                </Card>
+                                            </Col>
+                                        )
+                                    })
+                                }
+                            </Row>
                             : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 }
             </div>
@@ -168,4 +144,4 @@ class EchartPie extends PureComponent {
     }
 }
 
-export default EchartPie;
+export default StatisticGrid;

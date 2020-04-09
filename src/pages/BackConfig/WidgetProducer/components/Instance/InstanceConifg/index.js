@@ -11,6 +11,7 @@ import styles from "./index.less";
 
 const EchartPie = React.lazy(() => import("./Forms/EchartPie"));
 const EchartBarLine = React.lazy(() => import("./Forms/EchartBarLine"));
+const StatisticGrid = React.lazy(() => import("./Forms/StatisticGrid"));
 
 const { COMPONENT_TYPE } = constants;
 
@@ -142,6 +143,12 @@ class InstanceConfig extends PureComponent {
                     return (
                         <Suspense fallback={<ListLoader />}>
                             <EchartBarLine {...formProps} />
+                        </Suspense>
+                    );
+                case COMPONENT_TYPE.STATISTIC_GRID:
+                    return (
+                        <Suspense fallback={<ListLoader />}>
+                            <StatisticGrid {...formProps} />
                         </Suspense>
                     );
                 default:

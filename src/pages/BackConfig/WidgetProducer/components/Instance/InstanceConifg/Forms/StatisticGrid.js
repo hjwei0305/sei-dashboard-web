@@ -3,7 +3,7 @@ import cls from "classnames";
 import { omit, get } from 'lodash'
 import { Form, Input, Switch, InputNumber } from "antd";
 import TimerInterval from '../TimerInterval';
-import styles from "./EchartBarLine.less";
+import styles from "./StatisticGrid.less";
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -26,7 +26,7 @@ const formItemInlineLayout = {
 };
 
 @Form.create()
-class EchartBarLineForm extends PureComponent {
+class StatisticGridForm extends PureComponent {
 
   constructor(props) {
     super(props);
@@ -42,7 +42,7 @@ class EchartBarLineForm extends PureComponent {
     if (onFormRef) {
       onFormRef(this);
     }
-  };
+  }
 
   handlerFormSubmit = _ => {
     const { timer } = this.state;
@@ -84,10 +84,7 @@ class EchartBarLineForm extends PureComponent {
               url: rest.storeUrl,
             },
             reader: {
-              legendData: rest.legendData,
-              seriesData: rest.seriesData,
-              xAxisData: rest.xAxisData,
-              yAxisData: rest.yAxisData,
+              data: rest.data,
             }
           }
         }
@@ -192,55 +189,19 @@ class EchartBarLineForm extends PureComponent {
             )}
             <p className='desc'>数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
           </FormItem>
-          <FormItem label="图例" hasFeedback>
-            {getFieldDecorator('legendData', {
-              initialValue: get(renderConfig, 'component.props.reader.legendData', null),
-              rules: [
-                {
-                  required: false,
-                  message: '图例不能为空',
-                },
-              ],
-            })(
-              <Input />
-            )}
-            <p className='desc'>图例数据节点:接口返回数据结构请参照官网Echart的legend配置</p>
-          </FormItem>
-          <FormItem label="X轴" hasFeedback>
-            {getFieldDecorator('xAxisData', {
-              initialValue: get(renderConfig, 'component.props.reader.xAxisData', null),
+          <FormItem label="数据节点" hasFeedback>
+            {getFieldDecorator('data', {
+              initialValue: get(renderConfig, 'component.props.reader.data', null),
               rules: [
                 {
                   required: true,
-                  message: 'X轴不能为空',
+                  message: '数据节点不能为空',
                 },
               ],
             })(
               <Input />
             )}
-            <p className='desc'>X轴数据节点:轴线类型默认为:'category',接口返回数据结构请参照官网Echart的xAxis配置</p>
-          </FormItem>
-          <FormItem label="Y轴" hasFeedback>
-            {getFieldDecorator('yAxisData', {
-              initialValue: get(renderConfig, 'component.props.reader.yAxisData', null),
-            })(
-              <Input />
-            )}
-            <p className='desc'>Y轴数据节点:轴线类型默认为:'value',接口返回数据结构请参照官网Echart的yAxis配置</p>
-          </FormItem>
-          <FormItem label="系列" hasFeedback>
-            {getFieldDecorator('seriesData', {
-              initialValue: get(renderConfig, 'component.props.reader.seriesData', null),
-              rules: [
-                {
-                  required: true,
-                  message: '系列不能为空',
-                },
-              ],
-            })(
-              <Input />
-            )}
-            <p className='desc'>系列数据节点:接口返回数据结构请参照官网Echart的series配置</p>
+            <p className='desc'>接口返回数据体的属性名</p>
           </FormItem>
         </Form>
       </div >
@@ -248,4 +209,4 @@ class EchartBarLineForm extends PureComponent {
   }
 }
 
-export default EchartBarLineForm;
+export default StatisticGridForm;
