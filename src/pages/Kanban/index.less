@@ -29,7 +29,7 @@
           background-color: @white;
         }
         .statisticgrid {
-          .no-header{
+          .no-header {
             border-color: @page-background-color;
           }
           .suid-panel.panel-bordered .panel-body {
@@ -81,6 +81,28 @@
             background-color: #151619;
           }
         }
+        .statisticgrid {
+          .no-header {
+            border-color: #151619;
+          }
+          .suid-panel.panel-bordered .panel-body {
+            background-color: #151619;
+            border-top-color: #151619;
+            .panel-content {
+              padding: 0;
+            }
+          }
+          .ant-card,
+          .ant-card-body {
+            background-color: fade(@black, 85%);
+            .ant-statistic-title {
+              color: #999;
+            }
+            .ant-statistic-content{
+              color: #d7d9da;
+            }
+          }
+        }
       }
       &.darkblue {
         color: #999;
@@ -121,6 +143,31 @@
           .suid-panel {
             background-color: #061f59;
           }
+        }
+        .statisticgrid {
+          .no-header {
+            border-color: #061f59;
+          }
+          .suid-panel.panel-bordered .panel-body {
+            background-color: #061f59;
+            border-top-color: #061f59;
+            .panel-content {
+              padding: 0;
+            }
+          }
+          .ant-card,
+          .ant-card-body {
+            background-color: fade(@white, 1%);
+            .ant-statistic-title {
+              color: #9cc7f3;
+            }
+            .ant-statistic-content{
+              color: #d7d9da;
+            }
+          }
+        }
+        .ant-empty-description{
+          color: #9cc7f3;
         }
       }
     }
