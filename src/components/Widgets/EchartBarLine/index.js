@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:12 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 15:34:52
+ * @Last Modified time: 2020-04-10 13:26:08
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -160,6 +160,9 @@ class EchartBarLine extends PureComponent {
             const sObj = { ...s };
             if (!sObj.hasOwnProperty('type')) {
                 sObj.type = 'bar';
+            }
+            if (get(sObj, 'type') === 'line') {
+                sObj.smooth = true;
             }
             return sObj;
         });
