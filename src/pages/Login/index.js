@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react";
 import md5 from "md5";
 import { connect } from "dva";
-import withRouter from "umi/withRouter";
 import { formatMessage } from 'umi-plugin-react/locale'
 import { Button, Form, Input, Select } from "antd";
 import { utils, ExtIcon } from 'suid';
@@ -11,7 +10,6 @@ import styles from "./index.less";
 const { Item } = Form;
 const { Option } = Select;
 
-@withRouter
 @connect(({ global, loading }) => ({ global, loading }))
 @Form.create()
 class LoginForm extends PureComponent {

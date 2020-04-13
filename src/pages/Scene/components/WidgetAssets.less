@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:21:06 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-03 14:57:26
+ * @Last Modified time: 2020-04-13 10:02:46
  */
 
 @import '../../../themes/vars.less';
@@ -12,7 +12,7 @@
   overflow: hidden;
   :global {
     .ant-drawer-body {
-      padding: 24px 16px;
+      padding: 0;
       height: calc(100% - 55px);
       background-color: @page-background-color;
       .ant-card-type-inner {
@@ -22,6 +22,9 @@
         .ant-card-body {
           box-shadow: @box-shadow-base;
         }
+      }
+      .ant-card {
+        margin: 24px 16px;
       }
     }
   }

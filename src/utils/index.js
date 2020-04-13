@@ -1,22 +1,13 @@
 /*
  * @Author: Eason 
  * @Date: 2020-04-07 09:01:14 
- * @Last Modified by:   Eason 
- * @Last Modified time: 2020-04-07 09:01:14 
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-04-10 16:19:12
  */
 import constants from './constants';
-import { utils } from 'suid'
 import { startsWith } from 'lodash'
 import * as userUtils from './user';
 
-
-const { storage, constants: suidConstants } = utils;
-
-const getCurrentUserContext = () => {
-  const userContext = storage.sessionStorage.get(suidConstants.CONST_GLOBAL.CURRENT_USER) || null;
-  return userContext;
-
-};
 
 const getHashCode = (len = 6) => {
   let str = "";
@@ -40,6 +31,5 @@ export {
   formartUrl,
   constants,
   userUtils,
-  getCurrentUserContext,
   getHashCode,
 };
