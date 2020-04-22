@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-20 17:39:07
+ * @Last Modified time: 2020-04-22 08:56:30
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -60,7 +60,7 @@ class SceneView extends Component {
     };
 
     endAutoSaveTimer = () => {
-        clearInterval(this.autoSaveTimer);
+        this.autoSaveTimer && clearInterval(this.autoSaveTimer);
     };
 
     getSceneDashboardData = () => {
@@ -231,7 +231,7 @@ class SceneView extends Component {
         const widgets = originWidgets.filter(w => w.id !== id);
         const widgetRenderData = originWidgetAssets.filter(w => w.id !== id);
         dispatch({
-            type: 'scene/updateState',
+            type: 'dashboard/updateState',
             payload: {
                 widgets,
                 widgetRenderData,
@@ -391,7 +391,7 @@ class SceneView extends Component {
                                                         type={collapsed ? 'menu-unfold' : 'menu-fold'}
                                                         className='action-item'
                                                         onClick={onToggle}
-                                                        tooltip={this.getActionTooltip('显示场景列表', '快捷键 Alt + C')}
+                                                        tooltip={this.getActionTooltip(collapsed ? '显示场景列表' : '隐藏场景列表', '快捷键 Alt + C')}
                                                         antd
                                                     />
                                                     : null

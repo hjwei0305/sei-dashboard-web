@@ -29,11 +29,12 @@ class TimerInterval extends PureComponent {
     handlerChange = e => {
         const { key } = e;
         const { onChange } = this.props;
+        const interval = Number(key);
         this.setState({
-            currentInterval: key,
+            currentInterval: interval,
         }, () => {
             if (onChange) {
-                onChange(key);
+                onChange(interval);
             }
         });
     };
@@ -67,7 +68,7 @@ class TimerInterval extends PureComponent {
                 <DropOption
                     overlay={this.getTimerMenu()}
                 >
-                    <Button className='trigger-item' icon="down" antd />
+                    <Button className='trigger-item' icon="down" />
                 </DropOption>
             </div>
         );

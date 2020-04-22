@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-21 16:56:34
+ * @Last Modified time: 2020-04-22 08:56:43
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -46,7 +46,7 @@ class SceneView extends PureComponent {
     };
 
     endAutoSaveTimer = () => {
-        clearInterval(this.autoSaveTimer);
+        this.autoSaveTimer && clearInterval(this.autoSaveTimer);
     };
 
     getSceneScreenData = () => {
@@ -162,7 +162,7 @@ class SceneView extends PureComponent {
         return (
             <>
                 <span className="header-title"> {currentScene.name}</span>
-                <span className="header-sub-title">场景组件实例配置</span>
+                <span className="header-sub-title">场景配置</span>
             </>
         )
     };
@@ -207,7 +207,7 @@ class SceneView extends PureComponent {
                                                         type={collapsed ? 'menu-unfold' : 'menu-fold'}
                                                         className='action-item'
                                                         onClick={onToggle}
-                                                        tooltip={this.getActionTooltip('显示场景列表', '快捷键 Alt + C')}
+                                                        tooltip={this.getActionTooltip(collapsed ? '显示场景列表' : '隐藏场景列表', '快捷键 Alt + C')}
                                                         antd
                                                     />
                                                     : null

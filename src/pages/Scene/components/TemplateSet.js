@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:59 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-21 16:58:04
+ * @Last Modified time: 2020-04-22 09:44:22
  */
 
 import React, { Component } from 'react';
@@ -33,8 +33,8 @@ class TemplateSet extends Component {
 
     handlerChangeScreenTemplate = (item, e) => {
         e && e.stopPropagation();
-        const { onChangeScreenTemplate } = this.props;
-        if (onChangeScreenTemplate) {
+        const { onChangeScreenTemplate, currentScreenTemplate } = this.props;
+        if (onChangeScreenTemplate && currentScreenTemplate !== item.name) {
             onChangeScreenTemplate(item);
         }
     }

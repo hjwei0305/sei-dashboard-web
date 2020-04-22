@@ -32,8 +32,9 @@ class EchartPieForm extends PureComponent {
     super(props);
     const { editData } = props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
+    const interval = get(renderConfig, 'component.props.timer.interval', 0) || 0;
     this.state = {
-      timer: get(renderConfig, 'component.props.timer.interval', 0) > 0 ? true : false,
+      timer: Number(interval) > 0 ? true : false,
     };
   }
 
@@ -114,7 +115,12 @@ class EchartPieForm extends PureComponent {
     const { form, editData, widget } = this.props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     const { getFieldDecorator } = form;
-    const timerInterval = get(renderConfig, 'component.props.timer.interval', 0);
+    const interval = get(renderConfig, 'component.props.timer.interval', 0) || 0;
+    const timerInterval = Number(interval);
+    const timerProps = {
+      checked: timer,
+      onChange: this.handlerTimerChange,
+    };
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
@@ -159,7 +165,7 @@ class EchartPieForm extends PureComponent {
           </FormItem>
           <div className='title-group'>定时器</div>
           <FormItem label='启用定时器' {...formItemInlineLayout} style={{ marginBottom: 0 }}>
-            <Switch size="small" checked={timer} onChange={this.handlerTimerChange} />
+            <Switch size="small" {...timerProps} />
           </FormItem>
           {
             timer

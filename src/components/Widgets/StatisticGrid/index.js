@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:17 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-20 21:20:43
+ * @Last Modified time: 2020-04-22 09:24:55
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -59,7 +59,7 @@ class StatisticGrid extends PureComponent {
 
     startTimer = () => {
         const { timer } = this.props;
-        if (timer.interval > 0) {
+        if (timer && timer.interval > 0) {
             this.endTimer();
             this.timer = setInterval(() => {
                 this.getData({ timerLoader: true });
@@ -68,7 +68,7 @@ class StatisticGrid extends PureComponent {
     };
 
     endTimer = () => {
-        window.clearInterval(this.timer);
+        this.timer && window.clearInterval(this.timer);
     };
 
     getData = (p) => {

@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-20 09:20:22
+ * @Last Modified time: 2020-04-22 08:50:14
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -182,18 +182,17 @@ class SceneHome extends Component {
         const { collapsed } = this.state;
         const { scene } = this.props;
         const { currentScene } = scene;
-        console.log(currentScene.sceneCategory)
+        const sceneProps = {
+            onToggle: this.handlerListToggle,
+            collapsed,
+        };
         if (currentScene) {
             switch (currentScene.sceneCategory) {
                 case SCENE_TYPE.DASHBOARD:
                 case SCENE_TYPE.HOME:
-                    const sceneViewProps = {
-                        onToggle: this.handlerListToggle,
-                        collapsed,
-                    };
-                    return <SceneView {...sceneViewProps} />
+                    return <SceneView {...sceneProps} />
                 case SCENE_TYPE.SCREEN:
-                    return <ScreenView />
+                    return <ScreenView {...sceneProps} />
                 default:
             }
         }
@@ -229,11 +228,6 @@ class SceneHome extends Component {
             },
             itemTool: this.renderItemAction,
         };
-        const sceneViewProps = {
-            onToggle: this.handlerListToggle,
-            collapsed,
-        };
-        console.log(currentScene);
         return (
             <Layout className={cls(styles['scene-home-box'])}>
                 <Sider
