@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:17 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 17:26:33
+ * @Last Modified time: 2020-04-20 21:20:43
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -93,7 +93,7 @@ class StatisticGrid extends PureComponent {
             request(requestOptions)
                 .then((res) => {
                     if (res.success) {
-                        const data = get(res, reader.data, []);
+                        const data = get(res, reader.data, []) || [];
                         this.setState({
                             data,
                         });

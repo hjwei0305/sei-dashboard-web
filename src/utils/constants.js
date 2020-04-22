@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-02-21 18:03:16 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 15:22:40
+ * @Last Modified time: 2020-04-14 14:35:53
  */
 import { base } from '../../public/app.config.json';
 
@@ -58,6 +58,13 @@ const COMPONENT_TYPE = {
   "ECHART_PIE": "EchartPie",
   "ECHART_BAR_LINE": "EchartBarLine",
   "STATISTIC_GRID": "StatisticGrid",
+};
+
+/** 场景类型*/
+const SCENE_TYPE = {
+  'DASHBOARD': 'DASHBOARD',
+  'HOME': 'HOME',
+  'SCREEN': 'SCREEN',
 };
 
 /** Echart Skin */
@@ -155,6 +162,7 @@ const ECHART = {
 }
 
 export default {
+  SCENE_TYPE,
   APP_BASE,
   LOCAL_PATH,
   SERVER_PATH,

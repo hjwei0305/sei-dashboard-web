@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:43 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-03 21:06:50
+ * @Last Modified time: 2020-04-21 11:49:30
  */
 
 
@@ -11,7 +11,7 @@ import { constants } from '../../utils';
 
 const { request } = utils;
 
-const { SERVER_PATH } = constants;
+const { SERVER_PATH,LOCAL_PATH } = constants;
 
 /** 获取所有的场景*/
 export async function getSceneList(params) {
@@ -84,5 +84,14 @@ export async function getWidgetInstanceById(params) {
         url,
         method: "GET",
         params,
+    });
+}
+
+/** 获取所有的大屏模板*/
+export async function getScreenTemplateList() {
+    const url = `${LOCAL_PATH}/local/screenTemptate.json`;
+    return request({
+        url,
+        method: "GET",
     });
 }

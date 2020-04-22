@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 14:52:21 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-08 21:19:52
+ * @Last Modified time: 2020-04-20 09:20:22
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -16,11 +16,12 @@ import { constants } from '../../utils'
 import SceneAdd from './components/SceneForm/Add';
 import SceneEdit from './components/SceneForm/Edit';
 import SceneView from './View';
+import ScreenView from './Screen';
 import styles from './index.less';
 
 const { Search } = Input;
 const { Sider, Content } = Layout;
-const { APP_BASE } = constants;
+const { APP_BASE, SCENE_TYPE } = constants;
 
 @connect(({ scene, loading }) => ({ scene, loading }))
 class SceneHome extends Component {
@@ -177,6 +178,28 @@ class SceneHome extends Component {
         )
     };
 
+    renderScene = () => {
+        const { collapsed } = this.state;
+        const { scene } = this.props;
+        const { currentScene } = scene;
+        console.log(currentScene.sceneCategory)
+        if (currentScene) {
+            switch (currentScene.sceneCategory) {
+                case SCENE_TYPE.DASHBOARD:
+                case SCENE_TYPE.HOME:
+                    const sceneViewProps = {
+                        onToggle: this.handlerListToggle,
+                        collapsed,
+                    };
+                    return <SceneView {...sceneViewProps} />
+                case SCENE_TYPE.SCREEN:
+                    return <ScreenView />
+                default:
+            }
+        }
+        return null;
+    };
+
     render() {
         const { collapsed } = this.state;
         const { scene, loading } = this.props;
@@ -210,6 +233,7 @@ class SceneHome extends Component {
             onToggle: this.handlerListToggle,
             collapsed,
         };
+        console.log(currentScene);
         return (
             <Layout className={cls(styles['scene-home-box'])}>
                 <Sider
@@ -225,7 +249,7 @@ class SceneHome extends Component {
                 <Content>
                     {
                         currentScene
-                            ? <SceneView {...sceneViewProps} />
+                            ? this.renderScene()
                             : <div className='blank-empty'>
                                 <Empty
                                     image={empty}

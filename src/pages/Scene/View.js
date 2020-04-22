@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 16:29:04
+ * @Last Modified time: 2020-04-20 17:39:07
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -23,7 +23,7 @@ const { EchartPie, EchartBarLine, StatisticGrid } = Widgets;
 const { COMPONENT_TYPE } = constants;
 const duration = 10000;
 
-@connect(({ scene, loading }) => ({ scene, loading }))
+@connect(({ scene, dashboard, loading }) => ({ scene, dashboard, loading }))
 class SceneView extends Component {
 
     static autoSaveTimer = null;
@@ -36,7 +36,7 @@ class SceneView extends Component {
     }
 
     componentDidMount() {
-        this.getSceneData();
+        this.getSceneDashboardData();
     }
 
     componentWillUnmount() {
@@ -44,13 +44,13 @@ class SceneView extends Component {
     }
 
     componentDidUpdate(preProps) {
-        const { scene } = this.props;
-        const { theme } = scene;
-        if (!isEqual(preProps.scene.theme, theme)) {
+        const { dashboard, scene } = this.props;
+        const { theme } = dashboard;
+        if (!isEqual(preProps.dashboard.theme, theme)) {
             this.reRenderWidgets();
         }
         if (!isEqual(preProps.scene.currentScene, scene.currentScene)) {
-            this.getSceneData();
+            this.getSceneDashboardData();
         }
     }
 
@@ -63,12 +63,12 @@ class SceneView extends Component {
         clearInterval(this.autoSaveTimer);
     };
 
-    getSceneData = () => {
+    getSceneDashboardData = () => {
         const { dispatch, scene } = this.props;
         const { currentScene } = scene;
         if (currentScene) {
             dispatch({
-                type: 'scene/getSceneById',
+                type: 'dashboard/getSceneById',
                 payload: {
                     id: currentScene.id,
                 },
@@ -78,8 +78,8 @@ class SceneView extends Component {
     };
 
     reRenderWidgets = () => {
-        const { scene, dispatch } = this.props;
-        const { widgetRenderData, layouts, } = scene;
+        const { dashboard, dispatch } = this.props;
+        const { widgetRenderData, layouts, } = dashboard;
         const widgets = [];
         widgetRenderData.forEach(w => {
             const layoutKeys = Object.keys(layouts);
@@ -96,7 +96,7 @@ class SceneView extends Component {
             }
         });
         dispatch({
-            type: 'scene/updateState',
+            type: 'dashboard/updateState',
             payload: {
                 widgets,
                 layouts,
@@ -108,10 +108,10 @@ class SceneView extends Component {
     handlerAddWidgetAssets = () => {
         const { dispatch } = this.props;
         dispatch({
-            type: 'scene/getWidgetAssets',
+            type: 'dashboard/getWidgetAssets',
         });
         dispatch({
-            type: 'scene/updateState',
+            type: 'dashboard/updateState',
             payload: {
                 showWidgetAssets: true,
             }
@@ -121,7 +121,7 @@ class SceneView extends Component {
     handlerCloseWidgetAssets = () => {
         const { dispatch } = this.props;
         dispatch({
-            type: 'scene/updateState',
+            type: 'dashboard/updateState',
             payload: {
                 showWidgetAssets: false,
             }
@@ -131,7 +131,7 @@ class SceneView extends Component {
     handlerShowSettings = () => {
         const { dispatch } = this.props;
         dispatch({
-            type: 'scene/updateState',
+            type: 'dashboard/updateState',
             payload: {
                 showSettings: true,
             }
@@ -141,7 +141,7 @@ class SceneView extends Component {
     handlerCloseSettings = () => {
         const { dispatch } = this.props;
         dispatch({
-            type: 'scene/updateState',
+            type: 'dashboard/updateState',
             payload: {
                 showSettings: false,
             }
@@ -149,8 +149,8 @@ class SceneView extends Component {
     };
 
     getWidget = (widget, layout) => {
-        const { scene } = this.props;
-        const { theme: { echart, primarySkin } } = scene;
+        const { dashboard } = this.props;
+        const { theme: { echart, primarySkin } } = dashboard;
         if (widget.renderConfig) {
             const renderConfig = JSON.parse(widget.renderConfig);
             const { component } = renderConfig;
@@ -195,7 +195,7 @@ class SceneView extends Component {
         const { dispatch } = this.props;
         this.setState({ loadingWidgetId: widget.id });
         dispatch({
-            type: 'scene/getWidgetInstanceById',
+            type: 'dashboard/getWidgetInstanceById',
             payload: {
                 id: widget.id,
             },
@@ -205,8 +205,8 @@ class SceneView extends Component {
     };
 
     onLayoutChange = (layout, layouts) => {
-        const { dispatch, scene } = this.props;
-        const { widgets, layouts: originLayouts } = scene;
+        const { dispatch, dashboard } = this.props;
+        const { widgets, layouts: originLayouts } = dashboard;
         widgets.forEach(widget => {
             const lt = layout.filter(l => l.i === widget.id);
             if (lt.length === 1) {
@@ -214,7 +214,7 @@ class SceneView extends Component {
             }
         });
         dispatch({
-            type: 'scene/updateState',
+            type: 'dashboard/updateState',
             payload: {
                 widgets,
                 layouts,
@@ -226,8 +226,8 @@ class SceneView extends Component {
     };
 
     handlerClose = (id) => {
-        const { dispatch, scene } = this.props;
-        const { widgets: originWidgets, widgetRenderData: originWidgetAssets } = scene;
+        const { dispatch, dashboard } = this.props;
+        const { widgets: originWidgets, widgetRenderData: originWidgetAssets } = dashboard;
         const widgets = originWidgets.filter(w => w.id !== id);
         const widgetRenderData = originWidgetAssets.filter(w => w.id !== id);
         dispatch({
@@ -241,8 +241,9 @@ class SceneView extends Component {
     };
 
     handlerSceneConfigSave = () => {
-        const { dispatch, scene } = this.props;
-        const { currentScene, theme, layouts, widgetRenderData } = scene;
+        const { dispatch, scene, dashboard } = this.props;
+        const { currentScene } = scene;
+        const { theme, layouts, widgetRenderData } = dashboard;
         const config = {
             layouts,
             theme,
@@ -329,8 +330,8 @@ class SceneView extends Component {
 
     render() {
         const { loadingWidgetId } = this.state;
-        const { scene, loading, onToggle, collapsed } = this.props;
-        const { widgets, layouts, widgetAssetList, showWidgetAssets, showSettings, theme: { primarySkin } } = scene;
+        const { dashboard, loading, onToggle, collapsed } = this.props;
+        const { widgets, layouts, widgetAssetList, showWidgetAssets, showSettings, theme: { primarySkin } } = dashboard;
         const portalPanelProps = {
             widgets,
             layouts,
@@ -342,8 +343,8 @@ class SceneView extends Component {
             margin: [4, 4],
             onClose: this.handlerClose,
         };
-        const loadingWidgetAssets = loading.effects['scene/getWidgetAssets'];
-        const loadingWidgetInstance = loading.effects['scene/getWidgetInstanceById'];
+        const loadingWidgetAssets = loading.effects['dashboard/getWidgetAssets'];
+        const loadingWidgetInstance = loading.effects['dashboard/getWidgetInstanceById'];
         const doneKeys = widgets.map(w => w.id);
         const widgetAssetsProps = {
             widgetAssetList,
@@ -360,7 +361,7 @@ class SceneView extends Component {
             triggerSaveConfig: this.startAutoSaveTimer,
             onSettingsClose: this.handlerCloseSettings,
         };
-        const sceneDataLoading = loading.effects['scene/getSceneById'];
+        const sceneDataLoading = loading.effects['dashboard/getSceneById'];
         const keyMap = {
             SAVE: 'ctrl+s',
             Add_WIDGET: 'ctrl+a',

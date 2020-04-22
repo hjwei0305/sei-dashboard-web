@@ -2,64 +2,36 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:33 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 09:57:35
+ * @Last Modified time: 2020-04-20 16:59:18
  */
 
-import { formatMessage } from "umi-plugin-react/locale";
 import { message } from "antd";
 import { utils } from 'suid';
-import { constants } from '../../utils';
-import { getSceneList, saveScene, delScene, getWidgetAssets, getWidgetInstanceById, saveSceneConfig, getSceneById } from "./service";
+import { constants } from '../../../utils';
+import { getWidgetAssets, getWidgetInstanceById, getSceneById } from "../service";
 
-const { pathMatchRegexp, dvaModel, storage } = utils;
+const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
 const { ECHART } = constants
-const defaultSkin = storage.localStorage.get("primarySkin") || 'light';
+const defaultSkin = 'light';
 
 export default modelExtend(model, {
-    namespace: "scene",
+    namespace: "dashboard",
 
     state: {
-        lastEditedDate: null,
-        lastEditorName: '',
-        sceneData: [],
-        currentScene: '',
         widgetAssetList: [],
         showWidgetAssets: false,
         showSettings: false,
         widgets: [],
         layouts: {},
         widgetRenderData: [],
+        templateAssetList: [],
         theme: {
             primarySkin: defaultSkin,
             echart: ECHART[defaultSkin],
         }
     },
-    subscriptions: {
-        setup({ dispatch, history }) {
-            history.listen(location => {
-                if (pathMatchRegexp("/scene/home", location.pathname)) {
-                    dispatch({
-                        type: "getSceneList"
-                    });
-                }
-            });
-        }
-    },
     effects: {
-        * getSceneList({ payload }, { call, put }) {
-            const re = yield call(getSceneList, payload);
-            if (re.success) {
-                yield put({
-                    type: "updateState",
-                    payload: {
-                        sceneData: re.data,
-                    }
-                });
-            } else {
-                message.error(re.message);
-            }
-        },
         * getSceneById({ payload, getWidget }, { call, put }) {
             const re = yield call(getSceneById, payload);
             if (re.success) {
@@ -100,50 +72,15 @@ export default modelExtend(model, {
                         lastEditorName,
                     }
                 });
-            } else {
-                message.error(re.message);
-            }
-        },
-        * saveScene({ payload, callback }, { call }) {
-            const re = yield call(saveScene, payload);
-            message.destroy();
-            if (re.success) {
-                message.success(formatMessage({ id: "global.save-success", defaultMessage: "保存成功" }));
-            } else {
-                message.error(re.message);
-            }
-            if (callback && callback instanceof Function) {
-                callback(re);
-            }
-        },
-        * saveSceneConfig({ payload, callback }, { call, put }) {
-            const re = yield call(saveSceneConfig, payload);
-            message.destroy();
-            if (re.success) {
-                message.success(formatMessage({ id: "global.save-success", defaultMessage: "保存成功" }));
                 yield put({
-                    type: "updateState",
+                    type: "scene/updateState",
                     payload: {
-                        lastEditedDate: Date.now(),
+                        lastEditedDate,
+                        lastEditorName,
                     }
                 });
             } else {
                 message.error(re.message);
-            }
-            if (callback && callback instanceof Function) {
-                callback(re);
-            }
-        },
-        * delScene({ payload, callback }, { call }) {
-            const re = yield call(delScene, payload);
-            message.destroy();
-            if (re.success) {
-                message.success(formatMessage({ id: "global.delete-success", defaultMessage: "删除成功" }));
-            } else {
-                message.error(re.message);
-            }
-            if (callback && callback instanceof Function) {
-                callback(re);
             }
         },
         * getWidgetAssets({ payload }, { call, put }) {

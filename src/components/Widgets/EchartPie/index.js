@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:17 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 15:34:34
+ * @Last Modified time: 2020-04-20 21:19:24
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -96,8 +96,8 @@ class EchartPie extends PureComponent {
             request(requestOptions)
                 .then((res) => {
                     if (res.success) {
-                        const legendData = get(res, reader.legendData, []);
-                        const seriesData = get(res, reader.seriesData, []);
+                        const legendData = get(res, reader.legendData, []) || [];
+                        const seriesData = get(res, reader.seriesData, []) || [];
                         this.setState({
                             legendData,
                             seriesData,

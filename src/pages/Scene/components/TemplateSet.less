@@ -1,0 +1,49 @@
+/*
+ * @Author: Eason 
+ * @Date: 2020-04-03 11:21:06 
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-04-21 16:49:12
+ */
+
+@import '../../../themes/vars.less';
+.assets-box {
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  :global {
+    .ant-drawer-body {
+      padding: 0;
+      height: calc(100% - 55px);
+      background-color: @page-background-color;
+      .ant-list-item {
+        margin: 16px;
+        .ant-card {
+          margin: 0 auto;
+          width: 300px;
+          .ant-card-body {
+            .corner {
+              visibility: hidden;
+              position: absolute;
+              right: 0;
+              bottom: -2px;
+              .suid-icon {
+                color: @primary-color;
+              }
+            }
+          }
+          &:hover,
+          &.selected {
+            border-color: @primary-color;
+          }
+          &.selected {
+            .ant-card-body {
+              .corner {
+                visibility: visible;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:12 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-10 13:26:08
+ * @Last Modified time: 2020-04-20 21:20:17
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -99,10 +99,10 @@ class EchartBarLine extends PureComponent {
             request(requestOptions)
                 .then((res) => {
                     if (res.success) {
-                        const legendData = get(res, reader.legendData, []);
-                        const seriesData = get(res, reader.seriesData, []);
-                        const xAxisData = get(res, reader.xAxisData, []);
-                        const yAxisData = get(res, reader.yAxisData, [{ type: 'value' }]);
+                        const legendData = get(res, reader.legendData, []) || [];
+                        const seriesData = get(res, reader.seriesData, []) || [];
+                        const xAxisData = get(res, reader.xAxisData, []) || [];
+                        const yAxisData = get(res, reader.yAxisData, [{ type: 'value' }]) || [{ type: 'value' }];
                         this.setState({
                             legendData,
                             seriesData,

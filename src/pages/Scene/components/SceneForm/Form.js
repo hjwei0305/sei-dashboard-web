@@ -2,18 +2,19 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:21:32 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-09 09:04:30
+ * @Last Modified time: 2020-04-21 17:14:32
  */
 
 import React, { PureComponent } from "react";
 import cls from "classnames";
-import { trim, get } from 'lodash'
+import { omit, get } from 'lodash'
 import { formatMessage, FormattedMessage } from "umi-plugin-react/locale";
-import { Button, Form, Input,Switch } from "antd";
-import { utils } from "suid";
-import { getHashCode } from '../../../../utils'
+import { Button, Form, Input } from "antd";
+import { utils, ComboList } from "suid";
+import { getHashCode, constants } from '../../../../utils';
 import styles from "./Form.less";
 
+const { SERVER_PATH } = constants;
 const { objectAssignAppend } = utils;
 const FormItem = Form.Item;
 const formItemLayout = {
@@ -35,9 +36,12 @@ class SceneForm extends PureComponent {
       if (errors) {
         return;
       }
-      const data = objectAssignAppend(getFieldsValue(), editData || {});
-      data.code = trim(data.code || getHashCode());
-      saveScene(data, handlerPopoverHide);
+      const data = {
+        ...editData,
+      }
+      Object.assign(data, getFieldsValue());
+      data.code = get(editData, 'code', '') || getHashCode();
+      saveScene(omit(data, ['config', 'instanceDtos', 'widgetInstanceIds', 'sceneCategoryRemark']), handlerPopoverHide);
     });
   };
 
@@ -45,6 +49,24 @@ class SceneForm extends PureComponent {
     const { form, editData, saving } = this.props;
     const { getFieldDecorator } = form;
     const title = editData ? '编辑场景' : '新建场景';
+    getFieldDecorator("sceneCategory", {
+      initialValue: get(editData, 'sceneCategory', 'DASHBOARD'),
+      rules: [{
+        required: true,
+      }]
+    });
+    const sceneCategoryProps = {
+      form,
+      name: 'sceneCategoryRemark',
+      field: ['sceneCategory'],
+      store: {
+        url: `${SERVER_PATH}/sei-dashboard/scene/getSceneCategoryEnum`,
+      },
+      reader: {
+        name: 'remark',
+        field: ['name']
+      }
+    };
     return (
       <div key="form-box" className={cls(styles["form-box"])}>
         <div className="base-view-body">
@@ -76,11 +98,14 @@ class SceneForm extends PureComponent {
                 <Input autoComplete='off' />
               )}
             </FormItem>
-            <FormItem label={formatMessage({ id: "global.isHome", defaultMessage: "平台仪表盘" })}>
-            {getFieldDecorator("home", {
-              initialValue: get(editData, 'home', false),
-              valuePropName: "checked"
-            })(<Switch size="small" />)}
+            <FormItem label={formatMessage({ id: "global.sceneType", defaultMessage: "场景类型" })}>
+              {getFieldDecorator("sceneCategoryRemark", {
+                initialValue: get(editData, 'sceneCategoryRemark', '仪表盘'),
+                rules: [{
+                  required: true,
+                  message: formatMessage({ id: "global.sceneType.required", defaultMessage: "场景类型不能为空" })
+                }]
+              })(<ComboList {...sceneCategoryProps} />)}
             </FormItem>
             <FormItem wrapperCol={{ span: 4, offset: 5 }} className="btn-submit">
               <Button
