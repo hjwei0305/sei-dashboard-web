@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-24 16:53:33
+ * @Last Modified time: 2020-04-24 23:09:02
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -153,7 +153,6 @@ class SceneView extends PureComponent {
                 })
             }
         });
-        console.log(widgetInstanceIds);
         return widgetInstanceIds;
     };
 
