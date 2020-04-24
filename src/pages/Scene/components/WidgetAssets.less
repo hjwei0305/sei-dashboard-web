@@ -2,30 +2,24 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:21:06 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-13 10:02:46
+ * @Last Modified time: 2020-04-23 10:59:56
  */
 
 @import '../../../themes/vars.less';
-.assets-box {
-  height: 100%;
+.widget-assets-box {
   padding: 0;
-  overflow: hidden;
+  position: relative;
   :global {
-    .ant-drawer-body {
-      padding: 0;
-      height: calc(100% - 55px);
-      background-color: @page-background-color;
-      .ant-card-type-inner {
-        .ant-card-head {
-          background-color: @page-background-color;
-        }
-        .ant-card-body {
-          box-shadow: @box-shadow-base;
-        }
+    .ant-card-type-inner {
+      .ant-card-head {
+        background-color: @page-background-color;
       }
-      .ant-card {
-        margin: 24px 16px;
+      .ant-card-body {
+        box-shadow: @box-shadow-base;
       }
+    }
+    .ant-card {
+      margin: 24px 16px;
     }
   }
 }

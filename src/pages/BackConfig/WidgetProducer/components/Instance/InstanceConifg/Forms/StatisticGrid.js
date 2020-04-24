@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import cls from "classnames";
 import { omit, get } from 'lodash'
 import { Form, Input, Switch, InputNumber } from "antd";
-import TimerInterval from '../TimerInterval';
+import { TimerInterval } from '@/components';
 import styles from "./StatisticGrid.less";
 
 const FormItem = Form.Item;

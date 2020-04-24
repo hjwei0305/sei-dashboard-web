@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { Menu, Button } from 'antd';
 import { ExtIcon } from 'suid';
-import { DropOption } from '@/components';
-import styles from './TimerInterval.less';
+import DropOption from '../DropOption';
+import styles from './index.less';
 
 const timerData = [5, 10, 15, 30];
 

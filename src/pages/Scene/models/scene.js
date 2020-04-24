@@ -2,13 +2,13 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:33 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-20 10:19:38
+ * @Last Modified time: 2020-04-23 14:01:00
  */
 
 import { formatMessage } from "umi-plugin-react/locale";
 import { message } from "antd";
 import { utils } from 'suid';
-import { getSceneList, saveScene, delScene, saveSceneConfig } from "../service";
+import { getSceneList, saveScene, delScene, saveSceneConfig, getWidgetAssets, getWidgetInstanceById } from "../service";
 
 const { pathMatchRegexp, dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -17,6 +17,7 @@ export default modelExtend(model, {
     namespace: "scene",
 
     state: {
+        widgetAssetList: [],
         lastEditedDate: null,
         lastEditorName: '',
         sceneData: [],
@@ -87,6 +88,27 @@ export default modelExtend(model, {
             }
             if (callback && callback instanceof Function) {
                 callback(re);
+            }
+        },
+        * getWidgetAssets({ payload }, { call, put }) {
+            const re = yield call(getWidgetAssets, payload);
+            if (re.success) {
+                yield put({
+                    type: "updateState",
+                    payload: {
+                        widgetAssetList: re.data
+                    }
+                });
+            } else {
+                message.error(re.message);
+            }
+        },
+        * getWidgetInstanceById({ payload, successCallback }, { call, select, put }) {
+            const re = yield call(getWidgetInstanceById, payload);
+            if (re.success) {
+                successCallback(re.data);
+            } else {
+                message.error(re.message);
             }
         },
     }

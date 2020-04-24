@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:59 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-22 09:44:22
+ * @Last Modified time: 2020-04-23 11:09:19
  */
 
 import React, { Component } from 'react';
@@ -10,12 +10,12 @@ import cls from 'classnames';
 import { Drawer, Card, List, Skeleton } from 'antd';
 import { ScrollBar, ListLoader, ExtIcon, Animate } from 'suid';
 import { constants } from '../../../utils';
-import styles from './TemplateSet.less';
+import styles from './TemplateSelect.less';
 
 
 const { LOCAL_PATH } = constants;
 
-class TemplateSet extends Component {
+class TemplateSelect extends Component {
 
     constructor(props) {
         super(props);
@@ -50,9 +50,13 @@ class TemplateSet extends Component {
     render() {
         const { showShadow } = this.state;
         const { showScreenTemplateAssets, templateAssetList, loading, currentScreenTemplate } = this.props;
-        const headerStyle = {
-            boxShadow: showShadow ? ' 0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
-        };
+        let headerStyle = {};
+        if (showShadow) {
+            headerStyle = {
+                boxShadow: ' 0 2px 8px rgba(0, 0, 0, 0.15)',
+                zIndex: 1,
+            };
+        }
         const loadProps = {
             spinning: loading,
             indicator: <ListLoader />,
@@ -69,7 +73,10 @@ class TemplateSet extends Component {
                 onClose={this.handlerClose}
                 visible={showScreenTemplateAssets}
             >
-                <ScrollBar>
+                <ScrollBar
+                    onYReachStart={this.handerYReachStart}
+                    onScrollDown={this.handerScrollDown}
+                >
                     <List
                         dataSource={templateAssetList}
                         loading={loadProps}
@@ -102,4 +109,4 @@ class TemplateSet extends Component {
     }
 }
 
-export default TemplateSet
+export default TemplateSelect

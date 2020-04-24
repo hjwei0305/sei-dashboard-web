@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-02-21 18:03:16 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-14 14:35:53
+ * @Last Modified time: 2020-04-22 09:49:13
  */
 import { base } from '../../public/app.config.json';
 
@@ -65,6 +65,12 @@ const SCENE_TYPE = {
   'DASHBOARD': 'DASHBOARD',
   'HOME': 'HOME',
   'SCREEN': 'SCREEN',
+};
+
+/** 大屏模板类型 */
+
+const SCREEN_TEMPLATE = {
+  "TECH_BLUE": "TechBlue"
 };
 
 /** Echart Skin */
@@ -170,4 +176,5 @@ export default {
   LOGIN_STATUS,
   COMPONENT_TYPE,
   ECHART,
+  SCREEN_TEMPLATE,
 };

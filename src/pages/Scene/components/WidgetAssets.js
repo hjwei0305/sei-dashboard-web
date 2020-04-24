@@ -2,61 +2,26 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:59 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-08 17:51:07
+ * @Last Modified time: 2020-04-23 13:36:23
  */
 
 import React, { Component } from 'react';
-import cls from 'classnames';
-import { indexOf } from 'lodash'
-import { Button, Drawer, Card, List, Skeleton } from 'antd';
-import { ExtIcon, ScrollBar, ListLoader } from 'suid';
+import PropTypes from 'prop-types';
+import { Card, List, Skeleton } from 'antd';
+import { ExtIcon, ListLoader } from 'suid';
 import styles from './WidgetAssets.less'
 
 class WidgetAssets extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            showShadow: false,
-        }
-    }
-
-    handlerClose = () => {
-        const { onPanelAssetsClose } = this.props;
-        if (onPanelAssetsClose) {
-            onPanelAssetsClose();
-        }
-    }
-
-    handlerAdd = (item, e) => {
-        e && e.stopPropagation();
-        const { onAddWidget } = this.props;
-        if (onAddWidget) {
-            onAddWidget(item);
-        }
-    }
-
-    handerScrollDown = () => {
-        this.setState({ showShadow: true })
+    static propTypes = {
+        widgetAssetList: PropTypes.array,
+        loading: PropTypes.bool,
+        extra: PropTypes.func,
     };
 
-    handerYReachStart = () => {
-        this.setState({ showShadow: false })
-    };
-
-    renderExtra = (item) => {
-        const { doneKeys, loadingWidgetInstance, loadingWidgetId } = this.props;
-        const btnProps = {
-            type: 'primary',
-            loading: item.id === loadingWidgetId && loadingWidgetInstance,
-            disabled: indexOf(doneKeys, item.id) >= 0,
-            onClick: (e) => this.handlerAdd(item, e),
-        };
-        return (
-            <Button {...btnProps}>
-                添加
-            </Button>
-        )
+    static defaultProps = {
+        widgetAssetList: [],
+        loading: false,
     };
 
     renderAvatar = (item) => {
@@ -69,67 +34,59 @@ class WidgetAssets extends Component {
         )
     };
 
+    renderExtra = (item) => {
+        const { extra } = this.props;
+        if (extra) {
+            return extra(item);
+        }
+        return null;
+    };
+
     render() {
-        const { showShadow } = this.state;
-        const { showWidgetAssets, widgetAssetList, loading } = this.props;
-        const headerStyle = {
-            boxShadow: showShadow ? ' 0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
-        };
-        const loadProps = {
-            spinning: loading,
-            indicator: <ListLoader />,
-        };
+        const { widgetAssetList, loading } = this.props;
         return (
-            <Drawer
-                title="添加组件资源 (快捷键关闭 ESC)"
-                placement="right"
-                width={420}
-                className={cls(styles["assets-box"])}
-                headerStyle={headerStyle}
-                getContainer={false}
-                style={{ position: 'absolute' }}
-                onClose={this.handlerClose}
-                visible={showWidgetAssets}
-            >
-                <ScrollBar>
-                    {
-                        widgetAssetList.map(group => {
-                            const { name, children } = group;
-                            if (children && children.length > 0) {
-                                return (
-                                    <Card
-                                        key={group.id}
-                                        title={name}
-                                        size='small'
-                                        type='inner'
-                                        bordered={false}
-                                    >
-                                        <List
-                                            dataSource={children}
-                                            loading={loadProps}
-                                            renderItem={item => (
-                                                <List.Item key={item.id}>
-                                                    <Skeleton loading={loading} active>
-                                                        <List.Item.Meta
-                                                            avatar={this.renderAvatar(item)}
-                                                            title={item.name}
-                                                            description={item.description}
-                                                        />
-                                                        {
-                                                            this.renderExtra(item)
-                                                        }
-                                                    </Skeleton>
-                                                </List.Item>
-                                            )}
-                                        />
-                                    </Card>
-                                )
-                            }
-                            return null;
-                        })
-                    }
-                </ScrollBar>
-            </Drawer>
+            <div className={styles['widget-assets-box']}>
+                {
+                    loading
+                        ? <ListLoader />
+                        : null
+                }
+                {
+                    widgetAssetList.map(group => {
+                        const { name, children } = group;
+                        if (children && children.length > 0) {
+                            return (
+                                <Card
+                                    key={group.id}
+                                    title={name}
+                                    size='small'
+                                    type='inner'
+                                    bordered={false}
+                                >
+                                    <List
+                                        dataSource={children}
+                                        renderItem={item => (
+                                            <List.Item key={item.id}>
+                                                <Skeleton loading={loading} active>
+                                                    <List.Item.Meta
+                                                        avatar={this.renderAvatar(item)}
+                                                        title={item.name}
+                                                        description={item.description}
+                                                    />
+                                                    {
+                                                        this.renderExtra(item)
+                                                    }
+                                                </Skeleton>
+                                            </List.Item>
+                                        )}
+                                    />
+                                </Card>
+                            )
+                        }
+                        return null;
+                    })
+                }
+            </div>
         )
     }
 }

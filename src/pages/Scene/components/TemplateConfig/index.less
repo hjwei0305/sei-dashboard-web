@@ -1,0 +1,45 @@
+/*
+ * @Author: Eason 
+ * @Date: 2020-04-03 11:21:06 
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-04-23 10:01:47
+ */
+
+@import '../../../../themes/vars.less';
+.config-box {
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  :global {
+    .ant-drawer-body {
+      padding: 0;
+      height: calc(100% - 55px);
+      background-color: @white;
+      .form-box {
+        height: calc(100% - 60px);
+        padding: 0;
+        .ant-form {
+          padding: 16px;
+          .group-title {
+            padding: 0;
+            color: fade(@black, 85%);
+            font-weight: 700;
+            height: 48px;
+            line-height: 48px;
+          }
+          .sub-title {
+            padding: 0;
+            color: fade(@black, 85%);
+          }
+        }
+      }
+      .foot-box {
+        border-top: 1px solid @border-color;
+        height: 60px;
+        line-height: 60px;
+        padding: 0 16px;
+        background-color: @white;
+      }
+    }
+  }
+}

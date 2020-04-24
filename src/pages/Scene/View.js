@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-22 08:56:30
+ * @Last Modified time: 2020-04-24 09:19:23
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -14,7 +14,7 @@ import { ExtIcon, ScrollBar, PortalPanel, ListLoader, HottedKey } from 'suid';
 import empty from "@/assets/page_empty.svg";
 import { Widgets } from '../../components';
 import { constants } from '../../utils';
-import WidgetAssets from './components/WidgetAssets';
+import WidgetAssetSelect from './components/WidgetAssetSelect';
 import Settings from './components/Settings';
 import styles from './View.less';
 
@@ -108,7 +108,7 @@ class SceneView extends Component {
     handlerAddWidgetAssets = () => {
         const { dispatch } = this.props;
         dispatch({
-            type: 'dashboard/getWidgetAssets',
+            type: 'scene/getWidgetAssets',
         });
         dispatch({
             type: 'dashboard/updateState',
@@ -330,8 +330,9 @@ class SceneView extends Component {
 
     render() {
         const { loadingWidgetId } = this.state;
-        const { dashboard, loading, onToggle, collapsed } = this.props;
-        const { widgets, layouts, widgetAssetList, showWidgetAssets, showSettings, theme: { primarySkin } } = dashboard;
+        const { dashboard, loading, onToggle, collapsed, scene } = this.props;
+        const { widgets, layouts, showWidgetAssets, showSettings, theme: { primarySkin } } = dashboard;
+        const { widgetAssetList } = scene;
         const portalPanelProps = {
             widgets,
             layouts,
@@ -346,7 +347,7 @@ class SceneView extends Component {
         const loadingWidgetAssets = loading.effects['dashboard/getWidgetAssets'];
         const loadingWidgetInstance = loading.effects['dashboard/getWidgetInstanceById'];
         const doneKeys = widgets.map(w => w.id);
-        const widgetAssetsProps = {
+        const widgetAssetSelectProps = {
             widgetAssetList,
             loading: loadingWidgetAssets,
             loadingWidgetInstance,
@@ -435,7 +436,7 @@ class SceneView extends Component {
                                             }
                                         </ScrollBar>
                                     </div>
-                                    <WidgetAssets {...widgetAssetsProps} />
+                                    <WidgetAssetSelect {...widgetAssetSelectProps} />
                                     <Settings {...settingsProps} />
                                 </div>
                         }

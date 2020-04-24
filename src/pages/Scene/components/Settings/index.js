@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-03-20 16:24:02 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-20 16:56:35
+ * @Last Modified time: 2020-04-23 11:09:57
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -56,9 +56,13 @@ class Settings extends Component {
         const { showShadow } = this.state;
         const { showSettings, dashboard } = this.props;
         const { theme } = dashboard;
-        const headerStyle = {
-            boxShadow: showShadow ? ' 0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
-        };
+        let headerStyle = {};
+        if (showShadow) {
+            headerStyle = {
+                boxShadow: ' 0 2px 8px rgba(0, 0, 0, 0.15)',
+                zIndex: 1,
+            };
+        }
         const skinProps = {
             theme,
             onChange: this.handlerSkinChange

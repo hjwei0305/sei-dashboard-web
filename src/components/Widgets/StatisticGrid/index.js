@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:17 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-22 09:24:55
+ * @Last Modified time: 2020-04-24 15:34:24
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -30,7 +30,10 @@ class StatisticGrid extends PureComponent {
         }).isRequired,
         reader: PropTypes.shape({
             data: PropTypes.string.isRequired,
-        }).isRequired
+        }).isRequired,
+        style: PropTypes.object,
+        className: PropTypes.string,
+        itemRender: PropTypes.func,
     };
 
     static defaultProps = {
@@ -107,10 +110,10 @@ class StatisticGrid extends PureComponent {
 
     render() {
         const { data, loading } = this.state;
-        const { skin = {} } = this.props;
+        const { skin = {}, style, className, itemRender } = this.props;
         const cols = data.length > 0 ? 24 / data.length : 0;
         return (
-            <div className={cls('statistic-grid', styles["statistic-grid-box"])}>
+            <div className={cls('statistic-grid', styles["statistic-grid-box"], className)} style={style}>
                 {
                     loading
                         ? <ListLoader />
@@ -130,7 +133,11 @@ class StatisticGrid extends PureComponent {
                                         return (
                                             <Col span={cols} key={index}>
                                                 <Card bordered={false}>
-                                                    <Statistic {...statisticProps} />
+                                                    {
+                                                        itemRender
+                                                            ? itemRender(item, index)
+                                                            : <Statistic {...statisticProps} />
+                                                    }
                                                 </Card>
                                             </Col>
                                         )

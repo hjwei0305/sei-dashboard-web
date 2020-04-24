@@ -4,4 +4,26 @@
   width: 100%;
   padding: 0;
   overflow: hidden;
+  :global {
+    .summary-box {
+      font-size: 16px;
+      height: 32px;
+      line-height: 2.2;
+      padding-left: 8px;
+      .title {
+        letter-spacing: 2px;
+      }
+      .value {
+        margin-left: 8px;
+        font-weight: 700;
+        font-size: 18px;
+        font-family: verdana;
+      }
+    }
+    .echarts-for-react {
+      &.summary {
+        height: calc(100% - 32px) !important;
+      }
+    }
+  }
 }

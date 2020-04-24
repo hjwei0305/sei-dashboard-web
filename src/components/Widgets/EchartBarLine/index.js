@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:12 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-22 09:24:32
+ * @Last Modified time: 2020-04-24 13:10:52
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -24,6 +24,11 @@ class EchartBarLine extends PureComponent {
         timer: PropTypes.shape({
             interval: PropTypes.number,
         }),
+        summary: PropTypes.shape({
+            show: PropTypes.bool,
+            title: PropTypes.string,
+            data: PropTypes.string,
+        }),
         store: PropTypes.shape({
             type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
             url: PropTypes.string,
@@ -33,7 +38,11 @@ class EchartBarLine extends PureComponent {
             xAxisData: PropTypes.string.isRequired,
             yAxisData: PropTypes.string,
             seriesData: PropTypes.string.isRequired,
-        }).isRequired
+        }).isRequired,
+        theme: PropTypes.object,
+        overwriteOption: PropTypes.func,
+        style: PropTypes.object,
+        className: PropTypes.string,
     };
 
     static defaultProps = {
@@ -51,6 +60,7 @@ class EchartBarLine extends PureComponent {
             xAxisData: [],
             yAxisData: [],
             seriesData: [],
+            summaryData: 0,
         };
     }
 
@@ -79,7 +89,7 @@ class EchartBarLine extends PureComponent {
 
     getData = (p) => {
         const { params = null, timerLoader = false } = p || {};
-        const { store, reader } = this.props;
+        const { store, reader, summary } = this.props;
         const { url, type } = store || {};
         const methodType = type || 'get';
         !timerLoader && this.setState({ loading: true });
@@ -103,11 +113,16 @@ class EchartBarLine extends PureComponent {
                         const seriesData = get(res, reader.seriesData, []) || [];
                         const xAxisData = get(res, reader.xAxisData, []) || [];
                         const yAxisData = get(res, reader.yAxisData, [{ type: 'value' }]) || [{ type: 'value' }];
+                        let summaryData = 0;
+                        if (summary && summary.show) {
+                            summaryData = get(res, summary.data, 0) || 0;
+                        }
                         this.setState({
                             legendData,
                             seriesData,
                             xAxisData,
-                            yAxisData
+                            yAxisData,
+                            summaryData,
                         });
                     }
                 })
@@ -119,7 +134,7 @@ class EchartBarLine extends PureComponent {
 
     getOption = () => {
         const { legendData, seriesData: seriesOrigin, xAxisData: xAxisOrigin, yAxisData: yAxisOrigin } = this.state;
-        const { title, skin } = this.props;
+        const { title, skin = {}, overwriteOption } = this.props;
         const { xAxis = {}, yAxis = {} } = skin;
         const xAxisData = xAxisOrigin.map(x => {
             const xObj = { ...x };
@@ -166,6 +181,9 @@ class EchartBarLine extends PureComponent {
             }
             return sObj;
         });
+        if (overwriteOption) {
+            return overwriteOption({ legendData, seriesData, xAxisData, yAxisData });
+        }
         return {
             title: {
                 text: title,
@@ -198,19 +216,41 @@ class EchartBarLine extends PureComponent {
         };
     };
 
+    renderSummary = () => {
+        const { summary } = this.props;
+        const { summaryData } = this.state;
+        if (summary && summary.show) {
+            return (
+                <div className='summary-box'>
+                    <span className="title">{summary.title}</span>
+                    <span className="value">{summaryData}</span>
+                </div>
+            )
+        }
+        return null;
+    };
+
     render() {
         const { loading, xAxisData } = this.state;
+        const { theme, style, className, summary } = this.props;
         const echartProps = {
+            theme,
             notMerge: false,
             option: this.getOption(),
+            className: summary && summary.show ? 'summary' : '',
         };
         return (
-            <div className={cls('echart-bar-line', styles["echart-bar-line-box"])}>
+            <div className={cls('echart-bar-line', styles["echart-bar-line-box"], className)} style={style}>
                 {
                     loading
                         ? <ListLoader />
                         : xAxisData.length > 0
-                            ? <ExtEcharts {...echartProps} />
+                            ? (
+                                <>
+                                    {this.renderSummary()}
+                                    <ExtEcharts {...echartProps} />
+                                </>
+                            )
                             : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 }
             </div>

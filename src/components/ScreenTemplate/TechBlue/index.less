@@ -1,32 +1,175 @@
+@import '../../../themes/vars.less';
+@backgroundcolor: #00143f;
+@fontColor: #6cbcf3;
+@borderColor: rgba(2, 80, 157, 1);
+@edgeColor: #038bff;
+@backColor: #052d6e;
+
 .screen-box {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
   :global {
     .bg {
-      background: url('/assets/bg.png') no-repeat center center;
-      color: #6cbcf3;
+      background: url('./images/bg.png') no-repeat center center;
+      color: @fontColor;
       background-size: 100% 100%;
-      background-color: #00143f;
+      background-color: @backgroundcolor;
     }
     .bg-head {
-      height: 1.05rem;
-      background: url('/assets/bg-head.png') no-repeat center center;
+      height: 1rem;
+      line-height: 1rem;
+      background: url('./images/bg-head.png') no-repeat center center;
       background-size: 100% 100%;
+      text-align: center;
+      .time-wrap {
+        position: absolute;
+        left: 0.2rem;
+        top: 0;
+        line-height: 0.7rem;
+      }
     }
-
-    .bg-logo {
-      background: url('/assets/bg-logo-sei.png') no-repeat center center;
-      height: 0.6rem;
-      width: 4.8rem;
+    .screen-title {
+      height: 1rem;
+      width: 5rem;
       position: relative;
-      margin: 0.22rem auto auto auto;
-      background-size: 100% 100%;
+      margin: 0 auto;
+      font-weight: 700;
+      font-size: 0.42rem;
+      letter-spacing: 4px;
     }
-    .time-wrap {
-      position: absolute;
-      left: 0.3rem;
-      top: 0;
-      color: #6cbcf3;
-      font-size: 0.2rem;
-      line-height: 0.7rem;
+    .view-box {
+      height: calc(100% - 1rem);
+      padding: 0.22rem;
+    }
+    .box {
+      border: 0.02rem solid @borderColor;
+      height: 100%;
+      .angle-top {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        left: 0;
+        &:before,
+        &:after {
+          position: absolute;
+          width: 0.18rem;
+          height: 0.18rem;
+          content: '';
+          border-top: 0.04rem solid @edgeColor;
+          top: -0.03rem;
+        }
+        &:before {
+          border-left: 0.04rem solid @edgeColor;
+          left: -0.03rem;
+        }
+        &:after {
+          border-right: 0.04rem solid @edgeColor;
+          right: -0.03rem;
+        }
+      }
+      .angle-bottom {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+        &:before,
+        &:after {
+          position: absolute;
+          width: 0.18rem;
+          height: 0.18rem;
+          content: '';
+          border-bottom: 0.04rem solid @edgeColor;
+          bottom: -0.03rem;
+        }
+        &:before {
+          border-left: 0.04rem solid @edgeColor;
+          left: -0.03rem;
+        }
+        &:after {
+          border-right: 0.04rem solid @edgeColor;
+          right: -0.03rem;
+        }
+      }
+      .box-title {
+        background-color: fade(@backColor, 50%);
+        height: 0.6rem;
+        line-height: 0.6rem;
+        width: 100%;
+        position: relative;
+        text-align: center;
+        font-size: 0.3rem;
+      }
+      .box-content {
+        height: calc(100% - 0.64rem);
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: 44% 40% auto;
+        margin: 0 8px;
+        gap: 8px 0;
+        .chart {
+          background-color: fade(@white, 2%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+    .center-content {
+      height: 100%;
+      display: grid;
+      grid-template-columns: auto;
+      grid-template-rows: 30% 24% auto;
+      gap: 8px 0;
+      .chart {
+        background-color: fade(@white, 2%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .summary-box {
+      font-size: 0.22rem;
+      height: 0.5rem;
+      line-height: 2.2;
+      .value {
+        font-size: 0.24rem;
+      }
+    }
+    .echarts-for-react {
+      &.summary {
+        height: calc(100% - 0.5rem) !important;
+      }
+    }
+    .statistic-grid-box {
+      .ant-row {
+        height: 100%;
+        .ant-col {
+          height: 100%;
+        }
+      }
+      .ant-card {
+        height: 100%;
+        background-color: fade(@white, 2%);
+        .ant-card-body {
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
+        .ant-statistic-title {
+          color: #6cbcf3;
+          font-size: 0.2rem;
+          font-weight: 700;
+        }
+        .ant-statistic-content-prefix {
+          margin-right: 8px;
+          font-size: 0.3rem;
+        }
+        .ant-statistic-content-value {
+          font-family: verdana;
+        }
+      }
     }
   }
 }

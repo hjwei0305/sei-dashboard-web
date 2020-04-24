@@ -2,13 +2,13 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:33 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-20 16:59:18
+ * @Last Modified time: 2020-04-23 13:27:06
  */
 
 import { message } from "antd";
 import { utils } from 'suid';
 import { constants } from '../../../utils';
-import { getWidgetAssets, getWidgetInstanceById, getSceneById } from "../service";
+import { getWidgetInstanceById, getSceneById } from "../service";
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -83,21 +83,8 @@ export default modelExtend(model, {
                 message.error(re.message);
             }
         },
-        * getWidgetAssets({ payload }, { call, put }) {
-            const re = yield call(getWidgetAssets, payload);
-            if (re.success) {
-                yield put({
-                    type: "updateState",
-                    payload: {
-                        widgetAssetList: re.data
-                    }
-                });
-            } else {
-                message.error(re.message);
-            }
-        },
         * getWidgetInstanceById({ payload, getWidget, startAutoSaveTimer }, { call, select, put }) {
-            const { widgets: originWidgets, widgetRenderData } = yield select(sel => sel.scene);
+            const { widgets: originWidgets, widgetRenderData } = yield select(sel => sel.dashboard);
             const re = yield call(getWidgetInstanceById, payload);
             if (re.success) {
                 const widgets = [...originWidgets];

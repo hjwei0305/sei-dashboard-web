@@ -1,0 +1,57 @@
+{
+    "north": {
+        "title": "顶部区域",
+        "formConifg": [
+            {
+                "text": "标题",
+                "field": "north-title",
+                "type": "Input",
+                "required": false,
+                "value": ""
+            }
+        ],
+        "widgets": null
+    },
+    "west": {
+        "title": "左侧区域",
+        "formConifg": [
+            {
+                "text": "标题",
+                "field": "west-title",
+                "type": "Input",
+                "required": false,
+                "value": ""
+            }
+        ],
+        "widgets": {
+            "west-01": null,
+            "west-02": null,
+            "west-03": null
+        }
+    },
+    "center": {
+        "title": "中间区域",
+        "widgets": {
+            "center-01": null,
+            "center-02": null,
+            "center-03": null
+        }
+    },
+    "east": {
+        "title": "右侧区域",
+        "formConifg": [
+            {
+                "text": "标题",
+                "field": "east-title",
+                "type": "Input",
+                "required": false,
+                "value": ""
+            }
+        ],
+        "widgets": {
+            "east-01": null,
+            "east-02": null,
+            "east-03": null
+        }
+    }
+}

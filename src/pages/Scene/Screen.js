@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-22 08:56:43
+ * @Last Modified time: 2020-04-24 16:14:06
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -10,27 +10,34 @@ import { connect } from "dva";
 import moment from 'moment';
 import { isEqual } from 'lodash';
 import { Divider, Empty } from 'antd';
-import { ExtIcon, ScrollBar, ListLoader, HottedKey } from 'suid';
+import { ExtIcon, ListLoader, HottedKey, ResizeMe } from 'suid';
 import empty from "@/assets/page_empty.svg";
 import { ScreenTemplate } from '../../components';
-import TemplateSet from './components/TemplateSet';
+import TemplateSelect from './components/TemplateSelect';
+import TemplateConfig from './components/TemplateConfig';
+import { constants } from '../../utils'
 import styles from './Screen.less';
 
 const { GlobalHotKeys } = HottedKey;
 const { TechBlue } = ScreenTemplate;
-const duration = 10000;
+const { SCREEN_TEMPLATE } = constants;
 
+@ResizeMe()
 @connect(({ scene, screen, loading }) => ({ scene, screen, loading }))
 class SceneView extends PureComponent {
 
     static autoSaveTimer = null;
+    static screenBox;
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            fullScreen: false,
+        };
+    }
 
     componentDidMount() {
         this.getSceneScreenData();
-    }
-
-    componentWillUnmount() {
-        this.endAutoSaveTimer();
     }
 
     componentDidUpdate(preProps) {
@@ -38,15 +45,22 @@ class SceneView extends PureComponent {
         if (!isEqual(preProps.scene.currentScene, scene.currentScene)) {
             this.getSceneScreenData();
         }
+        if (!isEqual(preProps.size, this.props.size)) {
+            this.onResize();
+        }
     }
 
-    startAutoSaveTimer = () => {
-        this.endAutoSaveTimer();
-        this.autoSaveTimer = setInterval(this.handlerSceneConfigSave, duration);
-    };
-
-    endAutoSaveTimer = () => {
-        this.autoSaveTimer && clearInterval(this.autoSaveTimer);
+    onResize = () => {
+        if (this.screenBox) {
+            const html = document.getElementsByTagName("html");
+            const element = this.screenBox.parentNode;
+            const {
+                width,
+            } = getComputedStyle(element);
+            const w = parseInt(width, 10);
+            // 字体大小算法: 100 * (调试设备宽度 / 设计图宽度)
+            html[0].style["font-size"] = `${100 * (w / 1920)}px`;
+        }
     };
 
     getSceneScreenData = () => {
@@ -62,16 +76,10 @@ class SceneView extends PureComponent {
         }
     };
 
-    handlerTemplateSet = () => {
+    handlerTemplateSelect = () => {
         const { dispatch } = this.props;
         dispatch({
             type: 'screen/getScreenTemplateList',
-        });
-        dispatch({
-            type: 'screen/updateState',
-            payload: {
-                showScreenTemplateAssets: true,
-            }
         });
     };
 
@@ -89,7 +97,7 @@ class SceneView extends PureComponent {
         const { screen, dispatch } = this.props;
         const { currentScreenTemplate } = screen;
         if (currentScreenTemplate) {
-
+            // todo 弹出确认框告知用户是否要切换模板，切换后配置数据可能会丢失
         } else {
             dispatch({
                 type: 'screen/updateState',
@@ -98,6 +106,88 @@ class SceneView extends PureComponent {
                 }
             });
         }
+        this.onResize();
+    };
+
+    handlerShowTemplateConfig = () => {
+        const { dispatch, screen: { currentScreenTemplate, templateConfig } } = this.props;
+        if (currentScreenTemplate && (!templateConfig || Object.keys(templateConfig).length === 0)) {
+            dispatch({
+                type: 'screen/getScreenTemplateConfig',
+                payload: {
+                    template: currentScreenTemplate,
+                }
+            });
+        } else {
+            dispatch({
+                type: 'screen/updateState',
+                payload: {
+                    showTemplateConfig: true,
+                }
+            });
+        }
+    };
+
+    handlerCloseTemplateConfig = () => {
+        const { dispatch } = this.props;
+        dispatch({
+            type: 'screen/updateState',
+            payload: {
+                showTemplateConfig: false,
+            }
+        });
+    };
+
+    handlerSceneConfigSave = (configData) => {
+        const { dispatch, scene, screen: { currentScreenTemplate, templateConfig } } = this.props;
+        const { currentScene } = scene;
+        const { config: formConfig, widgetInstanceIds = [] } = configData;
+        const config = {
+            screenTemplate: currentScreenTemplate,
+            templateConfig: formConfig || templateConfig,
+        };
+        dispatch({
+            type: 'scene/saveSceneConfig',
+            payload: {
+                id: currentScene.id,
+                config: JSON.stringify(config),
+                widgetInstanceIds: JSON.stringify(widgetInstanceIds),
+            }
+        });
+    };
+
+    setFullScreen = () => {
+        let fullScreen = false;
+        if (
+            !document.fullscreenElement &&
+            !document.mozFullScreenElement &&
+            !document.webkitFullscreenElement &&
+            !document.msFullscreenElement
+        ) {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen(
+                    Element.ALLOW_KEYBOARD_INPUT
+                );
+            }
+            fullScreen = true;
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+        this.setState({ fullScreen });
     };
 
     getActionTooltip = (title, shortcutTitle) => {
@@ -167,22 +257,50 @@ class SceneView extends PureComponent {
         )
     };
 
+    renderScreenTemplate = () => {
+        const { screen: { currentScreenTemplate, templateConfig, instanceDtos } } = this.props;
+        const templateProps = {
+            templateConfig,
+            instanceDtos,
+        };
+        switch (currentScreenTemplate) {
+            case SCREEN_TEMPLATE.TECH_BLUE:
+                return <TechBlue {...templateProps} />;
+            default:
+                return (
+                    <div className='blank-empty'>
+                        <Empty
+                            image={empty}
+                            description="此模板暂时没有实现"
+                        />
+                    </div>
+                );
+        }
+    };
+
     render() {
+        const { fullScreen } = this.state;
         const { screen, loading, onToggle, collapsed } = this.props;
-        const { templateAssetList, currentScreenTemplate, showScreenTemplateAssets } = screen;
+        const { templateAssetList, currentScreenTemplate, showScreenTemplateAssets, showTemplateConfig, templateConfig } = screen;
         const loadingTemplateAssets = loading.effects['screen/getScreenTemplateList'];
         const sceneScreenDataLoading = loading.effects['screen/getSceneById'];
+        const screenTemplateConfigLoading = loading.effects['screen/getScreenTemplateConfig'];
+        const configSaving = loading.effects['scene/saveSceneConfig'];
         const keyMap = {
             SAVE: 'ctrl+s',
-            SHOW_TEMPLATE_SET: 'alt+s',
+            SHOW_TEMPLATE_SET: 'ctrl+a',
+            SHOW_CONFIG: 'alt+s',
             COLLAPSED: 'alt+c',
+            FULL_SCREEN: 'alt+f',
         };
         const handlers = {
             SAVE: this.handlerSceneConfigSave,
             COLLAPSED: onToggle ? onToggle : null,
-            SHOW_TEMPLATE_SET: this.handlerTemplateSet,
+            SHOW_TEMPLATE_SET: this.handlerTemplateSelect,
+            SHOW_CONFIG: this.handlerShowTemplateConfig,
+            FULL_SCREEN: this.setFullScreen,
         };
-        const templateSetProps = {
+        const templateSelectProps = {
             templateAssetList,
             loading: loadingTemplateAssets,
             showScreenTemplateAssets,
@@ -190,10 +308,18 @@ class SceneView extends PureComponent {
             onChangeScreenTemplate: this.handlerChangeScreenTemplate,
             onAssetsClose: this.handlerCloseTemplateAssets,
         };
+        const templateConfigProps = {
+            showTemplateConfig,
+            templateConfig,
+            saving: configSaving,
+            screenTemplateConfigLoading,
+            onConfigSubmit: this.handlerSceneConfigSave,
+            onConfigClose: this.handlerCloseTemplateConfig,
+        };
         return (
             <>
                 <GlobalHotKeys keyMap={keyMap} handlers={handlers}>
-                    <div className={cls(styles['scene-view-box'])}>
+                    <div ref={node => this.screenBox = node} className={cls(styles['scene-screen-box'])}>
                         {
                             sceneScreenDataLoading
                                 ? <ListLoader />
@@ -219,30 +345,48 @@ class SceneView extends PureComponent {
                                         </div>
                                         <div className='right-tool-box'>
                                             <ExtIcon
-                                                type="setting"
+                                                type="swap"
                                                 className='action-item primary'
                                                 spin={loadingTemplateAssets}
-                                                onClick={this.handlerTemplateSet}
-                                                tooltip={this.getActionTooltip('设置模板', '快捷键 Alt + S')}
+                                                onClick={this.handlerTemplateSelect}
+                                                tooltip={this.getActionTooltip('设置模板', '快捷键 Ctrl + A')}
+                                                antd
+                                            />
+                                            {
+                                                currentScreenTemplate
+                                                    ? <ExtIcon
+                                                        type="setting"
+                                                        className='action-item'
+                                                        spin={loadingTemplateAssets}
+                                                        onClick={this.handlerShowTemplateConfig}
+                                                        tooltip={this.getActionTooltip('模板配置', '快捷键 Alt + S')}
+                                                        antd
+                                                    />
+                                                    : null
+                                            }
+                                            <ExtIcon
+                                                type={fullScreen ? 'fullscreen-exit' : 'fullscreen'}
+                                                className='action-item'
+                                                onClick={this.setFullScreen}
+                                                tooltip={this.getActionTooltip(fullScreen ? '退出全屏' : '全屏显示', '快捷键 Alt + F')}
                                                 antd
                                             />
                                         </div>
                                     </div>
                                     <div className="portal-box">
-                                        <ScrollBar>
-                                            {
-                                                currentScreenTemplate
-                                                    ? <TechBlue />
-                                                    : <div className='blank-empty'>
-                                                        <Empty
-                                                            image={empty}
-                                                            description="大屏模板是空的，快捷键 Alt + S进行设置"
-                                                        />
-                                                    </div>
-                                            }
-                                        </ScrollBar>
+                                        {
+                                            currentScreenTemplate
+                                                ? this.renderScreenTemplate()
+                                                : <div className='blank-empty'>
+                                                    <Empty
+                                                        image={empty}
+                                                        description="大屏模板是空的，快捷键 Alt + S进行设置"
+                                                    />
+                                                </div>
+                                        }
                                     </div>
-                                    <TemplateSet {...templateSetProps} />
+                                    <TemplateSelect {...templateSelectProps} />
+                                    <TemplateConfig {...templateConfigProps} />
                                 </div>
                         }
                     </div>

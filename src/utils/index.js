@@ -2,10 +2,10 @@
  * @Author: Eason 
  * @Date: 2020-04-07 09:01:14 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-10 16:19:12
+ * @Last Modified time: 2020-04-23 21:55:24
  */
 import constants from './constants';
-import { startsWith } from 'lodash'
+import { startsWith, trim } from 'lodash'
 import * as userUtils from './user';
 
 
@@ -20,10 +20,11 @@ const getHashCode = (len = 6) => {
 }
 
 const formartUrl = (originUrl) => {
-  if (startsWith(originUrl, 'http')) {
-    return originUrl;
+  let url = trim(originUrl);
+  if (startsWith(url, 'http')) {
+    return url;
   }
-  const url = startsWith(originUrl, '/') ? originUrl.substr(1) : originUrl;
+  url = startsWith(url, '/') ? url.substr(1) : url;
   return `/${url}`;
 }
 

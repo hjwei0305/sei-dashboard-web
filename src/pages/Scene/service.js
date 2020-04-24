@@ -2,16 +2,17 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:43 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-21 11:49:30
+ * @Last Modified time: 2020-04-22 17:23:12
  */
 
 
 import { utils } from 'suid';
+import { camelCase } from 'lodash'
 import { constants } from '../../utils';
 
 const { request } = utils;
 
-const { SERVER_PATH,LOCAL_PATH } = constants;
+const { SERVER_PATH, LOCAL_PATH } = constants;
 
 /** 获取所有的场景*/
 export async function getSceneList(params) {
@@ -90,6 +91,15 @@ export async function getWidgetInstanceById(params) {
 /** 获取所有的大屏模板*/
 export async function getScreenTemplateList() {
     const url = `${LOCAL_PATH}/local/screenTemptate.json`;
+    return request({
+        url,
+        method: "GET",
+    });
+}
+
+/** 获取大屏模板相应的配置资源*/
+export async function getScreenTemplateConfig(template) {
+    const url = `${LOCAL_PATH}/local/${camelCase(template)}.json`;
     return request({
         url,
         method: "GET",

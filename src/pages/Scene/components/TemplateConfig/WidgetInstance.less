@@ -1,0 +1,34 @@
+@import '../../../../themes/vars.less';
+
+.widget-instance-box {
+  height: 100%;
+  :global {
+    .ant-card {
+      margin-top: 16px;
+      &:first-child {
+        margin-top: 8px;
+      }
+      .trigger-add {
+        text-align: center;
+        border: 3px dashed @border-color-base;
+        cursor: pointer;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background-color: fade(@white, 85%);
+        color: fade(@black, 25%);
+        &.ant-popover-open,
+        &:hover {
+          border-color: fade(@primary-color, 65%);
+          color: fade(@primary-color, 65%);
+        }
+      }
+    }
+  }
+}

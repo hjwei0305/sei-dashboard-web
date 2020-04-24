@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:21:32 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-21 17:14:32
+ * @Last Modified time: 2020-04-22 17:34:50
  */
 
 import React, { PureComponent } from "react";
@@ -10,12 +10,11 @@ import cls from "classnames";
 import { omit, get } from 'lodash'
 import { formatMessage, FormattedMessage } from "umi-plugin-react/locale";
 import { Button, Form, Input } from "antd";
-import { utils, ComboList } from "suid";
+import { ComboList } from "suid";
 import { getHashCode, constants } from '../../../../utils';
 import styles from "./Form.less";
 
 const { SERVER_PATH } = constants;
-const { objectAssignAppend } = utils;
 const FormItem = Form.Item;
 const formItemLayout = {
   labelCol: {

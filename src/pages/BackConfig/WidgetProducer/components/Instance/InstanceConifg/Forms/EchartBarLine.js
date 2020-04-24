@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import cls from "classnames";
 import { omit, get } from 'lodash'
 import { Form, Input, Switch, InputNumber } from "antd";
-import TimerInterval from '../TimerInterval';
+import { TimerInterval } from '@/components';
 import styles from "./EchartBarLine.less";
 
 const FormItem = Form.Item;
@@ -34,6 +34,7 @@ class EchartBarLineForm extends PureComponent {
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     this.state = {
       timer: get(renderConfig, 'component.props.timer.interval', 0) > 0 ? true : false,
+      showSummary: get(renderConfig, 'component.props.summary.show', false) || false,
     };
   }
 
@@ -45,7 +46,7 @@ class EchartBarLineForm extends PureComponent {
   };
 
   handlerFormSubmit = _ => {
-    const { timer } = this.state;
+    const { timer, showSummary } = this.state;
     const { form, save, editData, widget, widgetGroup, color } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
@@ -79,6 +80,11 @@ class EchartBarLineForm extends PureComponent {
             timer: {
               interval: timer ? rest.interval : 0,
             },
+            summary: {
+              show: showSummary,
+              title: showSummary ? rest.summaryTitle : '',
+              data: showSummary ? rest.summaryData : '',
+            },
             title: params.name,
             store: {
               url: rest.storeUrl,
@@ -100,7 +106,13 @@ class EchartBarLineForm extends PureComponent {
   handlerTimerChange = (checked) => {
     this.setState({
       timer: checked,
-    })
+    });
+  };
+
+  handlerSummaryChange = (checked) => {
+    this.setState({
+      showSummary: checked,
+    });
   };
 
   handlerTimerIntervalChange = (interval) => {
@@ -111,7 +123,7 @@ class EchartBarLineForm extends PureComponent {
   };
 
   render() {
-    const { timer } = this.state;
+    const { timer, showSummary } = this.state;
     const { form, editData, widget } = this.props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     const { getFieldDecorator } = form;
@@ -242,6 +254,45 @@ class EchartBarLineForm extends PureComponent {
             )}
             <p className='desc'>系列数据节点:接口返回数据结构请参照官网Echart的series配置</p>
           </FormItem>
+          <div className='title-group'>其它</div>
+          <FormItem label='显示汇总' {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+            <Switch size="small" checked={showSummary} onChange={this.handlerSummaryChange} />
+          </FormItem>
+          {
+            showSummary
+              ? (
+                <>
+                  <FormItem label="汇总标题" hasFeedback>
+                    {getFieldDecorator('summaryTitle', {
+                      initialValue: get(renderConfig, 'component.props.summary.title', null),
+                      rules: [
+                        {
+                          required: true,
+                          message: '汇总标题不能为空',
+                        },
+                      ],
+                    })(
+                      <Input />
+                    )}
+                  </FormItem>
+                  <FormItem label="汇总数据" hasFeedback>
+                    {getFieldDecorator('summaryData', {
+                      initialValue: get(renderConfig, 'component.props.summary.data', null),
+                      rules: [
+                        {
+                          required: true,
+                          message: '汇总数据不能为空',
+                        },
+                      ],
+                    })(
+                      <Input />
+                    )}
+                    <p className='desc'>接口返回数据体的汇总数据节点属性名称</p>
+                  </FormItem>
+                </>
+              )
+              : null
+          }
         </Form>
       </div >
     );

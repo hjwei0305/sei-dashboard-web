@@ -1,0 +1,27 @@
+@import '../../../../themes/vars.less';
+
+.widget-popover-box {
+  width: 460px;
+  height: 420px;
+  :global {
+    .title {
+      font-size: 16px;
+      color: fade(@black, 85%);
+      font-weight: 700;
+      height: 40px;
+      line-height: 40px;
+    }
+    .ant-popover-inner-content {
+      padding: 12px 0;
+    }
+    .widget-box {
+      height: 420px;
+      .ant-card-head {
+        background-color: @white;
+      }
+      .ant-card-body {
+        box-shadow: none;
+      }
+    }
+  }
+}

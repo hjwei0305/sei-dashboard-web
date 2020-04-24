@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:17 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-22 09:17:23
+ * @Last Modified time: 2020-04-24 13:11:09
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -24,6 +24,11 @@ class EchartPie extends PureComponent {
         timer: PropTypes.shape({
             interval: PropTypes.number,
         }),
+        summary: PropTypes.shape({
+            show: PropTypes.bool,
+            title: PropTypes.string,
+            data: PropTypes.string,
+        }),
         store: PropTypes.shape({
             type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
             url: PropTypes.string,
@@ -32,7 +37,11 @@ class EchartPie extends PureComponent {
         reader: PropTypes.shape({
             legendData: PropTypes.string.isRequired,
             seriesData: PropTypes.string.isRequired,
-        }).isRequired
+        }).isRequired,
+        theme: PropTypes.object,
+        overwriteOption: PropTypes.func,
+        style: PropTypes.object,
+        className: PropTypes.string,
     };
 
     static defaultProps = {
@@ -48,6 +57,7 @@ class EchartPie extends PureComponent {
             loading: false,
             legendData: [],
             seriesData: [],
+            summaryData: 0,
         };
     }
 
@@ -76,7 +86,7 @@ class EchartPie extends PureComponent {
 
     getData = (p) => {
         const { params = null, timerLoader = false } = p || {};
-        const { store, reader } = this.props;
+        const { store, reader, summary } = this.props;
         const { url, type } = store || {};
         const methodType = type || 'GET';
         !timerLoader && this.setState({ loading: true });
@@ -98,9 +108,14 @@ class EchartPie extends PureComponent {
                     if (res.success) {
                         const legendData = get(res, reader.legendData, []) || [];
                         const seriesData = get(res, reader.seriesData, []) || [];
+                        let summaryData = 0;
+                        if (summary && summary.show) {
+                            summaryData = get(res, summary.data, 0) || 0;
+                        }
                         this.setState({
                             legendData,
                             seriesData,
+                            summaryData,
                         });
                     }
                 })
@@ -110,57 +125,88 @@ class EchartPie extends PureComponent {
         }
     };
 
-    render() {
-        const { legendData, seriesData, loading } = this.state;
+    getOption = () => {
+        const { legendData, seriesData } = this.state;
         const { title, seriesName, skin = {} } = this.props;
-        const echartPieProps = {
-            option: {
-                title: {
-                    text: title,
-                    x: 'center',
-                    ...(skin.title || {}),
-                },
-                toolbox: {
-                    feature: {
-                        saveAsImage: { show: true }
+        const { overwriteOption } = this.props;
+        if (overwriteOption) {
+            return overwriteOption({ legendData, seriesData });
+        }
+        return {
+            title: {
+                text: title,
+                x: 'center',
+                ...(skin.title || {}),
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: { show: true }
+                }
+            },
+            legend: {
+                bottom: 4,
+                left: 'center',
+                data: legendData,
+                ...(skin.legend || {})
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a}<br/>{b}:{c}({d}%)',
+            },
+            series: [
+                {
+                    name: seriesName,
+                    type: 'pie',
+                    radius: '65%',
+                    center: ['50%', '50%'],
+                    selectedMode: 'single',
+                    data: seriesData,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
                     }
                 },
-                legend: {
-                    bottom: 4,
-                    left: 'center',
-                    data: legendData,
-                    ...(skin.legend || {})
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{a}<br/>{b}:{c}({d}%)',
-                },
-                series: [
-                    {
-                        name: seriesName,
-                        type: 'pie',
-                        radius: '65%',
-                        center: ['50%', '50%'],
-                        selectedMode: 'single',
-                        data: seriesData,
-                        emphasis: {
-                            itemStyle: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    },
-                ],
-            },
+            ],
+        }
+    };
+
+    renderSummary = () => {
+        const { summary } = this.props;
+        const { summaryData } = this.state;
+        if (summary && summary.show) {
+            return (
+                <div className='summary-box'>
+                    <span className="title">{summary.title}</span>
+                    <span className="value">{summaryData}</span>
+                </div>
+            )
+        }
+        return null;
+    };
+
+    render() {
+        const { seriesData, loading } = this.state;
+        const { theme, style, className, summary } = this.props;
+        const echartProps = {
+            theme,
+            option: this.getOption(),
+            className: summary && summary.show ? 'summary' : '',
         };
         return (
-            <div className={cls('echart-pie', styles["echart-pie-box"])}>
+            <div className={cls('echart-pie', styles["echart-pie-box"], className)} style={style}>
                 {
                     loading
                         ? <ListLoader />
                         : seriesData.length > 0
-                            ? <ExtEcharts {...echartPieProps} />
+                            ? (
+                                <>
+                                    {this.renderSummary()}
+                                    <ExtEcharts {...echartProps} />
+                                </>
+                            )
                             : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 }
             </div>
