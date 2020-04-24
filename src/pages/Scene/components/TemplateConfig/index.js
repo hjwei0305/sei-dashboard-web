@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:59 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-24 09:02:51
+ * @Last Modified time: 2020-04-24 23:06:16
  */
 
 import React, { PureComponent } from 'react';
@@ -44,6 +44,10 @@ class TemplateConfig extends PureComponent {
             showShadow: false,
             templateConfig,
         }
+    }
+
+    componentDidMount() {
+        this.setWidgetSelectKeys();
     }
 
     componentDidUpdate(prevProps) {

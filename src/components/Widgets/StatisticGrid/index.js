@@ -2,12 +2,12 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:17 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-24 15:34:24
+ * @Last Modified time: 2020-04-24 17:04:20
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
-import { get } from 'lodash';
+import { get, isNaN } from 'lodash';
 import { Row, Col, Statistic, Card, Empty } from 'antd'
 import { utils, ListLoader, ExtIcon } from 'suid';
 import { formartUrl } from '../../../utils';
@@ -34,10 +34,12 @@ class StatisticGrid extends PureComponent {
         style: PropTypes.object,
         className: PropTypes.string,
         itemRender: PropTypes.func,
+        dataSplit: PropTypes.bool,
     };
 
     static defaultProps = {
         title: '',
+        dataSplit: false,
         timer: {
             interval: 0
         },
@@ -108,9 +110,30 @@ class StatisticGrid extends PureComponent {
         }
     };
 
+    renderDataSplit = (item, index) => {
+        const { title, value = 0 } = item;
+        const data = isNaN(value) ? '0' : value || '0';
+        return (
+            <div className="item-box">
+                <div className="title" key={`t_${index}`}>{title}</div>
+                <div className="value" key={`v_${index}`}>
+                    {
+                        data.toString().split("").map((n, idx) => {
+                            return (
+                                <span key={`s_${idx}`} className='split-item'>
+                                    {n}
+                                </span>
+                            )
+                        })
+                    }
+                </div>
+            </div>
+        )
+    };
+
     render() {
         const { data, loading } = this.state;
-        const { skin = {}, style, className, itemRender } = this.props;
+        const { skin = {}, style, className, itemRender, dataSplit } = this.props;
         const cols = data.length > 0 ? 24 / data.length : 0;
         return (
             <div className={cls('statistic-grid', styles["statistic-grid-box"], className)} style={style}>
@@ -132,11 +155,11 @@ class StatisticGrid extends PureComponent {
                                         };
                                         return (
                                             <Col span={cols} key={index}>
-                                                <Card bordered={false}>
+                                                <Card bordered={false} className={{ 'split': dataSplit }}>
                                                     {
                                                         itemRender
                                                             ? itemRender(item, index)
-                                                            : <Statistic {...statisticProps} />
+                                                            : dataSplit ? this.renderDataSplit(item, index) : <Statistic {...statisticProps} />
                                                     }
                                                 </Card>
                                             </Col>

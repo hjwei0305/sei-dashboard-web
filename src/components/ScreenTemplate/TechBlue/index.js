@@ -70,59 +70,146 @@ class TechBlue extends Component {
         return option;
     };
 
-    setEchartBarLineOption = (data) => {
+    setEchartBarLineOption = (data, title, region) => {
         const { seriesData, xAxisData } = data;
-        console.log(111, seriesData, xAxisData);
-        const option = {
-            color: ['#3398DB'],
-            tooltip: {
-                trigger: "axis",
-                axisPointer: {
-                    type: "shadow"
-                }
-            },
-            grid: {
-                left: 10,
-                top: 10,
-                height: '100%',
-                containLabel: true
-            },
-            xAxis: {
-                show: false
-            },
-            yAxis: {
-                type: "category",
-                axisTick: {
-                    show: false
+        let option
+        if (region === "center") {
+            option = {
+                title: {
+                    text: title,
+                    textStyle: {
+                        color: '#6CBCF3'
+                    }
                 },
-                axisLine: {
-                    show: false
+                tooltip: {
+                    trigger: 'axis'
                 },
-                axisLabel: {
-                    color: "#6CBCF3",
-                    interval: 0
+                grid: {
+                    top: '18%',
+                    left: '6%',
+                    right: '6%',
+                    bottom: '8%',
+                    containLabel: true
                 },
-                data: xAxisData.length > 0 ? xAxisData[0].data : []
-            },
-            series: [
-                {
-                    type: "bar",
-                    label: {
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLine: {
                         show: true,
-                        position: "right",
+                        lineStyle: {
+                            color: '#233e64'
+                        },
+                    },
+                    axisLabel: {
                         textStyle: {
-                            color: "rgba(31, 223, 255, 0.85)"
+                            color: '#6a9cd5',
+                        },
+                    },
+                    data: xAxisData.length > 0 ? xAxisData[0].data : [],
+                }],
+                yAxis: [{
+                    type: 'value',
+                    splitLine: {
+                        show: true,
+                        lineStyle: {
+                            color: '#233e64'
                         }
                     },
-                    barWidth: "30%",
+                    axisLine: {
+                        show: false,
+                    },
+                    axisLabel: {
+                        textStyle: {
+                            color: '#6a9cd5'
+                        },
+                    },
+                    axisTick: {
+                        show: false,
+                    },
+                }],
+                series: {
+                    type: 'line',
+                    smooth: true,
+                    showSymbol: true,
+                    areaStyle: {
+                        normal: {
+                            colorStops: [{
+                                offset: 0,
+                                color: "RGBA(25, 179, 211, 1)"
+                            }, {
+                                offset: 0.8,
+                                color: 'RGBA(25, 179, 211, 0.2)'
+                            }, false],
+                            shadowBlur: 10,
+                            opacity: 0.4,
+                        }
+                    },
+                    itemStyle: {
+                        color: "RGBA(31, 217, 242, 0.4)",
+                        borderColor: "#1DCFEA",
+                        label: {
+                            show: false,
+                        },
+                    },
+                    lineStyle: {
+                        width: 1,
+                        type: 'solid'
+                    },
                     data: seriesData.length > 0 ? seriesData[0].data : []
                 }
-            ]
-        };
+            }
+        } else {
+            option = {
+                color: ['#3398DB'],
+                tooltip: {
+                    trigger: "axis",
+                    axisPointer: {
+                        type: "shadow"
+                    }
+                },
+                grid: {
+                    left: 10,
+                    top: 10,
+                    height: '100%',
+                    containLabel: true
+                },
+                xAxis: {
+                    show: false
+                },
+                yAxis: {
+                    type: "category",
+                    axisTick: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: false
+                    },
+                    axisLabel: {
+                        color: "#6CBCF3",
+                        interval: 0
+                    },
+                    data: xAxisData.length > 0 ? xAxisData[0].data : []
+                },
+                series: [
+                    {
+                        type: "bar",
+                        label: {
+                            show: true,
+                            position: "right",
+                            textStyle: {
+                                color: "rgba(31, 223, 255, 0.85)"
+                            }
+                        },
+                        barWidth: "30%",
+                        data: seriesData.length > 0 ? seriesData[0].data : []
+                    }
+                ]
+            };
+        }
         return option;
     }
 
-    getWidget = (key, component) => {
+    getWidget = (key, component, region) => {
         const { type, props } = component;
         const style = { backgroundColor: 'rgba(255,255,255,0.02)' };
         switch (type) {
@@ -143,7 +230,7 @@ class TechBlue extends Component {
                         {...omit(props, ['title'])}
                         theme={null}
                         style={style}
-                        overwriteOption={this.setEchartBarLineOption}
+                        overwriteOption={(data) => this.setEchartBarLineOption(data, props.title, region)}
                     />
                 );
             case COMPONENT_TYPE.STATISTIC_GRID:
@@ -182,7 +269,7 @@ class TechBlue extends Component {
                         if (widget && widget.renderConfig) {
                             const renderConfig = JSON.parse(widget.renderConfig);
                             const { component } = renderConfig;
-                            return this.getWidget(widget.id, this.getRenderConfigByDto(widget.id) || component);
+                            return this.getWidget(widget.id, this.getRenderConfigByDto(widget.id) || component, region);
                         }
                         const regionIndex = startCase(`${region}${index + 1}`);
                         return (<div className="chart" key={regionIndex}>{regionIndex}</div>)

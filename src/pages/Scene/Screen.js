@@ -2,13 +2,13 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-24 16:14:06
+ * @Last Modified time: 2020-04-24 16:53:33
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { connect } from "dva";
 import moment from 'moment';
-import { isEqual } from 'lodash';
+import { isEqual, get, isObject } from 'lodash';
 import { Divider, Empty } from 'antd';
 import { ExtIcon, ListLoader, HottedKey, ResizeMe } from 'suid';
 import empty from "@/assets/page_empty.svg";
@@ -138,10 +138,29 @@ class SceneView extends PureComponent {
         });
     };
 
+    getWidgetInstanceIds = () => {
+        const { screen: { templateConfig } } = this.props;
+        let widgetInstanceIds = [];
+        const config = { ...(templateConfig || {}) };
+        Object.keys(config).forEach(key => {
+            const widgets = get(config[key], "widgets", null);
+            if (widgets && isObject(widgets)) {
+                Object.keys(widgets).forEach(widgetKey => {
+                    const widget = widgets[widgetKey];
+                    if (widget && isObject(widget)) {
+                        widgetInstanceIds.push(widget.id);
+                    }
+                })
+            }
+        });
+        console.log(widgetInstanceIds);
+        return widgetInstanceIds;
+    };
+
     handlerSceneConfigSave = (configData) => {
         const { dispatch, scene, screen: { currentScreenTemplate, templateConfig } } = this.props;
         const { currentScene } = scene;
-        const { config: formConfig, widgetInstanceIds = [] } = configData;
+        const { config: formConfig, widgetInstanceIds } = configData;
         const config = {
             screenTemplate: currentScreenTemplate,
             templateConfig: formConfig || templateConfig,
@@ -151,7 +170,7 @@ class SceneView extends PureComponent {
             payload: {
                 id: currentScene.id,
                 config: JSON.stringify(config),
-                widgetInstanceIds: JSON.stringify(widgetInstanceIds),
+                widgetInstanceIds: JSON.stringify(widgetInstanceIds || this.getWidgetInstanceIds()),
             }
         });
     };

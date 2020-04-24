@@ -80,6 +80,7 @@ class StatisticGridForm extends PureComponent {
               interval: timer ? rest.interval : 0,
             },
             title: params.name,
+            dataSplit: rest.dataSplit,
             store: {
               url: rest.storeUrl,
             },
@@ -202,6 +203,14 @@ class StatisticGridForm extends PureComponent {
               <Input />
             )}
             <p className='desc'>接口返回数据体的属性名</p>
+          </FormItem>
+          <div className='title-group'>其它</div>
+          <FormItem label='统计值分离显示'>
+            {getFieldDecorator("dataSplit", {
+              initialValue: get(renderConfig, 'component.props.dataSplit', false) || false,
+              valuePropName: "checked"
+            })(<Switch size="small" />)}
+            <p className='desc'>显示的每位数字将分别用DOM包裹</p>
           </FormItem>
         </Form>
       </div >
