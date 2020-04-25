@@ -28,6 +28,7 @@
     "react": "^16.8.6",
     "react-color": "^2.18.0",
     "react-dom": "^16.8.6",
+    "react-particles-js": "^3.1.0",
     "suid": "^1.2.42"
   },
   "devDependencies": {

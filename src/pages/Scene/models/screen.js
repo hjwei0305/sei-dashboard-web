@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:33 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-24 10:50:27
+ * @Last Modified time: 2020-04-25 19:13:44
  */
 
 import { message } from "antd";
@@ -20,6 +20,7 @@ export default modelExtend(model, {
         showScreenTemplateAssets: false,
         showTemplateConfig: false,
         templateAssetList: [],
+        globalConfig: {},
         templateConfig: {},
         instanceDtos: [],
     },
@@ -30,9 +31,11 @@ export default modelExtend(model, {
                 const { lastEditedDate, lastEditorName, config, instanceDtos } = re.data;
                 let currentScreenTemplate = '';
                 let templateConfig = {};
+                let globalConfig = {};
                 if (config) {
                     const configData = JSON.parse(config);
                     currentScreenTemplate = configData.screenTemplate;
+                    globalConfig = configData.globalConfig;
                     if (configData.templateConfig) {
                         templateConfig = configData.templateConfig;
                     } else {
@@ -44,6 +47,7 @@ export default modelExtend(model, {
                     type: "updateState",
                     payload: {
                         currentScreenTemplate,
+                        globalConfig,
                         templateConfig,
                         instanceDtos,
                     }

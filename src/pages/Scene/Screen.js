@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-25 13:04:03
+ * @Last Modified time: 2020-04-25 19:09:39
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -12,15 +12,15 @@ import { isEqual, get, isObject } from 'lodash';
 import { Divider, Empty } from 'antd';
 import { ExtIcon, ListLoader, HottedKey, ResizeMe } from 'suid';
 import empty from "@/assets/page_empty.svg";
-import { ScreenTemplate } from '../../components';
+import { ScreenTemplate, DreamStar, Particle } from '../../components';
 import TemplateSelect from './components/TemplateSelect';
 import TemplateConfig from './components/TemplateConfig';
-import { constants } from '../../utils'
+import { constants } from '../../utils';
 import styles from './Screen.less';
 
 const { GlobalHotKeys } = HottedKey;
 const { TechBlue } = ScreenTemplate;
-const { SCREEN_TEMPLATE } = constants;
+const { SCREEN_TEMPLATE, ANIMATE_EFFECT } = constants;
 
 @ResizeMe()
 @connect(({ scene, screen, loading }) => ({ scene, screen, loading }))
@@ -156,11 +156,12 @@ class SceneView extends PureComponent {
     };
 
     handlerSceneConfigSave = (configData) => {
-        const { dispatch, scene, screen: { currentScreenTemplate, templateConfig } } = this.props;
+        const { dispatch, scene, screen: { currentScreenTemplate, templateConfig, globalConfig } } = this.props;
         const { currentScene } = scene;
-        const { config: formConfig, widgetInstanceIds } = configData;
+        const { config: formConfig, widgetInstanceIds, globalConfig: formGlobalConfig } = configData;
         const config = {
             screenTemplate: currentScreenTemplate,
+            globalConfig: formGlobalConfig || globalConfig,
             templateConfig: formConfig || templateConfig,
         };
         dispatch({
@@ -169,6 +170,13 @@ class SceneView extends PureComponent {
                 id: currentScene.id,
                 config: JSON.stringify(config),
                 widgetInstanceIds: JSON.stringify(widgetInstanceIds || this.getWidgetInstanceIds()),
+            }
+        });
+        dispatch({
+            type: 'screen/updateState',
+            payload: {
+                templateConfig: formConfig || templateConfig,
+                globalConfig: formGlobalConfig || globalConfig,
             }
         });
     };
@@ -274,6 +282,23 @@ class SceneView extends PureComponent {
         )
     };
 
+    getAnimateEffect = () => {
+        const { screen: { globalConfig } } = this.props;
+        const { animateEffect = {} } = globalConfig;
+        const { show, type } = animateEffect || {};
+        if (show) {
+            switch (type) {
+                case ANIMATE_EFFECT.DREAM_START.key:
+                    return <DreamStar />;
+                case ANIMATE_EFFECT.PARTICLE.key:
+                    return <Particle />
+                default:
+                    return null;
+            }
+        }
+        return null;
+    };
+
     renderScreenTemplate = () => {
         const { screen: { currentScreenTemplate, templateConfig, instanceDtos } } = this.props;
         const templateProps = {
@@ -282,7 +307,12 @@ class SceneView extends PureComponent {
         };
         switch (currentScreenTemplate) {
             case SCREEN_TEMPLATE.TECH_BLUE:
-                return <TechBlue {...templateProps} />;
+                return (
+                    <>
+                        <TechBlue {...templateProps} />
+                        {this.getAnimateEffect()}
+                    </>
+                )
             default:
                 return (
                     <div className='blank-empty'>
@@ -298,7 +328,7 @@ class SceneView extends PureComponent {
     render() {
         const { fullScreen } = this.state;
         const { screen, loading, onToggle, collapsed } = this.props;
-        const { templateAssetList, currentScreenTemplate, showScreenTemplateAssets, showTemplateConfig, templateConfig } = screen;
+        const { templateAssetList, currentScreenTemplate, showScreenTemplateAssets, showTemplateConfig, globalConfig, templateConfig } = screen;
         const loadingTemplateAssets = loading.effects['screen/getScreenTemplateList'];
         const sceneScreenDataLoading = loading.effects['screen/getSceneById'];
         const screenTemplateConfigLoading = loading.effects['screen/getScreenTemplateConfig'];
@@ -327,6 +357,7 @@ class SceneView extends PureComponent {
         };
         const templateConfigProps = {
             showTemplateConfig,
+            globalConfig,
             templateConfig,
             saving: configSaving,
             screenTemplateConfigLoading,

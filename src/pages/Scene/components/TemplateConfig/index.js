@@ -2,16 +2,17 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:59 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-24 23:06:16
+ * @Last Modified time: 2020-04-25 18:49:22
  */
 
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import PropTypes from 'prop-types';
 import { get, set, isObject, isEqual } from 'lodash'
-import { Drawer, Button, Input, Form } from 'antd';
+import { Drawer, Button, Input, Form, Switch } from 'antd';
 import { ScrollBar } from 'suid';
 import WidgetInstance from './WidgetInstance';
+import DynamicEffect from './DynamicEffect';
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -21,6 +22,15 @@ const formItemLayout = {
     },
     wrapperCol: {
         span: 24,
+    },
+};
+
+const formItemInlineLayout = {
+    labelCol: {
+        span: 6,
+    },
+    wrapperCol: {
+        span: 18,
     },
 };
 
@@ -39,10 +49,12 @@ class TemplateConfig extends PureComponent {
 
     constructor(props) {
         super(props);
-        const { templateConfig } = props;
+        const { templateConfig, globalConfig } = props;
         this.state = {
             showShadow: false,
+            showAnimateEffect: get(globalConfig, 'animateEffect.show', false) || false,
             templateConfig,
+            globalConfig,
         }
     }
 
@@ -51,11 +63,16 @@ class TemplateConfig extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { templateConfig } = this.props;
+        const { templateConfig, globalConfig } = this.props;
         if (!isEqual(prevProps.templateConfig, templateConfig)) {
             this.setState({
                 templateConfig,
             }, this.setWidgetSelectKeys);
+        }
+        if (!isEqual(prevProps.globalConfig, globalConfig)) {
+            this.setState({
+                globalConfig,
+            });
         }
     }
 
@@ -86,7 +103,7 @@ class TemplateConfig extends PureComponent {
         const { form, onConfigSubmit } = this.props;
         this.setWidgetSelectKeys();
         const widgetInstanceIds = this.widgetSelectKeys;
-        const { templateConfig } = this.state;
+        const { templateConfig, globalConfig } = this.state;
         const config = { ...(templateConfig || {}) };
         form.validateFields((err, formData) => {
             if (err) {
@@ -99,10 +116,11 @@ class TemplateConfig extends PureComponent {
                     if (configField.field === field) {
                         set(templateConfig, [regionRoot, 'formConifg', index.toString(), 'value'], formData[field]);
                     }
-                })
+                });
             });
             const data = {
                 config,
+                globalConfig,
                 widgetInstanceIds,
             }
             onConfigSubmit(data);
@@ -176,6 +194,47 @@ class TemplateConfig extends PureComponent {
         }
     };
 
+    handlerDynamicEffect = (effect) => {
+        const { key } = effect;
+        const { globalConfig } = this.state;
+        const animateEffect = { show: true, type: key };
+        const global = { ...globalConfig }
+        set(global, "animateEffect", animateEffect);
+        this.setState({
+            globalConfig: global,
+        });
+    };
+
+    handlerAnimateEffectChange = (checked) => {
+        const { globalConfig } = this.state;
+        const global = { ...globalConfig }
+        set(global, "animateEffect", { show: false, type: null });
+        this.setState({
+            showAnimateEffect: checked,
+            globalConfig: global,
+        });
+    };
+
+    renderGlobalFormItems = () => {
+        const { showAnimateEffect, globalConfig } = this.state;
+        const animateEffect = get(globalConfig, 'animateEffect', {}) || {};
+        return (
+            <>
+                <FormItem label='使用动效' {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+                    <Switch size="small" checked={showAnimateEffect} onChange={this.handlerAnimateEffectChange} />
+                </FormItem>
+                {
+                    showAnimateEffect
+                        ? <DynamicEffect
+                            effectKey={animateEffect.type}
+                            onChange={this.handlerDynamicEffect}
+                        />
+                        : null
+                }
+            </>
+        );
+    };
+
     render() {
         const { showShadow, templateConfig } = this.state;
         const { showTemplateConfig, saving } = this.props;
@@ -205,6 +264,8 @@ class TemplateConfig extends PureComponent {
                         onScrollDown={this.handerScrollDown}
                     >
                         <Form {...formItemLayout} layout="vertical">
+                            <div className="group-title">全局配置</div>
+                            {this.renderGlobalFormItems()}
                             {
                                 Object.keys(config).map(key => {
                                     const item = config[key];

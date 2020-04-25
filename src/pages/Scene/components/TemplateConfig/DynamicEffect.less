@@ -1,0 +1,49 @@
+@import '../../../../themes/vars.less';
+.effect-box {
+  padding: 0;
+  overflow: hidden;
+  margin: 0;
+  position: relative;
+  :global {
+    .head-title {
+      color: fade(@black, 85%);
+      height: 32px;
+      line-height: 32px;
+    }
+    .effect-body {
+      position: relative;
+      display: flex;
+      .item {
+        height: 40px;
+        border-radius: 2px;
+        cursor: pointer;
+        margin-right: 8px;
+        display: flex;
+        line-height: 40px;
+        width: 100px;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        border: 1px solid transparent;
+        .corner {
+          visibility: hidden;
+          position: absolute;
+          right: 0;
+          bottom: -12px;
+          .suid-icon {
+            color: @primary-color;
+          }
+        }
+        &:hover,
+        &.selected {
+          border-color: @primary-color;
+        }
+        &.selected {
+          .corner {
+            visibility: visible;
+          }
+        }
+      }
+    }
+  }
+}

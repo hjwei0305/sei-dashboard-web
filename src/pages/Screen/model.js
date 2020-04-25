@@ -10,6 +10,7 @@ export default modelExtend(model, {
 
     state: {
         currentScreenTemplate: '',
+        globalConfig: {},
         templateConfig: {},
         instanceDtos: [],
     },
@@ -37,18 +38,21 @@ export default modelExtend(model, {
                 let currentScreenTemplate = "";
                 let instanceDtos = [];
                 let templateConfig = {};
+                let globalConfig = {};
                 const { config, instanceDtos: originInstanceDtos } = re.data || { instanceDtos: [] };
                 if (config) {
                     const configData = JSON.parse(config);
-                    const { screenTemplate, templateConfig: originTemplateConfig } = configData;
+                    const { screenTemplate, templateConfig: originTemplateConfig, globalConfig: originGlobalConfig } = configData;
                     currentScreenTemplate = screenTemplate;
                     instanceDtos = originInstanceDtos;
                     templateConfig = originTemplateConfig;
+                    globalConfig = originGlobalConfig;
                 }
                 yield put({
                     type: "updateState",
                     payload: {
                         currentScreenTemplate,
+                        globalConfig,
                         instanceDtos,
                         templateConfig,
                     }

@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-02-21 18:03:16 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-22 09:49:13
+ * @Last Modified time: 2020-04-25 18:41:17
  */
 import { base } from '../../public/app.config.json';
 
@@ -68,9 +68,20 @@ const SCENE_TYPE = {
 };
 
 /** 大屏模板类型 */
-
 const SCREEN_TEMPLATE = {
   "TECH_BLUE": "TechBlue"
+};
+
+/** 大屏背景动效 */
+const ANIMATE_EFFECT = {
+  "DREAM_START": {
+    key: 'dream-star',
+    title: "梦幻星空"
+  },
+  "PARTICLE": {
+    key: 'particle',
+    title: "粒子科技"
+  },
 };
 
 /** Echart Skin */
@@ -177,4 +188,5 @@ export default {
   COMPONENT_TYPE,
   ECHART,
   SCREEN_TEMPLATE,
+  ANIMATE_EFFECT,
 };

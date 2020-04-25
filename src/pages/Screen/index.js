@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-25 13:22:55
+ * @Last Modified time: 2020-04-25 19:13:22
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -11,12 +11,12 @@ import { isEqual } from 'lodash';
 import { Empty } from 'antd';
 import { ListLoader, ResizeMe } from 'suid';
 import empty from "@/assets/page_empty.svg";
-import { ScreenTemplate } from '../../components';
+import { ScreenTemplate, DreamStar, Particle } from '../../components';
 import { constants } from '../../utils'
 import styles from './index.less';
 
 const { TechBlue } = ScreenTemplate;
-const { SCREEN_TEMPLATE } = constants;
+const { SCREEN_TEMPLATE, ANIMATE_EFFECT } = constants;
 
 @ResizeMe()
 @connect(({ screenView, loading }) => ({ screenView, loading }))
@@ -85,6 +85,22 @@ class ScreenView extends PureComponent {
         this.setState({ fullScreen });
     };
 
+    getAnimateEffect = () => {
+        const { screenView: { globalConfig } } = this.props;
+        const { animateEffect = {} } = globalConfig;
+        const { show, type } = animateEffect || {};
+        if (show) {
+            switch (type) {
+                case ANIMATE_EFFECT.DREAM_START.key:
+                    return <DreamStar />;
+                case ANIMATE_EFFECT.PARTICLE.key:
+                    return <Particle />
+                default:
+                    return null;
+            }
+        }
+        return null;
+    };
 
     renderScreenTemplate = () => {
         const { screenView: { currentScreenTemplate, templateConfig, instanceDtos } } = this.props;
@@ -94,7 +110,12 @@ class ScreenView extends PureComponent {
         };
         switch (currentScreenTemplate) {
             case SCREEN_TEMPLATE.TECH_BLUE:
-                return <TechBlue {...templateProps} />;
+                return (
+                    <>
+                        <TechBlue {...templateProps} />
+                        {this.getAnimateEffect()}
+                    </>
+                )
             default:
                 return (
                     <div className='blank-empty'>
