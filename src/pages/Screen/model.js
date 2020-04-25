@@ -41,7 +41,6 @@ export default modelExtend(model, {
                 if (config) {
                     const configData = JSON.parse(config);
                     const { screenTemplate, templateConfig: originTemplateConfig } = configData;
-                    console.log(configData);
                     currentScreenTemplate = screenTemplate;
                     instanceDtos = originInstanceDtos;
                     templateConfig = originTemplateConfig;
