@@ -27,6 +27,7 @@ export default [
           { path: "/scene/home", component: "./Scene" },
           { path: "/scene/sei/home", component: "./Kanban" },
           { path: "/scene/kanban/:code", component: "./Kanban" },
+          { path: "/scene/screenView/:code", component: "./Screen" },
         ]
       }
     ],

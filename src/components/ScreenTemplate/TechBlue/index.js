@@ -52,6 +52,7 @@ class TechBlue extends Component {
                     center: ["50%", "50%"],
                     radius: ["30%", "60%"],
                     avoidLabelOverlap: true,
+                    selectedMode: 'single',
                     labelLine: {
                         normal: {
                             show: true,
@@ -59,6 +60,13 @@ class TechBlue extends Component {
                                 color: "#6CBCF3",
                             }
                         },
+                    },
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
                     },
                     label: {
                         formatter: '{b}\n{c}({d}%)'
@@ -89,7 +97,7 @@ class TechBlue extends Component {
                     left: '6%',
                     right: '6%',
                     bottom: '8%',
-                    containLabel: true
+                    containLabel: false
                 },
                 xAxis: [{
                     type: 'category',
@@ -130,19 +138,25 @@ class TechBlue extends Component {
                 series: {
                     type: 'line',
                     smooth: true,
-                    showSymbol: true,
+                    showSymbol: false,
                     areaStyle: {
-                        normal: {
+                        color: {
+                            type: 'linear',
+                            x: 0,
+                            y: 0,
+                            x2: 0,
+                            y2: 1,
                             colorStops: [{
                                 offset: 0,
-                                color: "RGBA(25, 179, 211, 1)"
+                                color: "RGBA(25, 179, 211, 0.8)"
                             }, {
                                 offset: 0.8,
-                                color: 'RGBA(25, 179, 211, 0.2)'
-                            }, false],
-                            shadowBlur: 10,
-                            opacity: 0.4,
-                        }
+                                color: 'RGBA(25, 179, 211, 0.1)'
+                            }],
+                        },
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 20,
+                        opacity: 0.6,
                     },
                     itemStyle: {
                         color: "RGBA(31, 217, 242, 0.4)",

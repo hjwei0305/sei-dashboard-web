@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:08 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-24 23:09:02
+ * @Last Modified time: 2020-04-25 13:04:03
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -26,7 +26,6 @@ const { SCREEN_TEMPLATE } = constants;
 @connect(({ scene, screen, loading }) => ({ scene, screen, loading }))
 class SceneView extends PureComponent {
 
-    static autoSaveTimer = null;
     static screenBox;
 
     constructor(props) {
