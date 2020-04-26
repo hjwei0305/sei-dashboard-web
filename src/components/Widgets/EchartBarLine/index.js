@@ -2,7 +2,7 @@
  * @Author: Eason 
  * @Date: 2020-04-09 10:13:12 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-24 13:10:52
+ * @Last Modified time: 2020-04-26 09:47:46
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -35,9 +35,9 @@ class EchartBarLine extends PureComponent {
         }).isRequired,
         reader: PropTypes.shape({
             legendData: PropTypes.string,
-            xAxisData: PropTypes.string.isRequired,
+            xAxisData: PropTypes.string,
             yAxisData: PropTypes.string,
-            seriesData: PropTypes.string.isRequired,
+            seriesData: PropTypes.string,
         }).isRequired,
         theme: PropTypes.object,
         overwriteOption: PropTypes.func,

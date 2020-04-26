@@ -2,14 +2,14 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:21:32 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-22 17:34:50
+ * @Last Modified time: 2020-04-26 10:03:36
  */
 
 import React, { PureComponent } from "react";
 import cls from "classnames";
 import { omit, get } from 'lodash'
 import { formatMessage, FormattedMessage } from "umi-plugin-react/locale";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, InputNumber } from "antd";
 import { ComboList } from "suid";
 import { getHashCode, constants } from '../../../../utils';
 import styles from "./Form.less";
@@ -83,7 +83,7 @@ class SceneForm extends PureComponent {
                   message: '自动生成'
                 }]
               })(
-                <Input disabled autoComplete='off' />
+                <Input disabled placeholder="自动生成" autoComplete='off' />
               )}
             </FormItem>
             <FormItem label={formatMessage({ id: "global.name", defaultMessage: "名称" })}>
@@ -105,6 +105,19 @@ class SceneForm extends PureComponent {
                   message: formatMessage({ id: "global.sceneType.required", defaultMessage: "场景类型不能为空" })
                 }]
               })(<ComboList {...sceneCategoryProps} />)}
+            </FormItem>
+            <FormItem label="序号">
+              {getFieldDecorator('rank', {
+                initialValue: get(editData, 'rank', 0),
+                rules: [
+                  {
+                    required: true,
+                    message: '序号不能为空',
+                  },
+                ],
+              })(
+                <InputNumber precision={0} />
+              )}
             </FormItem>
             <FormItem wrapperCol={{ span: 4, offset: 5 }} className="btn-submit">
               <Button
