@@ -223,7 +223,7 @@ class EchartBarLineForm extends PureComponent {
               initialValue: get(renderConfig, 'component.props.reader.xAxisData', null),
               rules: [
                 {
-                  required: true,
+                  required: false,
                   message: 'X轴不能为空',
                 },
               ],
@@ -245,7 +245,7 @@ class EchartBarLineForm extends PureComponent {
               initialValue: get(renderConfig, 'component.props.reader.seriesData', null),
               rules: [
                 {
-                  required: true,
+                  required: false,
                   message: '系列不能为空',
                 },
               ],
