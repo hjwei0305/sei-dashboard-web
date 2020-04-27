@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-27 14:18:34
+ * @Last Modified time: 2020-04-27 14:46:14
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -134,7 +134,7 @@ class StatisticGrid extends PureComponent {
     );
   };
 
-  itemRender = (item, index) => {
+  handlerItemRender = (item, index) => {
     const { itemRender, dataSplit } = this.props;
     if (itemRender) {
       return itemRender(item, index);
@@ -164,7 +164,7 @@ class StatisticGrid extends PureComponent {
               return (
                 <Col span={cols} key={key}>
                   <Card bordered={false} className={{ split: dataSplit }}>
-                    {this.itemRender(item.index)}
+                    {this.handlerItemRender(item, index)}
                   </Card>
                 </Col>
               );
