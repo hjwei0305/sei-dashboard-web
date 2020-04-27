@@ -1,23 +1,21 @@
-import React, { Component } from "react";
-import cls from "classnames";
-import { Popover } from "antd";
+import React, { Component } from 'react';
+import cls from 'classnames';
+import { Popover } from 'antd';
 import { ExtIcon } from 'suid';
-import Form from "./Form";
-import styles from "./index.less";
+import Form from './Form';
+import styles from './index.less';
 
-
- class GroupEdit extends Component {
-
+class GroupEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
     };
   }
 
   handlerPopoverHide = () => {
     this.setState({
-      visible: false
+      visible: false,
     });
   };
 
@@ -29,7 +27,7 @@ import styles from "./index.less";
     const { visible } = this.state;
     const popoverProps = {
       handlerPopoverHide: this.handlerPopoverHide,
-      ...this.props
+      ...this.props,
     };
     return (
       <Popover
@@ -38,11 +36,11 @@ import styles from "./index.less";
         visible={visible}
         key="form-popover-box"
         destroyTooltipOnHide
-        onVisibleChange={visible => this.handlerShowChange(visible)}
-        overlayClassName={cls(styles["form-popover-box"])}
+        onVisibleChange={v => this.handlerShowChange(v)}
+        overlayClassName={cls(styles['form-popover-box'])}
         content={<Form {...popoverProps} />}
       >
-        <span className={cls("form-popover-box-trigger", 'action-item')}>
+        <span className={cls('form-popover-box-trigger', 'action-item')}>
           <ExtIcon type="edit" antd />
         </span>
       </Popover>

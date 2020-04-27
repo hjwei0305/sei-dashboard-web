@@ -1,9 +1,9 @@
-import React, { PureComponent } from "react";
-import cls from "classnames";
-import { omit, get } from 'lodash'
-import { Form, Input, Switch, InputNumber } from "antd";
+import React, { PureComponent } from 'react';
+import cls from 'classnames';
+import { omit, get } from 'lodash';
+import { Form, Input, Switch, InputNumber } from 'antd';
 import { TimerInterval } from '@/components';
-import styles from "./EchartBarLine.less";
+import styles from './EchartBarLine.less';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -27,13 +27,12 @@ const formItemInlineLayout = {
 
 @Form.create()
 class EchartBarLineForm extends PureComponent {
-
   constructor(props) {
     super(props);
     const { editData } = props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     this.state = {
-      timer: get(renderConfig, 'component.props.timer.interval', 0) > 0 ? true : false,
+      timer: get(renderConfig, 'component.props.timer.interval', 0) > 0,
       showSummary: get(renderConfig, 'component.props.summary.show', false) || false,
     };
   }
@@ -43,16 +42,16 @@ class EchartBarLineForm extends PureComponent {
     if (onFormRef) {
       onFormRef(this);
     }
-  };
+  }
 
-  handlerFormSubmit = _ => {
+  handlerFormSubmit = () => {
     const { timer, showSummary } = this.state;
     const { form, save, editData, widget, widgetGroup, color } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
         return;
       }
-      let params = {
+      const params = {
         id: get(editData, 'id', null),
         name: formData.name,
         description: formData.description,
@@ -64,7 +63,7 @@ class EchartBarLineForm extends PureComponent {
         widgetTypeDescription: widget.description,
         widgetTypeIconType: widget.iconType,
         widgetTypeId: widget.id,
-        widgetTypeName: widget.name
+        widgetTypeName: widget.name,
       };
       const rest = omit(formData, ['id', 'name', 'description', 'iconColor']);
       const renderConfig = {
@@ -94,32 +93,32 @@ class EchartBarLineForm extends PureComponent {
               seriesData: rest.seriesData,
               xAxisData: rest.xAxisData,
               yAxisData: rest.yAxisData,
-            }
-          }
-        }
+            },
+          },
+        },
       };
       params.renderConfig = JSON.stringify(renderConfig);
       save(params);
     });
   };
 
-  handlerTimerChange = (checked) => {
+  handlerTimerChange = checked => {
     this.setState({
       timer: checked,
     });
   };
 
-  handlerSummaryChange = (checked) => {
+  handlerSummaryChange = checked => {
     this.setState({
       showSummary: checked,
     });
   };
 
-  handlerTimerIntervalChange = (interval) => {
+  handlerTimerIntervalChange = interval => {
     const { form } = this.props;
     form.setFieldsValue({
       interval,
-    })
+    });
   };
 
   render() {
@@ -131,7 +130,7 @@ class EchartBarLineForm extends PureComponent {
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
-          <div className='title-group'>基本配置</div>
+          <div className="title-group">基本配置</div>
           <FormItem hasFeedback label="组件类型">
             {getFieldDecorator('widgetType', {
               initialValue: get(editData, 'widgetTypeName', widget.name || null),
@@ -140,7 +139,9 @@ class EchartBarLineForm extends PureComponent {
                   required: true,
                 },
               ],
-            })(<Input addonBefore={get(editData, 'widgetTypeCode', widget.code || null)} disabled />)}
+            })(
+              <Input addonBefore={get(editData, 'widgetTypeCode', widget.code || null)} disabled />,
+            )}
           </FormItem>
           <FormItem hasFeedback label="业务名称">
             {getFieldDecorator('name', {
@@ -162,34 +163,27 @@ class EchartBarLineForm extends PureComponent {
                   message: '功能描述不能为空',
                 },
               ],
-            })(
-              <TextArea
-                style={{ resize: 'none' }}
-                autoSize={false}
-                rows={4}
-              />
-            )}
+            })(<TextArea style={{ resize: 'none' }} autoSize={false} rows={4} />)}
           </FormItem>
-          <div className='title-group'>定时器</div>
-          <FormItem label='启用定时器' {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+          <div className="title-group">定时器</div>
+          <FormItem label="启用定时器" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
             <Switch size="small" checked={timer} onChange={this.handlerTimerChange} />
           </FormItem>
-          {
-            timer
-              ? <FormItem layout="inline" className="timer-body" label="间隔时间(分钟)"  {...formItemInlineLayout} style={{ marginBottom: 0 }}>
-                {getFieldDecorator('interval', {
-                  initialValue: timerInterval,
-                })(
-                  <InputNumber precision={0} />
-                )}
-                <TimerInterval
-                  interval={timerInterval}
-                  onChange={this.handlerTimerIntervalChange}
-                />
-              </FormItem>
-              : null
-          }
-          <div className='title-group'>数据配置</div>
+          {timer ? (
+            <FormItem
+              layout="inline"
+              className="timer-body"
+              label="间隔时间(分钟)"
+              {...formItemInlineLayout}
+              style={{ marginBottom: 0 }}
+            >
+              {getFieldDecorator('interval', {
+                initialValue: timerInterval,
+              })(<InputNumber precision={0} />)}
+              <TimerInterval interval={timerInterval} onChange={this.handlerTimerIntervalChange} />
+            </FormItem>
+          ) : null}
+          <div className="title-group">数据配置</div>
           <FormItem label="数据接口" hasFeedback>
             {getFieldDecorator('storeUrl', {
               initialValue: get(renderConfig, 'component.props.store.url', null),
@@ -199,10 +193,8 @@ class EchartBarLineForm extends PureComponent {
                   message: '数据接口不能为空',
                 },
               ],
-            })(
-              <Input />
-            )}
-            <p className='desc'>数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
+            })(<Input />)}
+            <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
           </FormItem>
           <FormItem label="图例" hasFeedback>
             {getFieldDecorator('legendData', {
@@ -213,10 +205,8 @@ class EchartBarLineForm extends PureComponent {
                   message: '图例不能为空',
                 },
               ],
-            })(
-              <Input />
-            )}
-            <p className='desc'>图例数据节点:接口返回数据结构请参照官网Echart的legend配置</p>
+            })(<Input />)}
+            <p className="desc">图例数据节点:接口返回数据结构请参照官网Echart的legend配置</p>
           </FormItem>
           <FormItem label="X轴" hasFeedback>
             {getFieldDecorator('xAxisData', {
@@ -227,18 +217,18 @@ class EchartBarLineForm extends PureComponent {
                   message: 'X轴不能为空',
                 },
               ],
-            })(
-              <Input />
-            )}
-            <p className='desc'>X轴数据节点:轴线类型默认为:'category',接口返回数据结构请参照官网Echart的xAxis配置</p>
+            })(<Input />)}
+            <p className="desc">
+              X轴数据节点:轴线类型默认为:category,接口返回数据结构请参照官网Echart的xAxis配置
+            </p>
           </FormItem>
           <FormItem label="Y轴" hasFeedback>
             {getFieldDecorator('yAxisData', {
               initialValue: get(renderConfig, 'component.props.reader.yAxisData', null),
-            })(
-              <Input />
-            )}
-            <p className='desc'>Y轴数据节点:轴线类型默认为:'value',接口返回数据结构请参照官网Echart的yAxis配置</p>
+            })(<Input />)}
+            <p className="desc">
+              Y轴数据节点:轴线类型默认为:value,接口返回数据结构请参照官网Echart的yAxis配置
+            </p>
           </FormItem>
           <FormItem label="系列" hasFeedback>
             {getFieldDecorator('seriesData', {
@@ -249,52 +239,42 @@ class EchartBarLineForm extends PureComponent {
                   message: '系列不能为空',
                 },
               ],
-            })(
-              <Input />
-            )}
-            <p className='desc'>系列数据节点:接口返回数据结构请参照官网Echart的series配置</p>
+            })(<Input />)}
+            <p className="desc">系列数据节点:接口返回数据结构请参照官网Echart的series配置</p>
           </FormItem>
-          <div className='title-group'>其它</div>
-          <FormItem label='显示汇总' {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+          <div className="title-group">其它</div>
+          <FormItem label="显示汇总" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
             <Switch size="small" checked={showSummary} onChange={this.handlerSummaryChange} />
           </FormItem>
-          {
-            showSummary
-              ? (
-                <>
-                  <FormItem label="汇总标题" hasFeedback>
-                    {getFieldDecorator('summaryTitle', {
-                      initialValue: get(renderConfig, 'component.props.summary.title', null),
-                      rules: [
-                        {
-                          required: true,
-                          message: '汇总标题不能为空',
-                        },
-                      ],
-                    })(
-                      <Input />
-                    )}
-                  </FormItem>
-                  <FormItem label="汇总数据" hasFeedback>
-                    {getFieldDecorator('summaryData', {
-                      initialValue: get(renderConfig, 'component.props.summary.data', null),
-                      rules: [
-                        {
-                          required: true,
-                          message: '汇总数据不能为空',
-                        },
-                      ],
-                    })(
-                      <Input />
-                    )}
-                    <p className='desc'>接口返回数据体的汇总数据节点属性名称</p>
-                  </FormItem>
-                </>
-              )
-              : null
-          }
+          {showSummary ? (
+            <>
+              <FormItem label="汇总标题" hasFeedback>
+                {getFieldDecorator('summaryTitle', {
+                  initialValue: get(renderConfig, 'component.props.summary.title', null),
+                  rules: [
+                    {
+                      required: true,
+                      message: '汇总标题不能为空',
+                    },
+                  ],
+                })(<Input />)}
+              </FormItem>
+              <FormItem label="汇总数据" hasFeedback>
+                {getFieldDecorator('summaryData', {
+                  initialValue: get(renderConfig, 'component.props.summary.data', null),
+                  rules: [
+                    {
+                      required: true,
+                      message: '汇总数据不能为空',
+                    },
+                  ],
+                })(<Input />)}
+                <p className="desc">接口返回数据体的汇总数据节点属性名称</p>
+              </FormItem>
+            </>
+          ) : null}
         </Form>
-      </div >
+      </div>
     );
   }
 }

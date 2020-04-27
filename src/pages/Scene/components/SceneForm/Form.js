@@ -1,34 +1,33 @@
 /*
- * @Author: Eason 
- * @Date: 2020-04-03 11:21:32 
+ * @Author: Eason
+ * @Date: 2020-04-03 11:21:32
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-26 10:03:36
+ * @Last Modified time: 2020-04-27 14:31:00
  */
 
-import React, { PureComponent } from "react";
-import cls from "classnames";
-import { omit, get } from 'lodash'
-import { formatMessage, FormattedMessage } from "umi-plugin-react/locale";
-import { Button, Form, Input, InputNumber } from "antd";
-import { ComboList } from "suid";
+import React, { PureComponent } from 'react';
+import cls from 'classnames';
+import { omit, get } from 'lodash';
+import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
+import { Button, Form, Input, InputNumber } from 'antd';
+import { ComboList } from 'suid';
 import { getHashCode, constants } from '../../../../utils';
-import styles from "./Form.less";
+import styles from './Form.less';
 
 const { SERVER_PATH } = constants;
 const FormItem = Form.Item;
 const formItemLayout = {
   labelCol: {
-    span: 5
+    span: 5,
   },
   wrapperCol: {
-    span: 19
-  }
+    span: 19,
+  },
 };
 
 @Form.create()
 class SceneForm extends PureComponent {
-
-  handlerFormSubmit = _ => {
+  handlerFormSubmit = () => {
     const { form, saveScene, editData, handlerPopoverHide } = this.props;
     const { validateFields, getFieldsValue } = form;
     validateFields(errors => {
@@ -37,10 +36,13 @@ class SceneForm extends PureComponent {
       }
       const data = {
         ...editData,
-      }
+      };
       Object.assign(data, getFieldsValue());
       data.code = get(editData, 'code', '') || getHashCode();
-      saveScene(omit(data, ['config', 'instanceDtos', 'widgetInstanceIds', 'sceneCategoryRemark']), handlerPopoverHide);
+      saveScene(
+        omit(data, ['config', 'instanceDtos', 'widgetInstanceIds', 'sceneCategoryRemark']),
+        handlerPopoverHide,
+      );
     });
   };
 
@@ -48,11 +50,13 @@ class SceneForm extends PureComponent {
     const { form, editData, saving } = this.props;
     const { getFieldDecorator } = form;
     const title = editData ? '编辑场景' : '新建场景';
-    getFieldDecorator("sceneCategory", {
+    getFieldDecorator('sceneCategory', {
       initialValue: get(editData, 'sceneCategory', 'DASHBOARD'),
-      rules: [{
-        required: true,
-      }]
+      rules: [
+        {
+          required: true,
+        },
+      ],
     });
     const sceneCategoryProps = {
       form,
@@ -63,47 +67,53 @@ class SceneForm extends PureComponent {
       },
       reader: {
         name: 'remark',
-        field: ['name']
-      }
+        field: ['name'],
+      },
     };
     return (
-      <div key="form-box" className={cls(styles["form-box"])}>
+      <div key="form-box" className={cls(styles['form-box'])}>
         <div className="base-view-body">
           <div className="header">
-            <span className="title">
-              {title}
-            </span>
+            <span className="title">{title}</span>
           </div>
           <Form {...formItemLayout}>
             <FormItem label="代码">
-              {getFieldDecorator("code", {
+              {getFieldDecorator('code', {
                 initialValue: get(editData, 'code', ''),
-                rules: [{
-                  required: false,
-                  message: '自动生成'
-                }]
-              })(
-                <Input disabled placeholder="自动生成" autoComplete='off' />
-              )}
+                rules: [
+                  {
+                    required: false,
+                    message: '自动生成',
+                  },
+                ],
+              })(<Input disabled placeholder="自动生成" autoComplete="off" />)}
             </FormItem>
-            <FormItem label={formatMessage({ id: "global.name", defaultMessage: "名称" })}>
-              {getFieldDecorator("name", {
+            <FormItem label={formatMessage({ id: 'global.name', defaultMessage: '名称' })}>
+              {getFieldDecorator('name', {
                 initialValue: get(editData, 'name', ''),
-                rules: [{
-                  required: true,
-                  message: formatMessage({ id: "global.name.required", defaultMessage: "名称不能为空" })
-                }]
-              })(
-                <Input autoComplete='off' />
-              )}
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({
+                      id: 'global.name.required',
+                      defaultMessage: '名称不能为空',
+                    }),
+                  },
+                ],
+              })(<Input autoComplete="off" />)}
             </FormItem>
-            <FormItem label={formatMessage({ id: "global.sceneType", defaultMessage: "场景类型" })}>
-              {getFieldDecorator("sceneCategoryRemark", {
+            <FormItem label={formatMessage({ id: 'global.sceneType', defaultMessage: '场景类型' })}>
+              {getFieldDecorator('sceneCategoryRemark', {
                 initialValue: get(editData, 'sceneCategoryRemark', '仪表盘'),
-                rules: [{
-                  required: true,
-                  message: formatMessage({ id: "global.sceneType.required", defaultMessage: "场景类型不能为空" })
-                }]
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({
+                      id: 'global.sceneType.required',
+                      defaultMessage: '场景类型不能为空',
+                    }),
+                  },
+                ],
               })(<ComboList {...sceneCategoryProps} />)}
             </FormItem>
             <FormItem label="序号">
@@ -115,17 +125,11 @@ class SceneForm extends PureComponent {
                     message: '序号不能为空',
                   },
                 ],
-              })(
-                <InputNumber precision={0} />
-              )}
+              })(<InputNumber precision={0} />)}
             </FormItem>
             <FormItem wrapperCol={{ span: 4, offset: 5 }} className="btn-submit">
-              <Button
-                type="primary"
-                loading={saving}
-                onClick={this.handlerFormSubmit}
-              >
-                <FormattedMessage id='global.save' defaultMessage='保存' />
+              <Button type="primary" loading={saving} onClick={this.handlerFormSubmit}>
+                <FormattedMessage id="global.save" defaultMessage="保存" />
               </Button>
             </FormItem>
           </Form>

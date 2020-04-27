@@ -1,21 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
-import moment from "moment";
+import moment from 'moment';
 import styles from './index.less';
 
-const getTime = _ => {
-  return moment().format("YYYY年MM月DD日  dddd  HH:mm:ss");
+const getTime = () => {
+  return moment().format('YYYY年MM月DD日  dddd  HH:mm:ss');
 };
 
 class TimeClock extends PureComponent {
-
   static propTypes = {
     color: PropTypes.string,
   };
 
   static defaultProps = {
-    color: "#ffffff",
+    color: '#ffffff',
   };
 
   constructor(props) {
@@ -26,9 +25,9 @@ class TimeClock extends PureComponent {
   }
 
   componentDidMount() {
-    setInterval(_ => {
+    setInterval(() => {
       this.setState({
-        currentTime: getTime()
+        currentTime: getTime(),
       });
     }, 1000);
   }
@@ -38,12 +37,10 @@ class TimeClock extends PureComponent {
     const { currentTime } = this.state;
     return (
       <span className={cls(styles['time-clock'])} style={{ color }}>
-        {
-          currentTime
-        }
+        {currentTime}
       </span>
     );
   }
 }
 
-export default TimeClock
+export default TimeClock;

@@ -1,9 +1,9 @@
-import React, { PureComponent } from "react";
-import cls from "classnames";
-import { omit, get } from 'lodash'
-import { Form, Input, Switch, InputNumber } from "antd";
+import React, { PureComponent } from 'react';
+import cls from 'classnames';
+import { omit, get } from 'lodash';
+import { Form, Input, Switch, InputNumber } from 'antd';
 import { TimerInterval } from '@/components';
-import styles from "./StatisticGrid.less";
+import styles from './StatisticGrid.less';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -27,13 +27,12 @@ const formItemInlineLayout = {
 
 @Form.create()
 class StatisticGridForm extends PureComponent {
-
   constructor(props) {
     super(props);
     const { editData } = props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     this.state = {
-      timer: get(renderConfig, 'component.props.timer.interval', 0) > 0 ? true : false,
+      timer: get(renderConfig, 'component.props.timer.interval', 0) > 0,
     };
   }
 
@@ -44,14 +43,14 @@ class StatisticGridForm extends PureComponent {
     }
   }
 
-  handlerFormSubmit = _ => {
+  handlerFormSubmit = () => {
     const { timer } = this.state;
     const { form, save, editData, widget, widgetGroup, color } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
         return;
       }
-      let params = {
+      const params = {
         id: get(editData, 'id', null),
         name: formData.name,
         description: formData.description,
@@ -63,7 +62,7 @@ class StatisticGridForm extends PureComponent {
         widgetTypeDescription: widget.description,
         widgetTypeIconType: widget.iconType,
         widgetTypeId: widget.id,
-        widgetTypeName: widget.name
+        widgetTypeName: widget.name,
       };
       const rest = omit(formData, ['id', 'name', 'description', 'iconColor']);
       const renderConfig = {
@@ -86,26 +85,26 @@ class StatisticGridForm extends PureComponent {
             },
             reader: {
               data: rest.data,
-            }
-          }
-        }
+            },
+          },
+        },
       };
       params.renderConfig = JSON.stringify(renderConfig);
       save(params);
     });
   };
 
-  handlerTimerChange = (checked) => {
+  handlerTimerChange = checked => {
     this.setState({
       timer: checked,
-    })
+    });
   };
 
-  handlerTimerIntervalChange = (interval) => {
+  handlerTimerIntervalChange = interval => {
     const { form } = this.props;
     form.setFieldsValue({
       interval,
-    })
+    });
   };
 
   render() {
@@ -117,7 +116,7 @@ class StatisticGridForm extends PureComponent {
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
-          <div className='title-group'>基本配置</div>
+          <div className="title-group">基本配置</div>
           <FormItem hasFeedback label="组件类型">
             {getFieldDecorator('widgetType', {
               initialValue: get(editData, 'widgetTypeName', widget.name || null),
@@ -126,7 +125,9 @@ class StatisticGridForm extends PureComponent {
                   required: true,
                 },
               ],
-            })(<Input addonBefore={get(editData, 'widgetTypeCode', widget.code || null)} disabled />)}
+            })(
+              <Input addonBefore={get(editData, 'widgetTypeCode', widget.code || null)} disabled />,
+            )}
           </FormItem>
           <FormItem hasFeedback label="业务名称">
             {getFieldDecorator('name', {
@@ -148,34 +149,27 @@ class StatisticGridForm extends PureComponent {
                   message: '功能描述不能为空',
                 },
               ],
-            })(
-              <TextArea
-                style={{ resize: 'none' }}
-                autoSize={false}
-                rows={4}
-              />
-            )}
+            })(<TextArea style={{ resize: 'none' }} autoSize={false} rows={4} />)}
           </FormItem>
-          <div className='title-group'>定时器</div>
-          <FormItem label='启用定时器' {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+          <div className="title-group">定时器</div>
+          <FormItem label="启用定时器" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
             <Switch size="small" checked={timer} onChange={this.handlerTimerChange} />
           </FormItem>
-          {
-            timer
-              ? <FormItem layout="inline" className="timer-body" label="间隔时间(分钟)"  {...formItemInlineLayout} style={{ marginBottom: 0 }}>
-                {getFieldDecorator('interval', {
-                  initialValue: timerInterval,
-                })(
-                  <InputNumber precision={0} />
-                )}
-                <TimerInterval
-                  interval={timerInterval}
-                  onChange={this.handlerTimerIntervalChange}
-                />
-              </FormItem>
-              : null
-          }
-          <div className='title-group'>数据配置</div>
+          {timer ? (
+            <FormItem
+              layout="inline"
+              className="timer-body"
+              label="间隔时间(分钟)"
+              {...formItemInlineLayout}
+              style={{ marginBottom: 0 }}
+            >
+              {getFieldDecorator('interval', {
+                initialValue: timerInterval,
+              })(<InputNumber precision={0} />)}
+              <TimerInterval interval={timerInterval} onChange={this.handlerTimerIntervalChange} />
+            </FormItem>
+          ) : null}
+          <div className="title-group">数据配置</div>
           <FormItem label="数据接口" hasFeedback>
             {getFieldDecorator('storeUrl', {
               initialValue: get(renderConfig, 'component.props.store.url', null),
@@ -185,10 +179,8 @@ class StatisticGridForm extends PureComponent {
                   message: '数据接口不能为空',
                 },
               ],
-            })(
-              <Input />
-            )}
-            <p className='desc'>数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
+            })(<Input />)}
+            <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
           </FormItem>
           <FormItem label="数据节点" hasFeedback>
             {getFieldDecorator('data', {
@@ -199,21 +191,19 @@ class StatisticGridForm extends PureComponent {
                   message: '数据节点不能为空',
                 },
               ],
-            })(
-              <Input />
-            )}
-            <p className='desc'>接口返回数据体的属性名</p>
+            })(<Input />)}
+            <p className="desc">接口返回数据体的属性名</p>
           </FormItem>
-          <div className='title-group'>其它</div>
-          <FormItem label='统计值分离显示'>
-            {getFieldDecorator("dataSplit", {
+          <div className="title-group">其它</div>
+          <FormItem label="统计值分离显示">
+            {getFieldDecorator('dataSplit', {
               initialValue: get(renderConfig, 'component.props.dataSplit', false) || false,
-              valuePropName: "checked"
+              valuePropName: 'checked',
             })(<Switch size="small" />)}
-            <p className='desc'>显示的每位数字将分别用DOM包裹</p>
+            <p className="desc">显示的每位数字将分别用DOM包裹</p>
           </FormItem>
         </Form>
-      </div >
+      </div>
     );
   }
 }

@@ -1,13 +1,13 @@
 /*
- * @Author: Eason 
- * @Date: 2020-04-03 11:21:17 
+ * @Author: Eason
+ * @Date: 2020-04-03 11:21:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-23 15:35:08
+ * @Last Modified time: 2020-04-27 14:31:09
  */
 
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
-import { connect } from "dva";
+import { connect } from 'dva';
 import { includes } from 'lodash';
 import PropTypes from 'prop-types';
 import { Popover, Button } from 'antd';
@@ -15,10 +15,8 @@ import { ExtIcon, ScrollBar } from 'suid';
 import WidgetAssets from '../WidgetAssets';
 import styles from './WidgetSelect.less';
 
-
 @connect(({ scene, loading }) => ({ scene, loading }))
 class WidgetSelect extends PureComponent {
-
   static loadingWidgetId = null;
 
   static propTypes = {
@@ -35,7 +33,7 @@ class WidgetSelect extends PureComponent {
     };
   }
 
-  getWidgetAssetList = (e) => {
+  getWidgetAssetList = e => {
     e && e.stopPropagation();
     const { dispatch } = this.props;
     dispatch({
@@ -45,7 +43,7 @@ class WidgetSelect extends PureComponent {
 
   handlerPopoverHide = () => {
     this.setState({
-      visible: false
+      visible: false,
     });
   };
 
@@ -62,29 +60,25 @@ class WidgetSelect extends PureComponent {
       payload: {
         id: item.id,
       },
-      successCallback: (widgetData) => {
+      successCallback: widgetData => {
         if (onWidgetSelect) {
           onWidgetSelect(widgetKey, widgetData);
         }
         this.handlerPopoverHide();
-      }
+      },
     });
   };
 
-  renderExtra = (item) => {
+  renderExtra = item => {
     const { widgetSelectKeys, loading } = this.props;
     const loadingWidgetInstance = loading.effects['scene/getWidgetInstanceById'];
     const btnProps = {
       type: 'primary',
       loading: item.id === this.loadingWidgetId && loadingWidgetInstance,
       disabled: includes(widgetSelectKeys, item.id),
-      onClick: (e) => this.handlerSelect(item, e),
+      onClick: e => this.handlerSelect(item, e),
     };
-    return (
-      <Button {...btnProps}>
-        选择
-      </Button>
-    )
+    return <Button {...btnProps}>选择</Button>;
   };
 
   renderWidgetAssets = () => {
@@ -101,7 +95,7 @@ class WidgetSelect extends PureComponent {
           <WidgetAssets {...widgetAssetsProps} />
         </ScrollBar>
       </div>
-    )
+    );
   };
 
   render() {
@@ -115,19 +109,17 @@ class WidgetSelect extends PureComponent {
         visible={visible}
         key="widget-popover-box"
         destroyTooltipOnHide
-        onVisibleChange={visible => this.handlerShowChange(visible)}
-        overlayClassName={cls(styles["widget-popover-box"])}
+        onVisibleChange={v => this.handlerShowChange(v)}
+        overlayClassName={cls(styles['widget-popover-box'])}
         content={this.renderWidgetAssets()}
       >
-        {
-          children
-            ? children(this.getWidgetAssetList)
-            : (
-              <div className={cls("trigger-add")} onClick={(e) => this.getWidgetAssetList(e)}>
-                <ExtIcon type="plus" antd style={{ fontSize: 24 }} />
-              </div>
-            )
-        }
+        {children ? (
+          children(this.getWidgetAssetList)
+        ) : (
+          <div className={cls('trigger-add')} onClick={e => this.getWidgetAssetList(e)}>
+            <ExtIcon type="plus" antd style={{ fontSize: 24 }} />
+          </div>
+        )}
       </Popover>
     );
   }

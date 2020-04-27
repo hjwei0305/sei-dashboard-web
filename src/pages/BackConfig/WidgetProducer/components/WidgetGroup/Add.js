@@ -1,22 +1,20 @@
-import React, { Component } from "react";
-import { Button, Popover } from "antd";
-import cls from "classnames";
-import Form from "./Form";
-import styles from "./index.less";
-
+import React, { Component } from 'react';
+import { Button, Popover } from 'antd';
+import cls from 'classnames';
+import Form from './Form';
+import styles from './index.less';
 
 class GroupAdd extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
     };
   }
 
   handlerPopoverHide = () => {
     this.setState({
-      visible: false
+      visible: false,
     });
   };
 
@@ -28,7 +26,7 @@ class GroupAdd extends Component {
     const { visible } = this.state;
     const popoverProps = {
       handlerPopoverHide: this.handlerPopoverHide,
-      ...this.props
+      ...this.props,
     };
     return (
       <Popover
@@ -37,12 +35,12 @@ class GroupAdd extends Component {
         visible={visible}
         key="form-popover-box"
         destroyTooltipOnHide
-        onVisibleChange={visible => this.handlerShowChange(visible)}
-        overlayClassName={cls(styles["form-popover-box"])}
+        onVisibleChange={v => this.handlerShowChange(v)}
+        overlayClassName={cls(styles['form-popover-box'])}
         content={<Form {...popoverProps} />}
       >
-        <span className={cls("form-popover-box-trigger")}>
-          <Button icon="plus" type='link'>
+        <span className={cls('form-popover-box-trigger')}>
+          <Button icon="plus" type="link">
             看板组
           </Button>
         </span>

@@ -1,8 +1,8 @@
 /*
- * @Author: Eason 
- * @Date: 2020-02-21 18:03:16 
+ * @Author: Eason
+ * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-25 18:41:17
+ * @Last Modified time: 2020-04-27 14:36:20
  */
 import { base } from '../../public/app.config.json';
 
@@ -12,22 +12,21 @@ const BASE_DOMAIN = '/';
 /** 网关地址 */
 const GATEWAY = 'api-gateway';
 
-/** 
-* 非生产环境下是使用mocker开发，还是与真实后台开发或联调 
-* 注：
-*    yarn start 使用mocker
-*    yarn start:no-mock使用真实后台开发或联调
-*/
-const getServerPath = function () {
+/**
+ * 非生产环境下是使用mocker开发，还是与真实后台开发或联调
+ * 注：
+ *    yarn start 使用mocker
+ *    yarn start:no-mock使用真实后台开发或联调
+ */
+const getServerPath = function() {
   if (process.env.NODE_ENV !== 'production') {
     if (process.env.MOCK === 'yes') {
-      return '/mocker.api'
-    } else {
-      return '/api-gateway'
+      return '/mocker.api';
     }
+    return '/api-gateway';
   }
-  return `${BASE_DOMAIN}${GATEWAY}`
-}
+  return `${BASE_DOMAIN}${GATEWAY}`;
+};
 
 /** 项目的站点基地址 */
 const APP_BASE = base;
@@ -38,145 +37,145 @@ const LOCAL_PATH = process.env.NODE_ENV !== 'production' ? '..' : `../${APP_BASE
 const SERVER_PATH = getServerPath();
 
 const LOGIN_STATUS = {
-  "SUCCESS": "success",
-  "MULTI_TENANT": "multiTenant",
-  "CAPTCHA_ERROR": "captchaError",
-  "FROZEN": "frozen",
-  "LOCKED": "locked",
-  "FAILURE": "failure"
+  SUCCESS: 'success',
+  MULTI_TENANT: 'multiTenant',
+  CAPTCHA_ERROR: 'captchaError',
+  FROZEN: 'frozen',
+  LOCKED: 'locked',
+  FAILURE: 'failure',
 };
 
-/** 业务模块功能项示例*/
+/** 业务模块功能项示例 */
 const APP_MODULE_BTN_KEY = {
-  "CREATE": `${APP_BASE}_CREATE`,
-  "EDIT": `${APP_BASE}_EDIT`,
-  "DELETE": `${APP_BASE}_DELETE`
+  CREATE: `${APP_BASE}_CREATE`,
+  EDIT: `${APP_BASE}_EDIT`,
+  DELETE: `${APP_BASE}_DELETE`,
 };
 
-/** 组件类型*/
+/** 组件类型 */
 const COMPONENT_TYPE = {
-  "ECHART_PIE": "EchartPie",
-  "ECHART_BAR_LINE": "EchartBarLine",
-  "STATISTIC_GRID": "StatisticGrid",
+  ECHART_PIE: 'EchartPie',
+  ECHART_BAR_LINE: 'EchartBarLine',
+  STATISTIC_GRID: 'StatisticGrid',
 };
 
-/** 场景类型*/
+/** 场景类型 */
 const SCENE_TYPE = {
-  'DASHBOARD': 'DASHBOARD',
-  'HOME': 'HOME',
-  'SCREEN': 'SCREEN',
+  DASHBOARD: 'DASHBOARD',
+  HOME: 'HOME',
+  SCREEN: 'SCREEN',
 };
 
 /** 大屏模板类型 */
 const SCREEN_TEMPLATE = {
-  "TECH_BLUE": "TechBlue"
+  TECH_BLUE: 'TechBlue',
 };
 
 /** 大屏背景动效 */
 const ANIMATE_EFFECT = {
-  "DREAM_START": {
+  DREAM_START: {
     key: 'dream-star',
-    title: "梦幻星空"
+    title: '梦幻星空',
   },
-  "PARTICLE": {
+  PARTICLE: {
     key: 'particle',
-    title: "粒子科技"
+    title: '粒子科技',
   },
 };
 
 /** Echart Skin */
 const ECHART = {
-  "light": {
+  light: {
     title: {
       textStyle: {
-        color: "#333"
-      }
+        color: '#333',
+      },
     },
     legend: {
       textStyle: {
-        color: "#333"
-      }
+        color: '#333',
+      },
     },
     xAxis: {
       axisLine: {
         lineStyle: {
-          color: "#333"
-        }
-      }
+          color: '#333',
+        },
+      },
     },
     yAxis: {
       lineStyle: {
         color: ['#eee'],
-        type: 'solid'
+        type: 'solid',
       },
       axisLine: {
         lineStyle: {
-          color: "#333"
-        }
-      }
-    }
+          color: '#333',
+        },
+      },
+    },
   },
-  "darkgrey": {
+  darkgrey: {
     title: {
       textStyle: {
-        color: "#999"
-      }
+        color: '#999',
+      },
     },
     legend: {
       textStyle: {
-        color: "#d7d9da"
-      }
+        color: '#d7d9da',
+      },
     },
     xAxis: {
       axisLine: {
         lineStyle: {
-          color: "#d7d9da"
-        }
-      }
+          color: '#d7d9da',
+        },
+      },
     },
     yAxis: {
       lineStyle: {
         color: ['#333'],
-        type: 'solid'
+        type: 'solid',
       },
       axisLine: {
         lineStyle: {
-          color: "#d7d9da"
-        }
-      }
-    }
+          color: '#d7d9da',
+        },
+      },
+    },
   },
-  "darkblue": {
+  darkblue: {
     title: {
       textStyle: {
-        color: "#999"
-      }
+        color: '#999',
+      },
     },
     legend: {
       textStyle: {
-        color: "#d7d9da"
-      }
+        color: '#d7d9da',
+      },
     },
     xAxis: {
       axisLine: {
         lineStyle: {
-          color: "#6595ce"
-        }
-      }
+          color: '#6595ce',
+        },
+      },
     },
     yAxis: {
       lineStyle: {
         color: ['#445b7e'],
-        type: 'solid'
+        type: 'solid',
       },
       axisLine: {
         lineStyle: {
-          color: "#6595ce"
-        }
-      }
-    }
-  }
-}
+          color: '#6595ce',
+        },
+      },
+    },
+  },
+};
 
 export default {
   SCENE_TYPE,
