@@ -3,6 +3,7 @@
 /* eslint-disable no-underscore-dangle */
 /* globals workbox */
 const path = require('path');
+
 const cwd = process.cwd();
 const { version, name } = require(path.resolve(cwd, 'package.json'));
 

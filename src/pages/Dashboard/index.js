@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Icon, Menu,Layout} from 'antd';
+import { Icon, Menu, Layout } from 'antd';
 import Link from 'umi/link';
 import cls from 'classnames';
 import { ScrollBar } from 'suid';
 import styles from './index.less';
 
-const {Header,Content}=Layout;
+const { Header, Content } = Layout;
 const { SubMenu } = Menu;
 
 const menuData = [
@@ -38,7 +38,7 @@ const menuData = [
   },
 ];
 
-const getIcon = (icon) => {
+const getIcon = icon => {
   if (typeof icon === 'string') {
     return <Icon type={icon} />;
   }
@@ -50,17 +50,17 @@ export default class Home extends Component {
     this.getNavMenuItems(menuData);
   }
 
-  getNavMenuItems = (menusData) => {
+  getNavMenuItems = menusData => {
     if (!menusData) {
       return [];
     }
     return menusData
-      .filter((item) => item.name)
-      .map((item) => this.getSubMenuOrItem(item))
-      .filter((item) => item);
+      .filter(item => item.name)
+      .map(item => this.getSubMenuOrItem(item))
+      .filter(item => item);
   };
 
-  getSubMenuTitle = (item) => {
+  getSubMenuTitle = item => {
     const { name } = item;
     return item.icon ? (
       <span>
@@ -72,8 +72,8 @@ export default class Home extends Component {
     );
   };
 
-  getSubMenuOrItem = (item) => {
-    if (item.children && item.children.some((child) => child.name)) {
+  getSubMenuOrItem = item => {
+    if (item.children && item.children.some(child => child.name)) {
       return (
         <SubMenu title={this.getSubMenuTitle(item)} key={item.id}>
           {this.getNavMenuItems(item.children)}
@@ -83,7 +83,7 @@ export default class Home extends Component {
     return <Menu.Item key={item.id}>{this.getMenuItemPath(item)}</Menu.Item>;
   };
 
-  getMenuItemPath = (item) => {
+  getMenuItemPath = item => {
     const { name } = item;
     const { location } = this.props;
     return (
@@ -99,12 +99,12 @@ export default class Home extends Component {
         <Header className={cls('menu-header')}>应用路由列表</Header>
         <Content className={cls('menu-box')}>
           <ScrollBar>
-            <Menu key="Menu" mode={'inline'} theme={'light'}>
+            <Menu key="Menu" mode="inline" theme="light">
               {this.getNavMenuItems(menuData)}
             </Menu>
           </ScrollBar>
         </Content>
-        </Layout>
+      </Layout>
     );
   }
 }

@@ -1,13 +1,18 @@
-import { delWidgetInstance, saveWidgetInstance, getWidgetList, getWidgetInstanceById } from "../service";
-import { message } from "antd";
-import { formatMessage } from "umi-plugin-react/locale";
+import { message } from 'antd';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { utils } from 'suid';
+import {
+  delWidgetInstance,
+  saveWidgetInstance,
+  getWidgetList,
+  getWidgetInstanceById,
+} from '../service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
 
 export default modelExtend(model, {
-  namespace: "widgetInstance",
+  namespace: 'widgetInstance',
 
   state: {
     listData: [],
@@ -16,16 +21,16 @@ export default modelExtend(model, {
     widgetData: [],
   },
   effects: {
-    * saveWidgetInstance({ payload, callback }, { call, put }) {
+    *saveWidgetInstance({ payload, callback }, { call, put }) {
       const re = yield call(saveWidgetInstance, payload);
       message.destroy();
       if (re.success) {
-        message.success(formatMessage({ id: "global.save-success", defaultMessage: "保存成功" }));
+        message.success(formatMessage({ id: 'global.save-success', defaultMessage: '保存成功' }));
         yield put({
-          type: "updateState",
+          type: 'updateState',
           payload: {
-            showFormModal: false
-          }
+            showFormModal: false,
+          },
         });
       } else {
         message.error(re.message);
@@ -34,15 +39,15 @@ export default modelExtend(model, {
         callback(re);
       }
     },
-    * getWidgetInstanceById({ payload, callback }, { call, put }) {
+    *getWidgetInstanceById({ payload, callback }, { call, put }) {
       const re = yield call(getWidgetInstanceById, payload);
       message.destroy();
       if (re.success) {
         yield put({
-          type: "updateState",
+          type: 'updateState',
           payload: {
             currentWidgetInstance: re.data,
-          }
+          },
         });
       } else {
         message.error(re.message);
@@ -51,11 +56,11 @@ export default modelExtend(model, {
         callback(re);
       }
     },
-    * delWidgetInstance({ payload, callback }, { call }) {
+    *delWidgetInstance({ payload, callback }, { call }) {
       const re = yield call(delWidgetInstance, payload);
       message.destroy();
       if (re.success) {
-        message.success(formatMessage({ id: "global.delete-success", defaultMessage: "删除成功" }));
+        message.success(formatMessage({ id: 'global.delete-success', defaultMessage: '删除成功' }));
       } else {
         message.error(re.message);
       }
@@ -63,18 +68,18 @@ export default modelExtend(model, {
         callback(re);
       }
     },
-    * getWidgetList({ payload }, { call, put }) {
+    *getWidgetList({ payload }, { call, put }) {
       const re = yield call(getWidgetList, payload);
       if (re.success) {
         yield put({
-          type: "updateState",
+          type: 'updateState',
           payload: {
-            widgetData: re.data
-          }
+            widgetData: re.data,
+          },
         });
       } else {
         message.error(re.message);
       }
     },
-  }
+  },
 });

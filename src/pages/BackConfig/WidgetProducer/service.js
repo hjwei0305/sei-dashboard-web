@@ -5,12 +5,12 @@ const { request } = utils;
 
 const { SERVER_PATH } = constants;
 
-/** 获取看板组列表*/
+/** 获取看板组列表 */
 export async function getWidgetGroupList(params) {
   const url = `${SERVER_PATH}/sei-dashboard/widgetGroup/findAll`;
   return request({
     url,
-    method: "GET",
+    method: 'GET',
     params,
   });
 }
@@ -20,7 +20,7 @@ export async function saveWidgetGroup(data) {
   const url = `${SERVER_PATH}/sei-dashboard/widgetGroup/save`;
   return request({
     url,
-    method: "POST",
+    method: 'POST',
     data,
   });
 }
@@ -30,7 +30,7 @@ export async function delWidgetGroup(params) {
   const url = `${SERVER_PATH}/sei-dashboard/widgetGroup/delete/${params.id}`;
   return request({
     url,
-    method: "DELETE",
+    method: 'DELETE',
   });
 }
 
@@ -39,16 +39,15 @@ export async function saveWidgetInstance(data) {
   const url = `${SERVER_PATH}/sei-dashboard/widgetInstance/save`;
   return request({
     url,
-    method: "POST",
+    method: 'POST',
     data,
   });
 }
 
-
-/** 
- * 获取单个看板组件实例 
+/**
+ * 获取单个看板组件实例
  * @id 实例Id
-*/
+ */
 export async function getWidgetInstanceById(params) {
   const url = `${SERVER_PATH}/sei-dashboard/widgetInstance/findOne`;
   return request({
@@ -62,16 +61,16 @@ export async function delWidgetInstance(params) {
   const url = `${SERVER_PATH}/sei-dashboard/widgetInstance/delete/${params.id}`;
   return request({
     url,
-    method: "DELETE",
+    method: 'DELETE',
   });
 }
 
-/** 获取组件类型列表*/
+/** 获取组件类型列表 */
 export async function getWidgetList(params) {
   const url = `${SERVER_PATH}/sei-dashboard/widgetType/findAll`;
   return request({
     url,
-    method: "GET",
+    method: 'GET',
     params,
   });
 }
