@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-27 14:36:20
+ * @Last Modified time: 2020-04-28 15:00:13
  */
 import { base } from '../../public/app.config.json';
 
@@ -76,10 +76,6 @@ const ANIMATE_EFFECT = {
   DREAM_START: {
     key: 'dream-star',
     title: '梦幻星空',
-  },
-  PARTICLE: {
-    key: 'particle',
-    title: '粒子科技',
   },
 };
 

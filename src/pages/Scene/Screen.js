@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-25 19:09:39
+ * @Last Modified time: 2020-04-28 15:00:52
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -12,7 +12,7 @@ import { isEqual, get, isObject } from 'lodash';
 import { Divider, Empty } from 'antd';
 import { ExtIcon, ListLoader, HottedKey, ResizeMe } from 'suid';
 import empty from '@/assets/page_empty.svg';
-import { ScreenTemplate, DreamStar, Particle } from '../../components';
+import { ScreenTemplate, DreamStar } from '../../components';
 import TemplateSelect from './components/TemplateSelect';
 import TemplateConfig from './components/TemplateConfig';
 import { constants } from '../../utils';
@@ -286,8 +286,6 @@ class SceneView extends PureComponent {
       switch (type) {
         case ANIMATE_EFFECT.DREAM_START.key:
           return <DreamStar />;
-        case ANIMATE_EFFECT.PARTICLE.key:
-          return <Particle />;
         default:
           return null;
       }

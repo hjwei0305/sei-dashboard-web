@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-27 14:35:28
+ * @Last Modified time: 2020-04-28 15:00:33
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -11,7 +11,7 @@ import { isEqual } from 'lodash';
 import { Empty } from 'antd';
 import { ListLoader, ResizeMe } from 'suid';
 import empty from '@/assets/page_empty.svg';
-import { ScreenTemplate, DreamStar, Particle } from '../../components';
+import { ScreenTemplate, DreamStar } from '../../components';
 import { constants } from '../../utils';
 import styles from './index.less';
 
@@ -85,8 +85,6 @@ class ScreenView extends PureComponent {
       switch (type) {
         case ANIMATE_EFFECT.DREAM_START.key:
           return <DreamStar />;
-        case ANIMATE_EFFECT.PARTICLE.key:
-          return <Particle />;
         default:
           return null;
       }
