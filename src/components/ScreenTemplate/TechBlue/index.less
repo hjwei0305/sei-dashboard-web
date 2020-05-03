@@ -103,9 +103,13 @@
         background-color: fade(@backColor, 50%);
       }
       .box-content {
+        display: -ms-grid;
         display: grid;
+        -ms-grid-template-rows: 44% 40% auto;
         grid-template-rows: 44% 40% auto;
+        -ms-grid-template-columns: auto;
         grid-template-columns: auto;
+        -ms-gap: 8px 0;
         gap: 8px 0;
         height: calc(100% - 0.64rem);
         margin: 0 8px;
@@ -147,9 +151,13 @@
       }
     }
     .center-content {
+      display: -ms-grid;
       display: grid;
+      -ms-grid-template-rows: 28% 16% auto;
       grid-template-rows: 28% 16% auto;
+      -ms-grid-template-columns: auto;
       grid-template-columns: auto;
+      -ms-gap: 8px 0;
       gap: 8px 0;
       height: 100%;
       padding: 0 16px;
