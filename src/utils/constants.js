@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-28 15:00:13
+ * @Last Modified time: 2020-05-13 11:36:16
  */
 import { base } from '../../public/app.config.json';
 
@@ -18,7 +18,7 @@ const GATEWAY = 'api-gateway';
  *    yarn start 使用mocker
  *    yarn start:no-mock使用真实后台开发或联调
  */
-const getServerPath = function() {
+const getServerPath = () => {
   if (process.env.NODE_ENV !== 'production') {
     if (process.env.MOCK === 'yes') {
       return '/mocker.api';
