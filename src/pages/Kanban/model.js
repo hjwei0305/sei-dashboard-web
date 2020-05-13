@@ -108,7 +108,7 @@ export default modelExtend(model, {
         re = yield call(getSceneByCode, { code });
       }
       if (re.success) {
-        const { config, instanceDtos } = re.data || { instanceDtos: [] };
+        const { config, instanceDtos } = re.data || { config: null, instanceDtos: [] };
         const layouts = {};
         const theme = {
           primarySkin: defaultSkin,
