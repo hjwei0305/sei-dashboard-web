@@ -100,7 +100,7 @@ export default modelExtend(model, {
   },
   effects: {
     *getScene({ payload }, { call, put }) {
-      const { code, home = false } = payload;
+      const { code = '', home = false } = payload;
       let re;
       if (home) {
         re = yield call(getSceneHome);
