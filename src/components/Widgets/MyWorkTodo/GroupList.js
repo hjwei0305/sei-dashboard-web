@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get, isEqual } from 'lodash';
 import moment from 'moment';
-import { Tooltip } from 'antd';
+import { Tooltip, Button } from 'antd';
 import { utils, ListLoader, ListCard } from 'suid';
 import { formartUrl } from '../../../utils';
 
@@ -117,6 +117,16 @@ class GroupList extends PureComponent {
     return item.flowInstanceBusinessCode;
   };
 
+  renderCustomTool = () => {
+    const { maxCount } = this.props;
+    return (
+      <>
+        <div className="sub-title">{`Top ${maxCount}`}</div>
+        <Button type="link">查看全部</Button>
+      </>
+    );
+  };
+
   renderWorkTodoList = () => {
     const { dataSource } = this.state;
     const listCardProps = {
@@ -124,12 +134,12 @@ class GroupList extends PureComponent {
       onSelectChange: this.handlerSelect,
       showSearch: false,
       pagination: false,
-      customTool: () => null,
       itemField: {
         title: this.renderItemTitle,
         description: this.renderItemDescrption,
         extra: this.renderItemExtra,
       },
+      customTool: this.renderCustomTool,
     };
     return <ListCard {...listCardProps} />;
   };
