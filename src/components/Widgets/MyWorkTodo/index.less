@@ -19,8 +19,13 @@
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
       cursor: pointer;
+      &:hover,
+      &:focus {
+        color: fade(@primary-color, 85%);
+      }
       &.slick-disabled {
         color: fade(@black, 15%);
+        cursor: not-allowed;
       }
     }
     .slick-next,

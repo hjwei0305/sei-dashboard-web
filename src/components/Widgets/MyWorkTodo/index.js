@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-08 16:51:18
+ * @Last Modified time: 2020-06-08 17:39:07
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -20,7 +20,7 @@ const NextArrow = props => {
   const { className, style, onClick } = props;
   return (
     <ExtIcon
-      type="right-circle"
+      type="right"
       className={className}
       style={{ ...style, display: 'block' }}
       onClick={onClick}
@@ -33,7 +33,7 @@ const PrevArrow = props => {
   const { className, style, onClick } = props;
   return (
     <ExtIcon
-      type="left-circle"
+      type="left"
       className={className}
       style={{ ...style, display: 'block' }}
       onClick={onClick}
@@ -53,6 +53,7 @@ class MyWorkTodo extends PureComponent {
       interval: PropTypes.number,
     }),
     group: PropTypes.shape({
+      maxCount: PropTypes.number.isRequired,
       store: PropTypes.shape({
         type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
         url: PropTypes.string,
@@ -169,14 +170,14 @@ class MyWorkTodo extends PureComponent {
 
   renderMyWorkTodo = () => {
     const { groupData, selectItemIndex } = this.state;
-    const { groupList } = this.props;
+    const { groupList, group } = this.props;
     const carouselGroupProps = {
       dots: false,
       infinite: false,
-      slidesToShow: 4,
+      slidesToShow: group.maxCount,
       swipeToSlide: true,
-      nextArrow: <NextArrow />,
-      prevArrow: <PrevArrow />,
+      nextArrow: <NextArrow className="next-arrow" />,
+      prevArrow: <PrevArrow className="prev-arrow" />,
     };
     const { store, reader, maxCount } = groupList;
     const currentGroupItem = groupData.length > 0 ? groupData[selectItemIndex] : null;
