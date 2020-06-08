@@ -118,13 +118,18 @@ class GroupList extends PureComponent {
   };
 
   renderCustomTool = () => {
-    const { maxCount } = this.props;
-    return (
-      <>
-        <div className="sub-title">{`Top ${maxCount}`}</div>
-        <Button type="link">查看全部</Button>
-      </>
-    );
+    const { groupItem, maxCount } = this.props;
+    const groupItemCount = get(groupItem, 'count', 0);
+    const { dataSource } = this.state;
+    if (groupItemCount > dataSource.length) {
+      return (
+        <>
+          <div className="sub-title">{`Top ${maxCount}`}</div>
+          <Button type="link">查看全部</Button>
+        </>
+      );
+    }
+    return null;
   };
 
   renderWorkTodoList = () => {
