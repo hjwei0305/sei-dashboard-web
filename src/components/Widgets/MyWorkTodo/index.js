@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-08 15:05:06
+ * @Last Modified time: 2020-06-08 16:51:18
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -63,15 +63,12 @@ class MyWorkTodo extends PureComponent {
     }),
     groupList: PropTypes.shape({
       maxCount: PropTypes.number.isRequired,
-      cascadeGroupField: PropTypes.string,
       store: PropTypes.shape({
         type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
         url: PropTypes.string,
       }).isRequired,
       reader: PropTypes.shape({
         data: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        description: PropTypes.string,
       }).isRequired,
     }),
     style: PropTypes.object,
@@ -187,7 +184,6 @@ class MyWorkTodo extends PureComponent {
       store,
       reader,
       maxCount,
-      totalCount: groupData.length,
       groupItem: currentGroupItem,
     };
     return (

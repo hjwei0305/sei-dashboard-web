@@ -53,7 +53,6 @@ const getWidget = (widget, layout, theme) => {
       case COMPONENT_TYPE.MY_WORK_TODO:
         return {
           widget: <MyWorkTodo {...omit(component.props, ['title'])} skin={primarySkin} />,
-          showHeader: false,
           ...props,
         };
       default:

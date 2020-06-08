@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import cls from 'classnames';
 import { get, isEqual } from 'lodash';
 import moment from 'moment';
 import { Tooltip } from 'antd';
@@ -13,7 +14,6 @@ class GroupList extends PureComponent {
 
   static propTypes = {
     maxCount: PropTypes.number,
-    totalCount: PropTypes.number,
     groupItem: PropTypes.object,
     store: PropTypes.shape({
       type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
@@ -21,8 +21,6 @@ class GroupList extends PureComponent {
     }).isRequired,
     reader: PropTypes.shape({
       data: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string,
     }).isRequired,
   };
 
@@ -137,9 +135,11 @@ class GroupList extends PureComponent {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, dataSource } = this.state;
+    const { groupItem } = this.props;
+    const groupItemCount = get(groupItem, 'count', 0);
     return (
-      <div className="my-work-todo-list">
+      <div className={cls('my-work-todo-list', { 'has-more': groupItemCount > dataSource.length })}>
         {loading ? <ListLoader /> : this.renderWorkTodoList()}
       </div>
     );
