@@ -1,0 +1,158 @@
+@import '../../../themes/vars.less';
+.my-work-todo-box {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  :global {
+    .slick-next,
+    .slick-prev {
+      position: absolute;
+      top: 50%;
+      display: block;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      font-size: 24px;
+      line-height: 26px;
+      border: none;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+      cursor: pointer;
+      &.slick-disabled {
+        color: fade(@black, 15%);
+      }
+    }
+    .slick-next,
+    .slick-next:focus,
+    .slick-next:hover,
+    .slick-prev,
+    .slick-prev:focus,
+    .slick-prev:hover {
+      outline: none;
+    }
+    .slick-prev {
+      left: 8px;
+    }
+    .slick-next {
+      right: 8px;
+    }
+    .slick-next::before,
+    .slick-prev::before {
+      color: fade(@black, 65%);
+      font-size: 20px;
+      font-family: slick;
+      line-height: 1;
+      opacity: 0.75;
+    }
+    .slick-initialized .slick-slide {
+      display: block;
+    }
+    .slick-list,
+    .slick-slider {
+      position: relative;
+      height: 100%;
+    }
+    .slick-slider .slick-list,
+    .slick-slider .slick-track {
+      height: 100%;
+      transform: translateZ(0);
+    }
+    .slick-list {
+      margin: 0 42px;
+      overflow: hidden;
+    }
+    .slick-track {
+      position: relative;
+      top: 0;
+      left: 0;
+      display: block;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    .slick-slide {
+      float: left;
+      height: 100%;
+      min-height: 1px;
+    }
+    .group-todo {
+      position: relative;
+      height: 90px;
+      padding: 0;
+      overflow: hidden;
+      .todo-type-item {
+        position: relative;
+        display: inline-block;
+        margin: 4px;
+        overflow: hidden;
+        text-align: center;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        &:hover {
+          transform: translateY(-4px);
+        }
+        .total {
+          padding: 0 8px;
+          color: fade(@primary-color, 85%);
+          font-weight: 700;
+          font-size: 32px;
+          letter-spacing: 2px;
+        }
+        .title {
+          padding: 0 16px 8px 16px;
+          overflow: hidden;
+          color: fade(@black, 65%);
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        .arrow-line {
+          position: relative;
+          top: 0;
+          width: 80%;
+          margin: 0 auto;
+          border: 1px solid fade(@primary-color, 85%);
+          transform: scaleX(0);
+          transition: transform 0.5s;
+        }
+        &.select {
+          .arrow-line {
+            transform: scaleX(1);
+            transform-origin: 0 0;
+          }
+          &:hover {
+            transform: translateY(0);
+          }
+        }
+      }
+    }
+    .group-list-todo {
+      position: relative;
+      height: calc(100% - 90px);
+      padding: 0;
+      overflow: hidden;
+    }
+    .my-work-todo-list {
+      height: 100%;
+      .ant-list-item-meta {
+        overflow: hidden;
+        .ant-list-item-meta-content {
+          overflow: hidden;
+        }
+        .ant-list-item-meta-title,
+        .ant-list-item-meta-description {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      .extra {
+        margin: 0 8px 0 16px;
+        font-size: 12px;
+      }
+    }
+    .ant-empty-normal {
+      margin: 16px 0;
+    }
+  }
+}

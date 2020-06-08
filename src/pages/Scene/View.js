@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-27 14:30:21
+ * @Last Modified time: 2020-06-04 17:39:40
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -19,7 +19,7 @@ import Settings from './components/Settings';
 import styles from './View.less';
 
 const { GlobalHotKeys } = HottedKey;
-const { EchartPie, EchartBarLine, StatisticGrid } = Widgets;
+const { EchartPie, EchartBarLine, StatisticGrid, MyWorkTodo } = Widgets;
 const { COMPONENT_TYPE } = constants;
 const duration = 10000;
 
@@ -183,6 +183,11 @@ class SceneView extends Component {
         case COMPONENT_TYPE.STATISTIC_GRID:
           return {
             widget: <StatisticGrid {...omit(component.props, ['title'])} skin={primarySkin} />,
+            ...props,
+          };
+        case COMPONENT_TYPE.MY_WORK_TODO:
+          return {
+            widget: <MyWorkTodo {...omit(component.props, ['title'])} skin={primarySkin} />,
             ...props,
           };
         default:

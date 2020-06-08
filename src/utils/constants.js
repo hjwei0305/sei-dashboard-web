@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-05-13 11:36:16
+ * @Last Modified time: 2020-06-04 16:47:54
  */
 import { base } from '../../public/app.config.json';
 
@@ -57,6 +57,7 @@ const COMPONENT_TYPE = {
   ECHART_PIE: 'EchartPie',
   ECHART_BAR_LINE: 'EchartBarLine',
   STATISTIC_GRID: 'StatisticGrid',
+  MY_WORK_TODO: 'MyWorkTodo',
 };
 
 /** 场景类型 */

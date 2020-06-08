@@ -5,7 +5,7 @@ import DreamStar from './DreamStar';
 import DropOption from './DropOption';
 import ScreenTemplate from './ScreenTemplate';
 import TimeClock from './TimeClock';
-import TimerInterval from './TimerInterval';
+import DropdownOption from './DropdownOption';
 
 export {
   Loader,
@@ -15,5 +15,5 @@ export {
   DropOption,
   ScreenTemplate,
   TimeClock,
-  TimerInterval,
+  DropdownOption,
 };

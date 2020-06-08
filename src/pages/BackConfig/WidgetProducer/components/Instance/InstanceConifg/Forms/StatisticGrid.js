@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { omit, get } from 'lodash';
 import { Form, Input, Switch, InputNumber } from 'antd';
-import { TimerInterval } from '@/components';
+import { DropdownOption } from '@/components';
 import styles from './StatisticGrid.less';
 
 const FormItem = Form.Item;
@@ -166,7 +166,7 @@ class StatisticGridForm extends PureComponent {
               {getFieldDecorator('interval', {
                 initialValue: timerInterval,
               })(<InputNumber precision={0} />)}
-              <TimerInterval interval={timerInterval} onChange={this.handlerTimerIntervalChange} />
+              <DropdownOption interval={timerInterval} onChange={this.handlerTimerIntervalChange} />
             </FormItem>
           ) : null}
           <div className="title-group">数据配置</div>

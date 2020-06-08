@@ -6,8 +6,7 @@ export default {
     pathRewrite: { '^/mocker.api': '' },
   },
   '/api-gateway': {
-    target: 'http://fssctest.eppen.com.cn/api-gateway',
-    // target: 'http://10.4.208.86:8100/api-gateway',
+    target: 'http://10.4.208.86:8100/api-gateway',
     changeOrigin: true,
     secure: false,
     pathRewrite: { '^/api-gateway': '' },

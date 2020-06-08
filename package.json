@@ -31,7 +31,8 @@
     "react": "^16.8.6",
     "react-color": "^2.18.0",
     "react-dom": "^16.8.6",
-    "suid": "^1.2.77",
+    "react-slick": "^0.26.1",
+    "suid": "^1.2.92",
     "umi-plugin-react": "^1.8.4"
   },
   "devDependencies": {

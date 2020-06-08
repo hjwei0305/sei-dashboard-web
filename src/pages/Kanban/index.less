@@ -1,19 +1,19 @@
 @import '../../themes/vars.less';
 .kanban-box {
+  position: relative;
   height: 100%;
   padding: 0;
   overflow: hidden;
-  position: relative;
   :global {
     .ps__rail-y,
     .ps__rail-x {
       z-index: 100;
     }
     .portal-body {
+      position: relative;
       height: 100%;
       padding: 0;
       overflow: hidden;
-      position: relative;
       background-color: @page-background-color;
       .portal-box {
         height: 100% !important;
@@ -33,8 +33,8 @@
             border-color: @page-background-color;
           }
           .suid-panel.panel-bordered .panel-body {
-            border-top-color: @page-background-color;
             background-color: @page-background-color;
+            border-top-color: @page-background-color;
             .panel-content {
               padding: 0;
             }
@@ -56,8 +56,8 @@
             background-color: #151619;
           }
           .panel-header {
-            background-color: fade(#12141b, 80%);
             color: #999;
+            background-color: fade(#12141b, 80%);
             .suid-drag-handler,
             .toolbox .tool-item {
               color: #555;
@@ -72,8 +72,8 @@
             }
           }
           .panel-body {
-            border-top-color: transparent;
             background-color: transparent;
+            border-top-color: transparent;
           }
         }
         .react-draggable-dragging {
@@ -98,7 +98,7 @@
             .ant-statistic-title {
               color: #999;
             }
-            .ant-statistic-content{
+            .ant-statistic-content {
               color: #d7d9da;
             }
           }
@@ -119,8 +119,8 @@
             background-color: #061f59;
           }
           .panel-header {
-            background-color: fade(@white, 1%);
             color: #75a7dc;
+            background-color: fade(@white, 1%);
             .suid-drag-handler,
             .toolbox .tool-item {
               color: #4377ad;
@@ -135,8 +135,8 @@
             }
           }
           .panel-body {
-            border-top-color: transparent;
             background-color: transparent;
+            border-top-color: transparent;
           }
         }
         .react-draggable-dragging {
@@ -161,13 +161,20 @@
             .ant-statistic-title {
               color: #9cc7f3;
             }
-            .ant-statistic-content{
+            .ant-statistic-content {
               color: #d7d9da;
             }
           }
         }
-        .ant-empty-description{
+        .ant-empty-description {
           color: #9cc7f3;
+        }
+      }
+      .myworktodo {
+        .suid-panel.panel-bordered .panel-body {
+          .panel-content {
+            padding: 0;
+          }
         }
       }
     }

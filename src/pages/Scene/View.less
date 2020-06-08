@@ -2,53 +2,53 @@
  * @Author: Eason 
  * @Date: 2020-04-03 11:20:20 
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-23 13:14:07
+ * @Last Modified time: 2020-06-05 11:09:38
  */
 @import '../../themes/vars.less';
 .scene-view-box {
+  position: relative;
   height: 100%;
   padding: 0;
   overflow: hidden;
-  position: relative;
   :global {
     .ps__rail-y,
     .ps__rail-x {
       z-index: 100;
     }
     .portal-body {
+      position: relative;
       height: 100%;
       padding: 0;
       overflow: hidden;
-      position: relative;
       background-color: @page-background-color;
       .action-tool-bar {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        justify-content: space-between;
         height: 42px !important;
+        padding: 0 24px;
         line-height: 42px;
         background-color: @white;
-        padding: 0 24px;
         .header-title {
-          font-size: 16px;
           color: fade(@black, 85%);
           font-weight: 700;
+          font-size: 16px;
         }
         .header-sub-title {
-          color: fade(@black, 65%);
           margin-left: 8px;
+          color: fade(@black, 65%);
         }
         .tool-desc {
-          font-size: 12px;
           margin-left: 16px;
+          font-size: 12px;
         }
         .action-item {
           display: inline-block;
           width: 32px;
           height: 32px;
+          margin-left: 8px;
           line-height: 34px;
           border-radius: 4px;
-          margin-left: 8px;
           cursor: pointer;
           transition: all ease-in 0.2s;
           &.primary {
@@ -65,8 +65,8 @@
         }
       }
       .portal-box {
-        overflow: hidden;
         height: calc(100% - 42px) !important;
+        overflow: hidden;
         background-color: fade(@black, 5%);
         .suid-panel.panel-bordered {
           border-color: transparent;
@@ -94,13 +94,13 @@
         .action-tool-bar {
           background-color: fade(#151619, 85%);
           .header-title {
-            font-size: 16px;
             color: fade(@white, 85%);
             font-weight: 700;
+            font-size: 16px;
           }
           .header-sub-title {
-            font-size: 12px;
             color: fade(@white, 85%);
+            font-size: 12px;
           }
           .action-item {
             &.primary {
@@ -122,8 +122,8 @@
             background-color: #151619;
           }
           .panel-header {
-            background-color: fade(#12141b, 80%);
             color: #999;
+            background-color: fade(#12141b, 80%);
             .suid-drag-handler,
             .toolbox .tool-item {
               color: #555;
@@ -138,8 +138,8 @@
             }
           }
           .panel-body {
-            border-top-color: transparent;
             background-color: transparent;
+            border-top-color: transparent;
           }
         }
         .react-draggable-dragging {
@@ -164,7 +164,7 @@
             .ant-statistic-title {
               color: #999;
             }
-            .ant-statistic-content{
+            .ant-statistic-content {
               color: #d7d9da;
             }
           }
@@ -179,13 +179,13 @@
         .action-tool-bar {
           background-color: #072158;
           .header-title {
-            font-size: 16px;
             color: fade(@white, 85%);
             font-weight: 700;
+            font-size: 16px;
           }
           .header-sub-title {
-            font-size: 12px;
             color: fade(@white, 85%);
+            font-size: 12px;
           }
           .action-item {
             &.primary {
@@ -207,8 +207,8 @@
             background-color: #061f59;
           }
           .panel-header {
-            background-color: fade(@white, 1%);
             color: #75a7dc;
+            background-color: fade(@white, 1%);
             .suid-drag-handler,
             .toolbox .tool-item {
               color: #4377ad;
@@ -223,8 +223,8 @@
             }
           }
           .panel-body {
-            border-top-color: transparent;
             background-color: transparent;
+            border-top-color: transparent;
           }
         }
         .react-draggable-dragging {
@@ -249,13 +249,20 @@
             .ant-statistic-title {
               color: #9cc7f3;
             }
-            .ant-statistic-content{
+            .ant-statistic-content {
               color: #d7d9da;
             }
           }
         }
-        .ant-empty-description{
+        .ant-empty-description {
           color: #9cc7f3;
+        }
+      }
+      .myworktodo {
+        .suid-panel.panel-bordered .panel-body {
+          .panel-content {
+            padding: 0;
+          }
         }
       }
     }

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import { omit, get } from 'lodash';
-import { Form, Input, Switch, InputNumber } from 'antd';
+import { Form, Input, Switch, InputNumber, Radio } from 'antd';
 import { DropdownOption } from '@/components';
-import styles from './EchartPie.less';
+import styles from './StatisticGrid.less';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -26,15 +26,13 @@ const formItemInlineLayout = {
 };
 
 @Form.create()
-class EchartPieForm extends PureComponent {
+class MyWorkTodoForm extends PureComponent {
   constructor(props) {
     super(props);
     const { editData } = props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
-    const interval = get(renderConfig, 'component.props.timer.interval', 0) || 0;
     this.state = {
-      timer: Number(interval) > 0,
-      showSummary: get(renderConfig, 'component.props.summary.show', false) || false,
+      timer: get(renderConfig, 'component.props.timer.interval', 0) > 0,
     };
   }
 
@@ -46,7 +44,7 @@ class EchartPieForm extends PureComponent {
   }
 
   handlerFormSubmit = () => {
-    const { timer, showSummary } = this.state;
+    const { timer } = this.state;
     const { form, save, editData, widget, widgetGroup, color } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
@@ -80,19 +78,25 @@ class EchartPieForm extends PureComponent {
             timer: {
               interval: timer ? rest.interval : 0,
             },
-            summary: {
-              show: showSummary,
-              title: showSummary ? rest.summaryTitle : '',
-              data: showSummary ? rest.summaryData : '',
-            },
             title: params.name,
-            store: {
-              url: rest.storeUrl,
+            group: {
+              store: {
+                url: rest.groupStoreUrl,
+                type: rest.groupStoreType,
+              },
+              reader: {
+                data: rest.groupReaderData,
+              },
             },
-            seriesName: rest.seriesName,
-            reader: {
-              legendData: rest.legendData,
-              seriesData: rest.seriesData,
+            groupList: {
+              maxCount: rest.groupListMaxCount,
+              store: {
+                url: rest.groupListStoreUrl,
+                type: rest.groupListStoreType,
+              },
+              reader: {
+                data: rest.groupListReaderData,
+              },
             },
           },
         },
@@ -108,12 +112,6 @@ class EchartPieForm extends PureComponent {
     });
   };
 
-  handlerSummaryChange = checked => {
-    this.setState({
-      showSummary: checked,
-    });
-  };
-
   handlerTimerIntervalChange = interval => {
     const { form } = this.props;
     form.setFieldsValue({
@@ -121,17 +119,20 @@ class EchartPieForm extends PureComponent {
     });
   };
 
+  handlerMaxCountIntervalChange = groupListMaxCount => {
+    const { form } = this.props;
+    form.setFieldsValue({
+      groupListMaxCount,
+    });
+  };
+
   render() {
-    const { timer, showSummary } = this.state;
+    const { timer } = this.state;
     const { form, editData, widget } = this.props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     const { getFieldDecorator } = form;
-    const interval = get(renderConfig, 'component.props.timer.interval', 0) || 0;
-    const timerInterval = Number(interval);
-    const timerProps = {
-      checked: timer,
-      onChange: this.handlerTimerChange,
-    };
+    const timerInterval = get(renderConfig, 'component.props.timer.interval', 0);
+    const maxCountInterval = get(renderConfig, 'component.props.groupList.maxCount', 10);
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
@@ -172,7 +173,7 @@ class EchartPieForm extends PureComponent {
           </FormItem>
           <div className="title-group">定时器</div>
           <FormItem label="启用定时器" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
-            <Switch size="small" {...timerProps} />
+            <Switch size="small" checked={timer} onChange={this.handlerTimerChange} />
           </FormItem>
           {timer ? (
             <FormItem
@@ -188,21 +189,10 @@ class EchartPieForm extends PureComponent {
               <DropdownOption interval={timerInterval} onChange={this.handlerTimerIntervalChange} />
             </FormItem>
           ) : null}
-          <div className="title-group">数据配置</div>
-          <FormItem label="系列名称" hasFeedback>
-            {getFieldDecorator('seriesName', {
-              initialValue: get(renderConfig, 'component.props.seriesName', null),
-              rules: [
-                {
-                  required: true,
-                  message: '数据接口不能为空',
-                },
-              ],
-            })(<Input />)}
-          </FormItem>
+          <div className="title-group">类别数据配置</div>
           <FormItem label="数据接口" hasFeedback>
-            {getFieldDecorator('storeUrl', {
-              initialValue: get(renderConfig, 'component.props.store.url', null),
+            {getFieldDecorator('groupStoreUrl', {
+              initialValue: get(renderConfig, 'component.props.group.store.url', null),
               rules: [
                 {
                   required: true,
@@ -212,65 +202,80 @@ class EchartPieForm extends PureComponent {
             })(<Input />)}
             <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
           </FormItem>
-          <FormItem label="图例" hasFeedback>
-            {getFieldDecorator('legendData', {
-              initialValue: get(renderConfig, 'component.props.reader.legendData', null),
+          <FormItem label="请求类型">
+            {getFieldDecorator('groupStoreType', {
+              initialValue: get(renderConfig, 'component.props.group.store.type', 'POST'),
+            })(
+              <Radio.Group defaultValue="POST" size="small">
+                <Radio.Button value="POST">POST</Radio.Button>
+                <Radio.Button value="GET">GET</Radio.Button>
+              </Radio.Group>,
+            )}
+            <p className="desc">数据接口请求类型</p>
+          </FormItem>
+          <FormItem label="数据节点" hasFeedback>
+            {getFieldDecorator('groupReaderData', {
+              initialValue: get(renderConfig, 'component.props.group.reader.data', null),
               rules: [
                 {
                   required: true,
-                  message: '图例不能为空',
+                  message: '数据节点不能为空',
                 },
               ],
             })(<Input />)}
-            <p className="desc">图例数据节点:接口返回数据结构请参照官网Echart的legend配置</p>
+            <p className="desc">接口返回数据体的属性名</p>
           </FormItem>
-          <FormItem label="系列" hasFeedback>
-            {getFieldDecorator('seriesData', {
-              initialValue: get(renderConfig, 'component.props.reader.seriesData', null),
+          <div className="title-group">明细数据配置</div>
+          <FormItem label="数据接口" hasFeedback>
+            {getFieldDecorator('groupListStoreUrl', {
+              initialValue: get(renderConfig, 'component.props.groupList.store.url', null),
               rules: [
                 {
                   required: true,
-                  message: '系列不能为空',
+                  message: '数据接口不能为空',
                 },
               ],
             })(<Input />)}
-            <p className="desc">系列数据节点:接口返回数据结构请参照官网Echart的series配置</p>
+            <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
           </FormItem>
-          <div className="title-group">其它</div>
-          <FormItem label="显示汇总" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
-            <Switch size="small" checked={showSummary} onChange={this.handlerSummaryChange} />
+          <FormItem label="请求类型">
+            {getFieldDecorator('groupListStoreType', {
+              initialValue: get(renderConfig, 'component.props.groupList.store.type', 'POST'),
+            })(
+              <Radio.Group defaultValue="POST" size="small">
+                <Radio.Button value="POST">POST</Radio.Button>
+                <Radio.Button value="GET">GET</Radio.Button>
+              </Radio.Group>,
+            )}
+            <p className="desc">数据接口请求类型</p>
           </FormItem>
-          {showSummary ? (
-            <>
-              <FormItem label="汇总标题" hasFeedback>
-                {getFieldDecorator('summaryTitle', {
-                  initialValue: get(renderConfig, 'component.props.summary.title', null),
-                  rules: [
-                    {
-                      required: true,
-                      message: '汇总标题不能为空',
-                    },
-                  ],
-                })(<Input />)}
-              </FormItem>
-              <FormItem label="汇总数据" hasFeedback>
-                {getFieldDecorator('summaryData', {
-                  initialValue: get(renderConfig, 'component.props.summary.data', null),
-                  rules: [
-                    {
-                      required: true,
-                      message: '汇总数据不能为空',
-                    },
-                  ],
-                })(<Input />)}
-                <p className="desc">接口返回数据体的汇总数据节点属性名称</p>
-              </FormItem>
-            </>
-          ) : null}
+          <FormItem label="最大记录数" layout="inline" className="timer-body">
+            {getFieldDecorator('groupListMaxCount', {
+              initialValue: maxCountInterval,
+            })(<InputNumber precision={0} />)}
+            <DropdownOption
+              suffix="条"
+              interval={maxCountInterval}
+              onChange={this.handlerMaxCountIntervalChange}
+            />
+            <p className="desc">接口获取记录最大条数</p>
+          </FormItem>
+          <FormItem label="数据节点" hasFeedback>
+            {getFieldDecorator('groupListReaderData', {
+              initialValue: get(renderConfig, 'component.props.groupList.reader.data', null),
+              rules: [
+                {
+                  required: true,
+                  message: '数据节点不能为空',
+                },
+              ],
+            })(<Input />)}
+            <p className="desc">接口返回数据体的属性名</p>
+          </FormItem>
         </Form>
       </div>
     );
   }
 }
 
-export default EchartPieForm;
+export default MyWorkTodoForm;
