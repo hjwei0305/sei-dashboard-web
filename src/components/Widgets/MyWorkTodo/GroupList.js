@@ -7,7 +7,7 @@ import { Tooltip, Button } from 'antd';
 import { utils, ListLoader, ListCard } from 'suid';
 import { formartUrl } from '../../../utils';
 
-const { request } = utils;
+const { request, eventBus } = utils;
 
 class GroupList extends PureComponent {
   static loaded;
@@ -80,11 +80,15 @@ class GroupList extends PureComponent {
   };
 
   tabOpen = item => {
-    const data = { tabAction: 'open', item };
+    const { groupItem } = this.props;
     if (window.top !== window.self) {
-      window.top.postMessage(data, '*');
+      eventBus.emit('openTab', {
+        id: item.id,
+        title: groupItem.businessModeName,
+        url: item.featureUrl,
+      });
     } else {
-      window.open(item.featureUrl, item.name);
+      window.open(item.featureUrl, groupItem.businessModeName);
     }
   };
 
