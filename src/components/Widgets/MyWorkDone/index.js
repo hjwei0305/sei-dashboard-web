@@ -1,18 +1,24 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
-import { get, isEqual } from 'lodash';
+import { get } from 'lodash';
 import moment from 'moment';
-import { Tooltip, Button } from 'antd';
+import { Button } from 'antd';
 import { utils, ListLoader, ListCard } from 'suid';
 import { formartUrl } from '../../../utils';
+import styles from './index.less';
 
 const { request, eventBus } = utils;
 
-class GroupList extends PureComponent {
+class MyWorkDone extends PureComponent {
+  static timer = null;
+
   static propTypes = {
+    title: PropTypes.string,
+    timer: PropTypes.shape({
+      interval: PropTypes.number,
+    }),
     maxCount: PropTypes.number,
-    groupItem: PropTypes.object,
     store: PropTypes.shape({
       type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
       url: PropTypes.string,
@@ -20,6 +26,8 @@ class GroupList extends PureComponent {
     reader: PropTypes.shape({
       data: PropTypes.string.isRequired,
     }).isRequired,
+    style: PropTypes.object,
+    className: PropTypes.string,
   };
 
   constructor(props) {
@@ -31,23 +39,33 @@ class GroupList extends PureComponent {
   }
 
   componentDidMount() {
-    const { groupItem } = this.props;
-    if (groupItem) {
-      this.getData();
-    }
+    this.startTimer();
+    this.getData();
   }
 
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.groupItem, this.props.groupItem)) {
-      this.getData();
-    }
+  componentWillUnmount() {
+    this.endTimer();
   }
+
+  startTimer = () => {
+    const { timer } = this.props;
+    if (timer && timer.interval > 0) {
+      this.endTimer();
+      this.timer = setInterval(() => {
+        this.getData({ timerLoader: true });
+      }, timer.interval * 1000 * 60);
+    }
+  };
+
+  endTimer = () => {
+    this.timer && window.clearInterval(this.timer);
+  };
 
   getData = () => {
-    const { store, reader, groupItem, maxCount } = this.props;
+    const { store, reader, maxCount } = this.props;
     const { url, type } = store || {};
     const methodType = type || 'get';
-    const params = { modelId: get(groupItem, 'businessModeId', null), recordCount: maxCount };
+    const params = { recordCount: maxCount };
     const requestOptions = {
       method: methodType,
       url: formartUrl(url),
@@ -88,25 +106,8 @@ class GroupList extends PureComponent {
     }
   };
 
-  handlerSelect = (keys, items) => {
-    if (keys.length === 1) {
-      let url = '';
-      const item = items[0];
-      if (item.taskFormUrl.includes('?')) {
-        url = `${item.taskFormUrl}&taskId=${item.id}&instanceId=${item.flowInstanceId}&id=${item.flowInstanceBusinessId}`;
-      } else {
-        url = `${item.taskFormUrl}?taskId=${item.id}&instanceId=${item.flowInstanceId}&id=${item.flowInstanceBusinessId}`;
-      }
-      this.tabOpen({ id: item.id, name: item.flowName, featureUrl: url });
-    }
-  };
-
   renderItemExtra = item => {
-    return (
-      <Tooltip title={moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}>
-        <span className="extra">{moment(item.createdDate).fromNow()}</span>
-      </Tooltip>
-    );
+    return <span className="extra">{moment(item.actEndTime).format('YYYY-MM-DD HH:mm')}</span>;
   };
 
   renderItemTitle = item => {
@@ -118,18 +119,13 @@ class GroupList extends PureComponent {
   };
 
   renderCustomTool = () => {
-    const { groupItem, maxCount } = this.props;
-    const groupItemCount = get(groupItem, 'count', 0);
-    const { dataSource } = this.state;
-    if (groupItemCount > dataSource.length) {
-      return (
-        <>
-          <div className="sub-title">{`Top ${maxCount}`}</div>
-          <Button type="link">查看全部</Button>
-        </>
-      );
-    }
-    return null;
+    const { maxCount } = this.props;
+    return (
+      <>
+        <div className="sub-title">{`最近办理前 ${maxCount} 项工作`}</div>
+        <Button type="link">查看全部</Button>
+      </>
+    );
   };
 
   renderWorkTodoList = () => {
@@ -138,6 +134,7 @@ class GroupList extends PureComponent {
       dataSource,
       onSelectChange: this.handlerSelect,
       showSearch: false,
+      showArrow: false,
       pagination: false,
       itemField: {
         title: this.renderItemTitle,
@@ -150,15 +147,13 @@ class GroupList extends PureComponent {
   };
 
   render() {
-    const { loading, dataSource } = this.state;
-    const { groupItem } = this.props;
-    const groupItemCount = get(groupItem, 'count', 0);
+    const { loading } = this.state;
     return (
-      <div className={cls('my-work-todo-list', { 'has-more': groupItemCount > dataSource.length })}>
+      <div className={cls(styles['my-work-done-list'])}>
         {loading ? <ListLoader /> : this.renderWorkTodoList()}
       </div>
     );
   }
 }
 
-export default GroupList;
+export default MyWorkDone;

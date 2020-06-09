@@ -13,6 +13,7 @@ const EchartPie = React.lazy(() => import('./Forms/EchartPie'));
 const EchartBarLine = React.lazy(() => import('./Forms/EchartBarLine'));
 const StatisticGrid = React.lazy(() => import('./Forms/StatisticGrid'));
 const MyWorkTodo = React.lazy(() => import('./Forms/MyWorkTodo'));
+const MyWorkDone = React.lazy(() => import('./Forms/MyWorkDone'));
 
 const { COMPONENT_TYPE } = constants;
 
@@ -155,6 +156,12 @@ class InstanceConfig extends PureComponent {
           return (
             <Suspense fallback={<ListLoader />}>
               <MyWorkTodo {...formProps} />
+            </Suspense>
+          );
+        case COMPONENT_TYPE.MY_WORK_DONE:
+          return (
+            <Suspense fallback={<ListLoader />}>
+              <MyWorkDone {...formProps} />
             </Suspense>
           );
         default:

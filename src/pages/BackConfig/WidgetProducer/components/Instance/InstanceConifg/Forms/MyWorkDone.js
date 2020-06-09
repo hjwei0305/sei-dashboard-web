@@ -3,7 +3,7 @@ import cls from 'classnames';
 import { omit, get } from 'lodash';
 import { Form, Input, Switch, InputNumber, Radio } from 'antd';
 import { DropdownOption } from '@/components';
-import styles from './MyWorkTodo.less';
+import styles from './MyWorkDone.less';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -26,7 +26,7 @@ const formItemInlineLayout = {
 };
 
 @Form.create()
-class MyWorkTodoForm extends PureComponent {
+class MyWorkDoneForm extends PureComponent {
   constructor(props) {
     super(props);
     const { editData } = props;
@@ -79,25 +79,13 @@ class MyWorkTodoForm extends PureComponent {
               interval: timer ? rest.interval : 0,
             },
             title: params.name,
-            group: {
-              maxCount: rest.groupMaxCount,
-              store: {
-                url: rest.groupStoreUrl,
-                type: rest.groupStoreType,
-              },
-              reader: {
-                data: rest.groupReaderData,
-              },
+            maxCount: rest.maxCount,
+            store: {
+              url: rest.storeUrl,
+              type: rest.storeType,
             },
-            groupList: {
-              maxCount: rest.groupListMaxCount,
-              store: {
-                url: rest.groupListStoreUrl,
-                type: rest.groupListStoreType,
-              },
-              reader: {
-                data: rest.groupListReaderData,
-              },
+            reader: {
+              data: rest.readerData,
             },
           },
         },
@@ -120,17 +108,10 @@ class MyWorkTodoForm extends PureComponent {
     });
   };
 
-  handlerGroupListMaxCountIntervalChange = groupListMaxCount => {
+  handlerMaxCountIntervalChange = maxCount => {
     const { form } = this.props;
     form.setFieldsValue({
-      groupListMaxCount,
-    });
-  };
-
-  handlerGroupMaxCountIntervalChange = groupMaxCount => {
-    const { form } = this.props;
-    form.setFieldsValue({
-      groupMaxCount,
+      maxCount,
     });
   };
 
@@ -140,8 +121,7 @@ class MyWorkTodoForm extends PureComponent {
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     const { getFieldDecorator } = form;
     const timerInterval = get(renderConfig, 'component.props.timer.interval', 0);
-    const groupListMaxCountInterval = get(renderConfig, 'component.props.groupList.maxCount', 10);
-    const groupMaxCountInterval = get(renderConfig, 'component.props.group.maxCount', 4);
+    const maxCountInterval = get(renderConfig, 'component.props.maxCount', 5);
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
@@ -200,8 +180,8 @@ class MyWorkTodoForm extends PureComponent {
           ) : null}
           <div className="title-group">类别数据配置</div>
           <FormItem label="数据接口" hasFeedback>
-            {getFieldDecorator('groupStoreUrl', {
-              initialValue: get(renderConfig, 'component.props.group.store.url', null),
+            {getFieldDecorator('storeUrl', {
+              initialValue: get(renderConfig, 'component.props.store.url', null),
               rules: [
                 {
                   required: true,
@@ -212,55 +192,8 @@ class MyWorkTodoForm extends PureComponent {
             <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
           </FormItem>
           <FormItem label="请求类型">
-            {getFieldDecorator('groupStoreType', {
-              initialValue: get(renderConfig, 'component.props.group.store.type', 'POST'),
-            })(
-              <Radio.Group defaultValue="POST" size="small">
-                <Radio.Button value="POST">POST</Radio.Button>
-                <Radio.Button value="GET">GET</Radio.Button>
-              </Radio.Group>,
-            )}
-            <p className="desc">数据接口请求类型</p>
-          </FormItem>
-          <FormItem label="最大分组数量" layout="inline" className="timer-body">
-            {getFieldDecorator('groupMaxCount', {
-              initialValue: groupMaxCountInterval,
-            })(<InputNumber precision={0} />)}
-            <DropdownOption
-              suffix="项"
-              interval={groupMaxCountInterval}
-              onChange={this.handlerGroupMaxCountIntervalChange}
-            />
-            <p className="desc">每页显示待办分类的个数</p>
-          </FormItem>
-          <FormItem label="数据节点" hasFeedback>
-            {getFieldDecorator('groupReaderData', {
-              initialValue: get(renderConfig, 'component.props.group.reader.data', null),
-              rules: [
-                {
-                  required: true,
-                  message: '数据节点不能为空',
-                },
-              ],
-            })(<Input />)}
-            <p className="desc">接口返回数据体的属性名</p>
-          </FormItem>
-          <div className="title-group">明细数据配置</div>
-          <FormItem label="数据接口" hasFeedback>
-            {getFieldDecorator('groupListStoreUrl', {
-              initialValue: get(renderConfig, 'component.props.groupList.store.url', null),
-              rules: [
-                {
-                  required: true,
-                  message: '数据接口不能为空',
-                },
-              ],
-            })(<Input />)}
-            <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
-          </FormItem>
-          <FormItem label="请求类型">
-            {getFieldDecorator('groupListStoreType', {
-              initialValue: get(renderConfig, 'component.props.groupList.store.type', 'POST'),
+            {getFieldDecorator('storeType', {
+              initialValue: get(renderConfig, 'component.props.store.type', 'POST'),
             })(
               <Radio.Group defaultValue="POST" size="small">
                 <Radio.Button value="POST">POST</Radio.Button>
@@ -270,19 +203,19 @@ class MyWorkTodoForm extends PureComponent {
             <p className="desc">数据接口请求类型</p>
           </FormItem>
           <FormItem label="最大记录数" layout="inline" className="timer-body">
-            {getFieldDecorator('groupListMaxCount', {
-              initialValue: groupListMaxCountInterval,
+            {getFieldDecorator('maxCount', {
+              initialValue: maxCountInterval,
             })(<InputNumber precision={0} />)}
             <DropdownOption
               suffix="条"
-              interval={groupListMaxCountInterval}
-              onChange={this.handlerGroupListMaxCountIntervalChange}
+              interval={maxCountInterval}
+              onChange={this.handlerMaxCountIntervalChange}
             />
-            <p className="desc">接口获取记录最大条数</p>
+            <p className="desc">接口获取已办最大条数</p>
           </FormItem>
           <FormItem label="数据节点" hasFeedback>
-            {getFieldDecorator('groupListReaderData', {
-              initialValue: get(renderConfig, 'component.props.groupList.reader.data', null),
+            {getFieldDecorator('readerData', {
+              initialValue: get(renderConfig, 'component.props.reader.data', null),
               rules: [
                 {
                   required: true,
@@ -298,4 +231,4 @@ class MyWorkTodoForm extends PureComponent {
   }
 }
 
-export default MyWorkTodoForm;
+export default MyWorkDoneForm;

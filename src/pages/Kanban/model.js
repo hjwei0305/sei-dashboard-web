@@ -9,7 +9,7 @@ import { getSceneByCode, getSceneHome } from './service';
 const { pathMatchRegexp, dvaModel, storage } = utils;
 const { modelExtend, model } = dvaModel;
 const { ECHART } = constants;
-const { EchartPie, EchartBarLine, StatisticGrid, MyWorkTodo } = Widgets;
+const { EchartPie, EchartBarLine, StatisticGrid, MyWorkTodo, MyWorkDone } = Widgets;
 const { COMPONENT_TYPE } = constants;
 const defaultSkin = storage.localStorage.get('primarySkin') || 'light';
 
@@ -53,6 +53,11 @@ const getWidget = (widget, layout, theme) => {
       case COMPONENT_TYPE.MY_WORK_TODO:
         return {
           widget: <MyWorkTodo {...omit(component.props, ['title'])} skin={primarySkin} />,
+          ...props,
+        };
+      case COMPONENT_TYPE.MY_WORK_DONE:
+        return {
+          widget: <MyWorkDone {...omit(component.props, ['title'])} skin={primarySkin} />,
           ...props,
         };
       default:
