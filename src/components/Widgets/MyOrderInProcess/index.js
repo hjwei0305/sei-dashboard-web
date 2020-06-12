@@ -121,7 +121,7 @@ class MyOrderInProcess extends PureComponent {
   };
 
   renderItemExtra = item => {
-    return <span className="extra">{moment(item.actEndTime).format('YYYY-MM-DD HH:mm')}</span>;
+    return <span className="extra">{moment(item.createdDate).format('YYYY-MM-DD HH:mm')}</span>;
   };
 
   renderItemTitle = item => {
