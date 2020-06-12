@@ -4,6 +4,7 @@ import StatisticGrid from './StatisticGrid';
 import MyWorkTodo from './MyWorkTodo';
 import MyWorkDone from './MyWorkDone';
 import MyOrderInProcess from './MyOrderInProcess';
+import MyFavoriteMenu from './MyFavoriteMenu';
 
 export default {
   EchartPie,
@@ -12,4 +13,5 @@ export default {
   MyWorkTodo,
   MyWorkDone,
   MyOrderInProcess,
+  MyFavoriteMenu,
 };

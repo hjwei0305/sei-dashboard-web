@@ -16,6 +16,7 @@ const {
   MyWorkTodo,
   MyWorkDone,
   MyOrderInProcess,
+  MyFavoriteMenu,
 } = Widgets;
 const { COMPONENT_TYPE } = constants;
 const defaultSkin = storage.localStorage.get('primarySkin') || 'light';
@@ -70,6 +71,11 @@ const getWidget = (widget, layout, theme) => {
       case COMPONENT_TYPE.MY_ORDER_IN_PROCESS:
         return {
           widget: <MyOrderInProcess {...omit(component.props, ['title'])} skin={primarySkin} />,
+          ...props,
+        };
+      case COMPONENT_TYPE.MY_FAVORITE_MENU:
+        return {
+          widget: <MyFavoriteMenu {...omit(component.props, ['title'])} skin={primarySkin} />,
           ...props,
         };
       default:

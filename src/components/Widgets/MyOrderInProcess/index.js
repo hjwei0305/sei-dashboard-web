@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get } from 'lodash';
 import moment from 'moment';
-import { Button, message, Modal } from 'antd';
+import { Button, message, Modal, Tooltip, Tag } from 'antd';
 import { utils, ListLoader, ListCard, ExtIcon } from 'suid';
 import { formartUrl, constants } from '@/utils';
 import ExtAction from './ExtAction';
@@ -120,16 +120,29 @@ class MyOrderInProcess extends PureComponent {
     }
   };
 
-  renderItemExtra = item => {
-    return <span className="extra">{moment(item.createdDate).format('YYYY-MM-DD HH:mm')}</span>;
-  };
-
   renderItemTitle = item => {
     return item.businessModelRemark;
   };
 
   renderItemDescrption = item => {
-    return item.businessCode;
+    return (
+      <>
+        {item.businessCode}
+        <Tooltip
+          title={
+            <>
+              <span>创建时间</span>
+              <br />
+              <span style={{ fontSize: 12 }}>
+                {moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}
+              </span>
+            </>
+          }
+        >
+          <Tag style={{ marginLeft: 8 }}>{moment(item.createdDate).fromNow()}</Tag>
+        </Tooltip>
+      </>
+    );
   };
 
   handlerAction = (key, record) => {
@@ -230,7 +243,7 @@ class MyOrderInProcess extends PureComponent {
     const { maxCount } = this.props;
     return (
       <>
-        <div className="sub-title">{`我的在办单据 (Top ${maxCount})`}</div>
+        <div className="sub-title">{`前 ${maxCount} 项`}</div>
         <Button type="link">查看全部</Button>
       </>
     );
@@ -256,7 +269,6 @@ class MyOrderInProcess extends PureComponent {
         avatar: this.renderAvatar,
         title: this.renderItemTitle,
         description: this.renderItemDescrption,
-        extra: this.renderItemExtra,
       },
       customTool: this.renderCustomTool,
     };

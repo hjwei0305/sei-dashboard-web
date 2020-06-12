@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-12 14:30:16
+ * @Last Modified time: 2020-06-12 17:23:34
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -26,6 +26,7 @@ const {
   MyWorkTodo,
   MyWorkDone,
   MyOrderInProcess,
+  MyFavoriteMenu,
 } = Widgets;
 const { COMPONENT_TYPE } = constants;
 const duration = 10000;
@@ -207,6 +208,11 @@ class SceneView extends Component {
             widget: <MyOrderInProcess {...omit(component.props, ['title'])} skin={primarySkin} />,
             ...props,
           };
+        case COMPONENT_TYPE.MY_FAVORITE_MENU:
+          return {
+            widget: <MyFavoriteMenu {...omit(component.props, ['title'])} skin={primarySkin} />,
+            ...props,
+          };
         default:
           return null;
       }
@@ -363,7 +369,7 @@ class SceneView extends Component {
       preventCollision: true,
       draggableHandle: '.panel-header-title',
       compactType: null,
-      margin: [4, 4],
+      margin: [8, 8],
       onClose: this.handlerClose,
     };
     const loadingWidgetAssets = loading.effects['dashboard/getWidgetAssets'];

@@ -26,7 +26,7 @@ const formItemInlineLayout = {
 };
 
 @Form.create()
-class MyOrderInProcessForm extends PureComponent {
+class MyFavoriteMenuForm extends PureComponent {
   constructor(props) {
     super(props);
     const { editData } = props;
@@ -79,7 +79,6 @@ class MyOrderInProcessForm extends PureComponent {
               interval: timer ? rest.interval : 0,
             },
             title: params.name,
-            maxCount: rest.maxCount,
             store: {
               url: rest.storeUrl,
               type: rest.storeType,
@@ -108,20 +107,12 @@ class MyOrderInProcessForm extends PureComponent {
     });
   };
 
-  handlerMaxCountIntervalChange = maxCount => {
-    const { form } = this.props;
-    form.setFieldsValue({
-      maxCount,
-    });
-  };
-
   render() {
     const { timer } = this.state;
     const { form, editData, widget } = this.props;
     const renderConfig = editData ? JSON.parse(editData.renderConfig) : {};
     const { getFieldDecorator } = form;
     const timerInterval = get(renderConfig, 'component.props.timer.interval', 0);
-    const maxCountInterval = get(renderConfig, 'component.props.maxCount', 5);
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
@@ -193,7 +184,7 @@ class MyOrderInProcessForm extends PureComponent {
           </FormItem>
           <FormItem label="请求类型">
             {getFieldDecorator('storeType', {
-              initialValue: get(renderConfig, 'component.props.store.type', 'POST'),
+              initialValue: get(renderConfig, 'component.props.store.type', 'GET'),
             })(
               <Radio.Group defaultValue="POST" size="small">
                 <Radio.Button value="POST">POST</Radio.Button>
@@ -201,17 +192,6 @@ class MyOrderInProcessForm extends PureComponent {
               </Radio.Group>,
             )}
             <p className="desc">数据接口请求类型</p>
-          </FormItem>
-          <FormItem label="最大记录数" layout="inline" className="timer-body">
-            {getFieldDecorator('maxCount', {
-              initialValue: maxCountInterval,
-            })(<InputNumber precision={0} />)}
-            <DropdownOption
-              suffix="条"
-              interval={maxCountInterval}
-              onChange={this.handlerMaxCountIntervalChange}
-            />
-            <p className="desc">接口获取在办单据最大条数</p>
           </FormItem>
           <FormItem label="数据节点" hasFeedback>
             {getFieldDecorator('readerData', {
@@ -231,4 +211,4 @@ class MyOrderInProcessForm extends PureComponent {
   }
 }
 
-export default MyOrderInProcessForm;
+export default MyFavoriteMenuForm;

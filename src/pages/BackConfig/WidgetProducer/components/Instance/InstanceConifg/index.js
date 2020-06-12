@@ -15,6 +15,7 @@ const StatisticGrid = React.lazy(() => import('./Forms/StatisticGrid'));
 const MyWorkTodo = React.lazy(() => import('./Forms/MyWorkTodo'));
 const MyWorkDone = React.lazy(() => import('./Forms/MyWorkDone'));
 const MyOrderInProcess = React.lazy(() => import('./Forms/MyOrderInProcess'));
+const MyFavoriteMenu = React.lazy(() => import('./Forms/MyFavoriteMenu'));
 
 const { COMPONENT_TYPE } = constants;
 
@@ -169,6 +170,12 @@ class InstanceConfig extends PureComponent {
           return (
             <Suspense fallback={<ListLoader />}>
               <MyOrderInProcess {...formProps} />
+            </Suspense>
+          );
+        case COMPONENT_TYPE.MY_FAVORITE_MENU:
+          return (
+            <Suspense fallback={<ListLoader />}>
+              <MyFavoriteMenu {...formProps} />
             </Suspense>
           );
         default:

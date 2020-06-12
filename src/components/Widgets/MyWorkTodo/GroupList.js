@@ -106,7 +106,17 @@ class GroupList extends PureComponent {
 
   renderItemExtra = item => {
     return (
-      <Tooltip title={moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}>
+      <Tooltip
+        title={
+          <>
+            <span>待办创建时间</span>
+            <br />
+            <span style={{ fontSize: 12 }}>
+              {moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}
+            </span>
+          </>
+        }
+      >
         <span className="extra">{moment(item.createdDate).fromNow()}</span>
       </Tooltip>
     );
@@ -127,7 +137,7 @@ class GroupList extends PureComponent {
     if (groupItemCount > dataSource.length) {
       return (
         <>
-          <div className="sub-title">{`Top ${maxCount}`}</div>
+          <div className="sub-title">{`前 ${maxCount} 项`}</div>
           <Button type="link">查看全部</Button>
         </>
       );

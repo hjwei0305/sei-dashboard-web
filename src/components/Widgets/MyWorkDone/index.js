@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get, trim } from 'lodash';
 import moment from 'moment';
-import { Button, message, Modal, Input, Alert } from 'antd';
+import { Button, message, Modal, Input, Alert, Tooltip, Tag } from 'antd';
 import { utils, ListLoader, ListCard, ExtIcon, Animate } from 'suid';
 import { formartUrl, constants } from '@/utils';
 import ExtAction from './ExtAction';
@@ -127,16 +127,29 @@ class MyWorkDone extends PureComponent {
     }
   };
 
-  renderItemExtra = item => {
-    return <span className="extra">{moment(item.actEndTime).format('YYYY-MM-DD HH:mm')}</span>;
-  };
-
   renderItemTitle = item => {
     return item.businessModelRemark;
   };
 
   renderItemDescrption = item => {
-    return item.flowInstanceBusinessCode;
+    return (
+      <>
+        {item.flowInstanceBusinessCode}
+        <Tooltip
+          title={
+            <>
+              <span>处理时间</span>
+              <br />
+              <span style={{ fontSize: 12 }}>
+                {moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}
+              </span>
+            </>
+          }
+        >
+          <Tag style={{ marginLeft: 8 }}>{moment(item.actEndTime).fromNow()}</Tag>
+        </Tooltip>
+      </>
+    );
   };
 
   handlerAction = (key, record) => {
@@ -278,7 +291,7 @@ class MyWorkDone extends PureComponent {
     const { maxCount } = this.props;
     return (
       <>
-        <div className="sub-title">{`最近办理的前 ${maxCount} 项工作`}</div>
+        <div className="sub-title">{`前 ${maxCount} 项`}</div>
         <Button type="link">查看全部</Button>
       </>
     );
@@ -304,7 +317,6 @@ class MyWorkDone extends PureComponent {
         avatar: this.renderAvatar,
         title: this.renderItemTitle,
         description: this.renderItemDescrption,
-        extra: this.renderItemExtra,
       },
       customTool: this.renderCustomTool,
     };
