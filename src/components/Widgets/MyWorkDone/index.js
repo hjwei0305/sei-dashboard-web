@@ -278,7 +278,7 @@ class MyWorkDone extends PureComponent {
     const { maxCount } = this.props;
     return (
       <>
-        <div className="sub-title">{`最近办理前 ${maxCount} 项工作`}</div>
+        <div className="sub-title">{`最近办理的前 ${maxCount} 项工作`}</div>
         <Button type="link">查看全部</Button>
       </>
     );
