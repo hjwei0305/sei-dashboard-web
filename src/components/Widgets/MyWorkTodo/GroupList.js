@@ -96,7 +96,11 @@ class GroupList extends PureComponent {
       } else {
         url = `${item.taskFormUrl}?taskId=${item.id}&instanceId=${item.flowInstanceId}&id=${item.flowInstanceBusinessId}`;
       }
-      this.tabOpen({ id: item.id, title: item.taskName, url });
+      this.tabOpen({
+        id: item.id,
+        title: `${item.taskName}-${item.flowInstanceBusinessCode}`,
+        url,
+      });
     }
   };
 
