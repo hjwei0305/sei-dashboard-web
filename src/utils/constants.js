@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-09 10:47:20
+ * @Last Modified time: 2020-06-11 09:05:49
  */
 import { base } from '../../public/app.config.json';
 
@@ -79,6 +79,19 @@ const ANIMATE_EFFECT = {
     key: 'dream-star',
     title: '梦幻星空',
   },
+};
+
+/** 已办工作操作枚举 */
+const WORK_DONE_ACTION = {
+  VIEW_ORDER: 'View_Order',
+  FLOW_HISTORY: 'Flow_History',
+  FLOW_REVOKE: 'Flow_Revoke',
+  FLOW_END: 'Flow_End',
+};
+
+/** 流程状态枚举 */
+const FLOW_STATUS = {
+  COMPLETED: 'COMPLETED',
 };
 
 /** Echart Skin */
@@ -186,4 +199,6 @@ export default {
   ECHART,
   SCREEN_TEMPLATE,
   ANIMATE_EFFECT,
+  WORK_DONE_ACTION,
+  FLOW_STATUS,
 };

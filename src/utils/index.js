@@ -2,9 +2,9 @@
  * @Author: Eason
  * @Date: 2020-04-07 09:01:14
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-27 14:37:45
+ * @Last Modified time: 2020-06-12 11:07:04
  */
-import { startsWith, trim } from 'lodash';
+import { startsWith, trim, endsWith } from 'lodash';
 import constants from './constants';
 import * as userUtils from './user';
 
@@ -55,13 +55,18 @@ const getHashCode = (len = 6) => {
   return str;
 };
 
-const formartUrl = originUrl => {
-  let url = trim(originUrl);
-  if (startsWith(url, 'http')) {
-    return url;
+const formartUrl = (prefixUrl, suffixUrl) => {
+  const originBaseUrl = trim(prefixUrl);
+  const originUrl = trim(suffixUrl);
+  const baseUrl = endsWith(originBaseUrl, '/')
+    ? originBaseUrl.substr(1, originBaseUrl.length - 1)
+    : originBaseUrl;
+
+  const subUrl = startsWith(originUrl, '/') ? originUrl.substr(1) : originUrl;
+  if (startsWith(baseUrl, 'http') || startsWith(baseUrl, '/')) {
+    return subUrl ? `${baseUrl}/${subUrl}` : `${baseUrl}`;
   }
-  url = startsWith(url, '/') ? url.substr(1) : url;
-  return `/${url}`;
+  return subUrl ? `/${baseUrl}/${subUrl}` : `/${baseUrl}`;
 };
 
 export { formartUrl, constants, userUtils, getHashCode };

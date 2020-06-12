@@ -32,5 +32,20 @@
     .ant-empty-normal {
       margin: 16px 0;
     }
+    .action-item {
+      position: relative;
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      font-size: 16px;
+      line-height: 26px;
+      border-radius: 4px;
+      cursor: pointer;
+      &.ant-dropdown-open,
+      &:hover {
+        color: @primary-color;
+        background-color: fade(@black, 5%);
+      }
+    }
   }
 }
