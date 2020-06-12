@@ -1,24 +1,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
-import { get, trim } from 'lodash';
+import { get } from 'lodash';
 import moment from 'moment';
-import { Button, message, Modal, Input, Alert } from 'antd';
-import { utils, ListLoader, ListCard, ExtIcon, Animate } from 'suid';
+import { Button, message, Modal } from 'antd';
+import { utils, ListLoader, ListCard, ExtIcon } from 'suid';
 import { formartUrl, constants } from '@/utils';
 import ExtAction from './ExtAction';
 import styles from './index.less';
 
-const { request, eventBus } = utils;
+const { request, eventBus, formatMsg } = utils;
 const { USER_ACTION } = constants;
-const { TextArea } = Input;
 
-class MyWorkDone extends PureComponent {
+class MyOrderInProcess extends PureComponent {
   static timer = null;
-
-  static flowRevokeOpinion;
-
-  static showFlowRevokeOpinionValidate;
 
   static confirmModal;
 
@@ -37,23 +32,21 @@ class MyWorkDone extends PureComponent {
     }).isRequired,
     style: PropTypes.object,
     className: PropTypes.string,
-    flowRevokeStore: PropTypes.shape({
+    flowEndStore: PropTypes.shape({
       type: PropTypes.oneOf(['GET', 'get', 'POST', 'post']),
       url: PropTypes.string,
     }),
   };
 
   static defaultProps = {
-    flowRevokeStore: {
+    flowEndStore: {
       type: 'POST',
-      url: '/api-gateway/flow-service/flowTask/rollBackToHis',
+      url: '/api-gateway/flow-service/flowInstance/end/{instanceId}',
     },
   };
 
   constructor(props) {
     super(props);
-    this.flowRevokeOpinion = '';
-    this.showFlowRevokeOpinionValidate = false;
     this.state = {
       loading: false,
       dataSource: [],
@@ -136,7 +129,7 @@ class MyWorkDone extends PureComponent {
   };
 
   renderItemDescrption = item => {
-    return item.flowInstanceBusinessCode;
+    return item.businessCode;
   };
 
   handlerAction = (key, record) => {
@@ -146,112 +139,71 @@ class MyWorkDone extends PureComponent {
         break;
       case USER_ACTION.FLOW_HISTORY:
         break;
-      case USER_ACTION.FLOW_REVOKE:
-        this.flowRevokeConfirm(record);
+      case USER_ACTION.FLOW_END:
+        this.flowEndConfirm(record);
         break;
       default:
     }
   };
 
   handlerVierOrder = doneItem => {
-    let url = formartUrl(doneItem.webBaseAddressAbsolute, doneItem.flowInstanceLookUrl);
+    let url = formartUrl(doneItem.webBaseAddressAbsolute, doneItem.lookUrl);
     if (url.indexOf('?') === -1) {
-      url = `${url}?id=${doneItem.flowInstanceBusinessId}`;
+      url = `${url}?id=${doneItem.businessId}`;
     } else {
-      url = `${url}&id=${doneItem.flowInstanceBusinessId}`;
+      url = `${url}&id=${doneItem.businessId}`;
     }
     this.tabOpen({
-      id: doneItem.flowInstanceBusinessId,
-      title: `单据详情-${doneItem.flowInstanceBusinessCode}`,
+      id: doneItem.businessId,
+      title: `单据详情-${doneItem.businessCode}`,
       url,
     });
   };
 
-  handlerOpinionChange = e => {
-    this.flowRevokeOpinion = trim(e.target.value);
-    if (this.flowRevokeOpinion) {
-      this.showFlowRevokeOpinionValidate = false;
-    } else {
-      this.showFlowRevokeOpinionValidate = true;
-    }
-  };
-
-  renderflowRevokeConfirmContent = () => {
-    const confirmOpin = (
-      <TextArea
-        style={{ resize: 'none' }}
-        autoSize={false}
-        rows={4}
-        placeholder="请填写撤回的原因"
-        onChange={this.handlerOpinionChange}
-      />
-    );
-    let tip = null;
-    if (this.showFlowRevokeOpinionValidate === true) {
-      tip = (
-        <Animate type="shake">
-          <Alert type="error" message="请填写你想要撤回的原因" style={{ marginBottom: 8 }} banner />
-        </Animate>
-      );
-    }
+  renderflowRevokeConfirmContent = doneItem => {
     return (
       <>
-        {tip}
-        {confirmOpin}
+        确定要终止单号为
+        <span style={{ color: 'rgba(0,0,0,0.65)', margin: '0 8px', fontWeight: 700 }}>
+          {doneItem.businessCode}
+        </span>
+        的单据吗?
       </>
     );
   };
 
-  flowRevokeConfirm = doneItem => {
+  flowEndConfirm = doneItem => {
     this.confirmModal = Modal.confirm({
-      title: '撤回确认',
-      content: this.renderflowRevokeConfirmContent(),
+      title: '终止审批确认',
+      content: this.renderflowRevokeConfirmContent(doneItem),
       icon: <ExtIcon type="exclamation-circle" antd />,
       okText: '确定',
       cancelText: '取消',
       onOk: () => {
         return new Promise(resolve => {
-          if (!this.flowRevokeOpinion) {
-            this.showFlowRevokeOpinionValidate = true;
-            this.confirmModal.update({
-              okButtonProps: { loading: false },
-              content: this.renderflowRevokeConfirmContent(),
-            });
-          } else {
-            this.flowRevokeSubmit(doneItem, resolve);
-          }
+          this.flowEndSubmit(doneItem, resolve);
         });
       },
       onCancel: () => {
-        this.showFlowRevokeOpinionValidate = false;
         this.confirmModal.destroy();
         this.confirmModal = null;
-        this.flowRevokeOpinion = '';
       },
     });
   };
 
-  flowRevokeSubmit = (doneItem, resolve) => {
-    const { flowRevokeStore } = this.props;
-    const { url, type } = flowRevokeStore || {};
+  flowEndSubmit = (doneItem, resolve) => {
+    const { flowEndStore } = this.props;
+    const { url, type } = flowEndStore || {};
     const methodType = type || 'get';
     const requestOptions = {
       method: methodType,
-      url: formartUrl(url),
+      url: formatMsg(formartUrl(url), { instanceId: doneItem.flowInstanceId }),
     };
     if (url) {
-      this.showFlowRevokeOpinionValidate = false;
       this.confirmModal.update({
         okButtonProps: { loading: true },
         cancelButtonProps: { disabled: true },
-        content: this.renderflowRevokeConfirmContent(),
       });
-      const params = { id: doneItem.id, opinion: this.flowRevokeOpinion };
-      if (methodType.toLocaleLowerCase() === 'get') {
-        requestOptions.params = params;
-      } else {
-        requestOptions.data = params;
-      }
       request(requestOptions)
         .then(res => {
           if (res.success) {
@@ -278,7 +230,7 @@ class MyWorkDone extends PureComponent {
     const { maxCount } = this.props;
     return (
       <>
-        <div className="sub-title">{`最近办理前 ${maxCount} 项工作`}</div>
+        <div className="sub-title">{`我的在办单据 (Top ${maxCount})`}</div>
         <Button type="link">查看全部</Button>
       </>
     );
@@ -293,7 +245,7 @@ class MyWorkDone extends PureComponent {
     return <ExtAction {...extActionProps} />;
   };
 
-  renderWorkTodoList = () => {
+  renderOrderList = () => {
     const { dataSource } = this.state;
     const listCardProps = {
       dataSource,
@@ -314,11 +266,11 @@ class MyWorkDone extends PureComponent {
   render() {
     const { loading } = this.state;
     return (
-      <div className={cls(styles['my-work-done-list'])}>
-        {loading ? <ListLoader /> : this.renderWorkTodoList()}
+      <div className={cls(styles['my-order-in-process-list'])}>
+        {loading ? <ListLoader /> : this.renderOrderList()}
       </div>
     );
   }
 }
 
-export default MyWorkDone;
+export default MyOrderInProcess;

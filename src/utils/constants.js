@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-11 09:05:49
+ * @Last Modified time: 2020-06-12 14:50:41
  */
 import { base } from '../../public/app.config.json';
 
@@ -59,6 +59,7 @@ const COMPONENT_TYPE = {
   STATISTIC_GRID: 'StatisticGrid',
   MY_WORK_TODO: 'MyWorkTodo',
   MY_WORK_DONE: 'MyWorkDone',
+  MY_ORDER_IN_PROCESS: 'MyOrderInProcess',
 };
 
 /** 场景类型 */
@@ -82,7 +83,7 @@ const ANIMATE_EFFECT = {
 };
 
 /** 已办工作操作枚举 */
-const WORK_DONE_ACTION = {
+const USER_ACTION = {
   VIEW_ORDER: 'View_Order',
   FLOW_HISTORY: 'Flow_History',
   FLOW_REVOKE: 'Flow_Revoke',
@@ -199,6 +200,6 @@ export default {
   ECHART,
   SCREEN_TEMPLATE,
   ANIMATE_EFFECT,
-  WORK_DONE_ACTION,
+  USER_ACTION,
   FLOW_STATUS,
 };

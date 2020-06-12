@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-09 10:56:02
+ * @Last Modified time: 2020-06-12 14:30:16
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -19,7 +19,14 @@ import Settings from './components/Settings';
 import styles from './View.less';
 
 const { GlobalHotKeys } = HottedKey;
-const { EchartPie, EchartBarLine, StatisticGrid, MyWorkTodo, MyWorkDone } = Widgets;
+const {
+  EchartPie,
+  EchartBarLine,
+  StatisticGrid,
+  MyWorkTodo,
+  MyWorkDone,
+  MyOrderInProcess,
+} = Widgets;
 const { COMPONENT_TYPE } = constants;
 const duration = 10000;
 
@@ -193,6 +200,11 @@ class SceneView extends Component {
         case COMPONENT_TYPE.MY_WORK_DONE:
           return {
             widget: <MyWorkDone {...omit(component.props, ['title'])} skin={primarySkin} />,
+            ...props,
+          };
+        case COMPONENT_TYPE.MY_ORDER_IN_PROCESS:
+          return {
+            widget: <MyOrderInProcess {...omit(component.props, ['title'])} skin={primarySkin} />,
             ...props,
           };
         default:

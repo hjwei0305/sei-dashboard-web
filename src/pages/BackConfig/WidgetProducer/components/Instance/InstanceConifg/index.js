@@ -14,6 +14,7 @@ const EchartBarLine = React.lazy(() => import('./Forms/EchartBarLine'));
 const StatisticGrid = React.lazy(() => import('./Forms/StatisticGrid'));
 const MyWorkTodo = React.lazy(() => import('./Forms/MyWorkTodo'));
 const MyWorkDone = React.lazy(() => import('./Forms/MyWorkDone'));
+const MyOrderInProcess = React.lazy(() => import('./Forms/MyOrderInProcess'));
 
 const { COMPONENT_TYPE } = constants;
 
@@ -162,6 +163,12 @@ class InstanceConfig extends PureComponent {
           return (
             <Suspense fallback={<ListLoader />}>
               <MyWorkDone {...formProps} />
+            </Suspense>
+          );
+        case COMPONENT_TYPE.MY_ORDER_IN_PROCESS:
+          return (
+            <Suspense fallback={<ListLoader />}>
+              <MyOrderInProcess {...formProps} />
             </Suspense>
           );
         default:

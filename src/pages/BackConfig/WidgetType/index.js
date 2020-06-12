@@ -180,7 +180,7 @@ class WidgetType extends Component {
       {
         title: formatMessage({ id: 'global.code', defaultMessage: '代码' }),
         dataIndex: 'code',
-        width: 120,
+        width: 180,
         required: true,
       },
       {

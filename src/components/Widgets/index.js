@@ -3,6 +3,7 @@ import EchartBarLine from './EchartBarLine';
 import StatisticGrid from './StatisticGrid';
 import MyWorkTodo from './MyWorkTodo';
 import MyWorkDone from './MyWorkDone';
+import MyOrderInProcess from './MyOrderInProcess';
 
 export default {
   EchartPie,
@@ -10,4 +11,5 @@ export default {
   StatisticGrid,
   MyWorkTodo,
   MyWorkDone,
+  MyOrderInProcess,
 };

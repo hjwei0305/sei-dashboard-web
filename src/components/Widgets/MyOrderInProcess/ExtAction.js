@@ -6,7 +6,7 @@ import { constants } from '@/utils';
 import styles from './ExtAction.less';
 
 const { getUUID } = utils;
-const { USER_ACTION, FLOW_STATUS } = constants;
+const { USER_ACTION } = constants;
 const { Item } = Menu;
 
 const { FlowHistoryButton } = WorkFlow;
@@ -23,8 +23,8 @@ const menuData = () => [
     disabled: false,
   },
   {
-    title: '我要撤回',
-    key: USER_ACTION.FLOW_REVOKE,
+    title: '终止审批',
+    key: USER_ACTION.FLOW_END,
     disabled: true,
     icon: 'right',
   },
@@ -47,13 +47,9 @@ class ExtAction extends PureComponent {
   initActionMenus = () => {
     const { doneItem } = this.props;
     const menus = menuData();
-    if (
-      doneItem.taskStatus === FLOW_STATUS.COMPLETED &&
-      doneItem.canCancel === true &&
-      doneItem.flowInstanceEnded === false
-    ) {
+    if (doneItem.canManuallyEnd === true) {
       menus.forEach(m => {
-        if (m.key === USER_ACTION.FLOW_REVOKE) {
+        if (m.key === USER_ACTION.FLOW_END) {
           Object.assign(m, { disabled: false });
         }
       });
@@ -87,7 +83,7 @@ class ExtAction extends PureComponent {
         selectedKeys={[selectedKeys]}
       >
         {menus.map(m => {
-          if (m.key === USER_ACTION.FLOW_REVOKE) {
+          if (m.key === USER_ACTION.FLOW_END) {
             return (
               <Item key={m.key} className={cls('warning')}>
                 <span className="view-popover-box-trigger">{m.title}</span>
