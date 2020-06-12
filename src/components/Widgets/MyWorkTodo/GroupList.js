@@ -76,15 +76,14 @@ class GroupList extends PureComponent {
   };
 
   tabOpen = item => {
-    const { groupItem } = this.props;
     if (window.top !== window.self) {
       eventBus.emit('openTab', {
         id: item.id,
-        title: groupItem.businessModeName,
-        url: item.featureUrl,
+        title: item.title,
+        url: item.url,
       });
     } else {
-      window.open(item.featureUrl, groupItem.businessModeName);
+      window.open(item.url, item.title);
     }
   };
 
@@ -97,7 +96,7 @@ class GroupList extends PureComponent {
       } else {
         url = `${item.taskFormUrl}?taskId=${item.id}&instanceId=${item.flowInstanceId}&id=${item.flowInstanceBusinessId}`;
       }
-      this.tabOpen({ id: item.id, name: item.flowName, featureUrl: url });
+      this.tabOpen({ id: item.id, title: item.taskName, url });
     }
   };
 
