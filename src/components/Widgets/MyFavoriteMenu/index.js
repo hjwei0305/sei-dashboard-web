@@ -3,14 +3,31 @@ import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get } from 'lodash';
 import { Row, Col, Popconfirm, Empty } from 'antd';
-import { utils, ListLoader, ExtIcon } from 'suid';
+import { utils, ListLoader, ExtIcon, ScrollBar } from 'suid';
 import { formartUrl } from '@/utils';
 import styles from './index.less';
 
 const { request, eventBus, formatMsg } = utils;
 
+const adapterMenus = tree => {
+  const {
+    id,
+    children,
+    rootId,
+    rootName,
+    name: title,
+    menuUrl: url,
+    namePath: urlPath,
+    iconCls: iconType,
+    iconFileData: appBase64ImgStr,
+  } = tree;
+  return { id, title, url, urlPath, children, iconType, rootId, rootName, appBase64ImgStr };
+};
+
 class MyFavoriteMenu extends PureComponent {
   static timer = null;
+
+  static scrollBarRef;
 
   static propTypes = {
     timer: PropTypes.shape({
@@ -90,6 +107,7 @@ class MyFavoriteMenu extends PureComponent {
           }
         })
         .finally(() => {
+          this.scrollBarRef && this.scrollBarRef.updateScroll();
           !timerLoader && this.setState({ loading: false });
         });
     }
@@ -97,7 +115,8 @@ class MyFavoriteMenu extends PureComponent {
 
   tabOpen = item => {
     if (window.top !== window.self) {
-      eventBus.emit('openTab', item);
+      const tabMenu = adapterMenus(item);
+      eventBus.emit('openTab', tabMenu);
     } else {
       window.open(item.menuUrl, item.name);
     }
@@ -128,7 +147,7 @@ class MyFavoriteMenu extends PureComponent {
   renderMenuList = () => {
     const { dataSource, removeId } = this.state;
     return (
-      <Row gutter={16} style={{ padding: 10 }}>
+      <Row>
         {dataSource.length === 0 ? (
           <Empty
             image={<ExtIcon type="empty-data" className="empty-data" />}
@@ -163,7 +182,13 @@ class MyFavoriteMenu extends PureComponent {
     const { loading } = this.state;
     return (
       <div className={cls(styles['my-favorite-menu-list'])}>
-        {loading ? <ListLoader /> : this.renderMenuList()}
+        <ScrollBar
+          ref={ref => {
+            this.scrollBarRef = ref;
+          }}
+        >
+          {loading ? <ListLoader /> : this.renderMenuList()}
+        </ScrollBar>
       </div>
     );
   }
