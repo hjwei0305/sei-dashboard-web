@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get } from 'lodash';
-import { Row, Col, Popconfirm } from 'antd';
+import { Row, Col, Popconfirm, Empty } from 'antd';
 import { utils, ListLoader, ExtIcon } from 'suid';
 import { formartUrl } from '@/utils';
 import styles from './index.less';
@@ -129,22 +129,32 @@ class MyFavoriteMenu extends PureComponent {
     const { dataSource, removeId } = this.state;
     return (
       <Row gutter={16} style={{ padding: 10 }}>
-        {dataSource.map(menuItem => {
-          return (
-            <Col span={12} key={menuItem.id} className="menu-item">
-              <span className="menu-content" onClick={() => this.tabOpen(menuItem)}>
-                {menuItem.name}
-              </span>
-              {removeId && menuItem.id === removeId ? (
-                <ExtIcon type="loading" className="btn-remove" antd />
-              ) : (
-                <Popconfirm title="确定要移除收藏吗?" onConfirm={() => this.handlerClose(menuItem)}>
-                  <ExtIcon type="close" className="btn-remove" antd />
-                </Popconfirm>
-              )}
-            </Col>
-          );
-        })}
+        {dataSource.length === 0 ? (
+          <Empty
+            image={<ExtIcon type="empty-data" className="empty-data" />}
+            description="暂无收藏数据"
+          />
+        ) : (
+          dataSource.map(menuItem => {
+            return (
+              <Col span={12} key={menuItem.id} className="menu-item">
+                <span className="menu-content" onClick={() => this.tabOpen(menuItem)}>
+                  {menuItem.name}
+                </span>
+                {removeId && menuItem.id === removeId ? (
+                  <ExtIcon type="loading" className="menu-btn" antd />
+                ) : (
+                  <Popconfirm
+                    title="确定要移除收藏吗?"
+                    onConfirm={() => this.handlerClose(menuItem)}
+                  >
+                    <ExtIcon type="close" className="menu-btn btn-remove" antd />
+                  </Popconfirm>
+                )}
+              </Col>
+            );
+          })
+        )}
       </Row>
     );
   };

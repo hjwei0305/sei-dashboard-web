@@ -5,8 +5,16 @@
   padding: 0;
   overflow: hidden;
   :global {
-    .ant-empty-normal {
+    .ant-empty-image {
+      height: 64px;
       margin: 16px 0;
+    }
+    .empty-data {
+      color: fade(@black, 35%);
+      font-size: 64px;
+    }
+    .ant-empty-description {
+      color: fade(@black, 35%);
     }
     .menu-item {
       position: relative;
@@ -22,14 +30,17 @@
         white-space: nowrap;
         text-overflow: ellipsis;
       }
-      .btn-remove {
+      .menu-btn {
         position: relative;
         display: inline-block;
         width: 24px;
-        color: fade(@black, 35%);
+        color: fade(@black, 65%);
         background-color: @white;
-        visibility: hidden;
         transition: all 0.3s ease;
+      }
+      .btn-remove {
+        color: fade(@black, 35%);
+        visibility: hidden;
         &.ant-popover-open,
         &:hover {
           color: fade(@black, 65%);
