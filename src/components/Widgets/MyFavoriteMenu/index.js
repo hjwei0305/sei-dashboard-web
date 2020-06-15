@@ -136,7 +136,7 @@ class MyFavoriteMenu extends PureComponent {
                 {menuItem.name}
               </span>
               {removeId && menuItem.id === removeId ? (
-                <ExtIcon type="loading" antd />
+                <ExtIcon type="loading" className="btn-remove" antd />
               ) : (
                 <Popconfirm title="确定要移除收藏吗?" onConfirm={() => this.handlerClose(menuItem)}>
                   <ExtIcon type="close" className="btn-remove" antd />
