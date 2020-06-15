@@ -122,7 +122,8 @@ class MyOrderInProcess extends PureComponent {
   };
 
   renderItemTitle = item => {
-    return item.businessModelRemark;
+    const title = item.businessModelRemark;
+    return <span title={title}>{title}</span>;
   };
 
   renderItemDescrption = item => {
