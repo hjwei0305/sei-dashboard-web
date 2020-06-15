@@ -11,18 +11,39 @@
     .menu-item {
       position: relative;
       display: inline-block;
+      display: flex;
+      align-items: center;
       height: 32px;
-      line-height: 32px;
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.3s ease;
+      .menu-content {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .btn-remove {
+        position: relative;
+        display: inline-block;
+        width: 24px;
+        color: fade(@black, 35%);
+        background-color: @white;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        &.ant-popover-open,
+        &:hover {
+          color: fade(@black, 65%);
+        }
+        &.ant-popover-open {
+          visibility: visible;
+        }
+      }
       &.ant-dropdown-open,
       &:hover {
         color: @primary-color;
-      }
-      &:hover {
-        box-shadow: 0 3px 8px 0 rgba(38, 38, 38, 0.12);
-        transform: translateY(-4px);
+        .btn-remove {
+          visibility: visible;
+        }
       }
     }
   }

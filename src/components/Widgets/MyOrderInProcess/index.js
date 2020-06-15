@@ -76,7 +76,8 @@ class MyOrderInProcess extends PureComponent {
     this.timer && window.clearInterval(this.timer);
   };
 
-  getData = () => {
+  getData = p => {
+    const { timerLoader = false } = p || {};
     const { store, reader, maxCount } = this.props;
     const { url, type } = store || {};
     const methodType = type || 'get';
@@ -86,7 +87,7 @@ class MyOrderInProcess extends PureComponent {
       url: formartUrl(url),
       headers: { neverCancel: true },
     };
-    this.setState({ loading: true });
+    !timerLoader && this.setState({ loading: true });
     if (methodType.toLocaleLowerCase() === 'get') {
       requestOptions.params = params;
     } else {
@@ -103,7 +104,7 @@ class MyOrderInProcess extends PureComponent {
           }
         })
         .finally(() => {
-          this.setState({ loading: false });
+          !timerLoader && this.setState({ loading: false });
         });
     }
   };
