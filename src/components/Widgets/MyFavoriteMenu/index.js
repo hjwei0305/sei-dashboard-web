@@ -155,9 +155,15 @@ class MyFavoriteMenu extends PureComponent {
           />
         ) : (
           dataSource.map(menuItem => {
+            const arr = menuItem.namePath.split('/');
+            const menuPath = arr.filter(v => !!v).join('/');
             return (
               <Col span={12} key={menuItem.id} className="menu-item">
-                <span className="menu-content" onClick={() => this.tabOpen(menuItem)}>
+                <span
+                  className="menu-content"
+                  title={menuPath}
+                  onClick={() => this.tabOpen(menuItem)}
+                >
                   {menuItem.name}
                 </span>
                 {removeId && menuItem.id === removeId ? (
