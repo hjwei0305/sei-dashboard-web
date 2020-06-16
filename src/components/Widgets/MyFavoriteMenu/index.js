@@ -113,10 +113,10 @@ class MyFavoriteMenu extends PureComponent {
     }
   };
 
-  tabOpen = item => {
+  openFavoriteMenu = item => {
     if (window.top !== window.self) {
       const tabMenu = adapterMenus(item);
-      eventBus.emit('openTab', tabMenu);
+      eventBus.emit('openFavoriteMenu', tabMenu);
     } else {
       window.open(item.menuUrl, item.name);
     }
@@ -162,7 +162,7 @@ class MyFavoriteMenu extends PureComponent {
                 <span
                   className="menu-content"
                   title={menuPath}
-                  onClick={() => this.tabOpen(menuItem)}
+                  onClick={() => this.openFavoriteMenu(menuItem)}
                 >
                   {menuItem.name}
                 </span>
