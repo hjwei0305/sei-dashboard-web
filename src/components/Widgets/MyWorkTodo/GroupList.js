@@ -5,7 +5,7 @@ import { get, isEqual } from 'lodash';
 import moment from 'moment';
 import { Tooltip, Button } from 'antd';
 import { utils, ListLoader, ListCard } from 'suid';
-import { formartUrl } from '../../../utils';
+import { formartUrl, taskColor } from '@/utils';
 
 const { request, eventBus } = utils;
 
@@ -117,7 +117,9 @@ class GroupList extends PureComponent {
           </>
         }
       >
-        <span className="extra">{moment(item.createdDate).fromNow()}</span>
+        <span className="extra" style={{ color: taskColor(item.createdDate) }}>
+          {moment(item.createdDate).fromNow()}
+        </span>
       </Tooltip>
     );
   };

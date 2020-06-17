@@ -2,9 +2,10 @@
  * @Author: Eason
  * @Date: 2020-04-07 09:01:14
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-12 11:07:04
+ * @Last Modified time: 2020-06-17 17:55:28
  */
 import { startsWith, trim, endsWith } from 'lodash';
+import moment from 'moment';
 import constants from './constants';
 import * as userUtils from './user';
 
@@ -69,4 +70,15 @@ const formartUrl = (prefixUrl, suffixUrl) => {
   return subUrl ? `/${baseUrl}/${subUrl}` : `/${baseUrl}`;
 };
 
-export { formartUrl, constants, userUtils, getHashCode };
+const taskColor = createdDate => {
+  const days = moment().diff(createdDate, 'days');
+  if (days <= 1) {
+    return '#52c41a';
+  }
+  if (days <= 30) {
+    return '#fa8c16';
+  }
+  return '#f5222d';
+};
+
+export { taskColor, formartUrl, constants, userUtils, getHashCode };

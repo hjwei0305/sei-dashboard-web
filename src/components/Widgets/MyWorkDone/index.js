@@ -157,7 +157,7 @@ class MyWorkDone extends PureComponent {
   handlerAction = (key, record) => {
     switch (key) {
       case USER_ACTION.VIEW_ORDER:
-        this.handlerVierOrder(record);
+        this.handlerViewOrder(record);
         break;
       case USER_ACTION.FLOW_HISTORY:
         break;
@@ -168,7 +168,7 @@ class MyWorkDone extends PureComponent {
     }
   };
 
-  handlerVierOrder = doneItem => {
+  handlerViewOrder = doneItem => {
     let url = formartUrl(doneItem.webBaseAddressAbsolute, doneItem.flowInstanceLookUrl);
     if (url.indexOf('?') === -1) {
       url = `${url}?id=${doneItem.flowInstanceBusinessId}`;

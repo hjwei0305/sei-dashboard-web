@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 import { Button, message, Modal, Tooltip, Tag } from 'antd';
 import { utils, ListLoader, ListCard, ExtIcon } from 'suid';
-import { formartUrl, constants } from '@/utils';
+import { formartUrl, constants, taskColor } from '@/utils';
 import ExtAction from './ExtAction';
 import styles from './index.less';
 
@@ -141,7 +141,9 @@ class MyOrderInProcess extends PureComponent {
             </>
           }
         >
-          <Tag style={{ marginLeft: 8 }}>{moment(item.createdDate).fromNow()}</Tag>
+          <Tag style={{ marginLeft: 8 }} color={taskColor(item.createdDate)}>
+            {moment(item.createdDate).fromNow()}
+          </Tag>
         </Tooltip>
       </>
     );
