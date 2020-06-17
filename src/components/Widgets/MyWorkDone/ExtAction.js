@@ -26,7 +26,6 @@ const menuData = () => [
     title: '我要撤回',
     key: USER_ACTION.FLOW_REVOKE,
     disabled: true,
-    icon: 'right',
   },
 ];
 
