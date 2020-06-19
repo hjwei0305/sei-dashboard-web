@@ -294,7 +294,7 @@ class MyWorkDone extends PureComponent {
     return (
       <>
         <div className="sub-title">{`前 ${maxCount} 项`}</div>
-        <Button type="link">查看全部</Button>
+        <Button type="link">查看更多...</Button>
       </>
     );
   };
