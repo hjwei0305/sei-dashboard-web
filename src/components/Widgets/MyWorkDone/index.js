@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:56
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 12:33:12
+ * @Last Modified time: 2020-06-19 13:39:59
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -157,7 +157,7 @@ class MyWorkDone extends PureComponent {
               <span>处理时间</span>
               <br />
               <span style={{ fontSize: 12 }}>
-                {moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}
+                {moment(item.actEndTime).format('YYYY-MM-DD HH:mm:ss')}
               </span>
             </>
           }
