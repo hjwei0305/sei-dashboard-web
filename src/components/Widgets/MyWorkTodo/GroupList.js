@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
-import { get, isEqual } from 'lodash';
+import { get, isEqual, toUpper } from 'lodash';
 import moment from 'moment';
 import { Tooltip, Button } from 'antd';
 import { utils, ListLoader, ListCard } from 'suid';
@@ -55,7 +55,11 @@ class GroupList extends PureComponent {
     const { store, reader, groupItem, maxCount } = this.props;
     const { url, type } = store || {};
     const methodType = type || 'get';
-    const params = { modelId: get(groupItem, 'businessModeId', null), recordCount: maxCount };
+    const params = {
+      modelId: get(groupItem, 'businessModeId', null),
+      recordCount: maxCount,
+      searchOrders: [{ property: 'createdDate', direction: toUpper(this.sortType) }],
+    };
     const requestOptions = {
       method: methodType,
       url: formartUrl(url),
@@ -114,6 +118,7 @@ class GroupList extends PureComponent {
 
   handlerSort = sortTpe => {
     this.sortType = sortTpe;
+    this.getData();
   };
 
   handlerLookMore = () => {
