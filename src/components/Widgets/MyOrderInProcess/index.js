@@ -248,7 +248,9 @@ class MyOrderInProcess extends PureComponent {
     return (
       <>
         <div className="sub-title">{`前 ${maxCount} 项`}</div>
-        <Button type="link">查看更多...</Button>
+        <Button type="link" style={{ padding: 0 }}>
+          查看更多...
+        </Button>
       </>
     );
   };

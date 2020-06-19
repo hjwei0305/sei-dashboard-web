@@ -1,8 +1,8 @@
 /*
  * @Author: Eason
  * @Date: 2020-06-19 10:27:56
- * @Last Modified by:   Eason
- * @Last Modified time: 2020-06-19 10:27:56
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-06-19 10:34:33
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -300,7 +300,9 @@ class MyWorkDone extends PureComponent {
     return (
       <>
         <div className="sub-title">{`前 ${maxCount} 项`}</div>
-        <Button type="link">查看更多...</Button>
+        <Button type="link" style={{ padding: 0 }}>
+          查看更多...
+        </Button>
       </>
     );
   };
