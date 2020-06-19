@@ -9,13 +9,15 @@ import { formartUrl, constants, taskColor } from '@/utils';
 import ExtAction from './ExtAction';
 import styles from './index.less';
 
-const { request, eventBus, formatMsg } = utils;
+const { request, eventBus, formatMsg, getUUID } = utils;
 const { USER_ACTION } = constants;
 
 class MyOrderInProcess extends PureComponent {
   static timer = null;
 
   static confirmModal;
+
+  static lookMoreViewId;
 
   static propTypes = {
     title: PropTypes.string,
@@ -47,6 +49,7 @@ class MyOrderInProcess extends PureComponent {
 
   constructor(props) {
     super(props);
+    this.lookMoreViewId = getUUID();
     this.state = {
       loading: false,
       dataSource: [],
@@ -119,6 +122,14 @@ class MyOrderInProcess extends PureComponent {
     } else {
       window.open(item.url, item.title);
     }
+  };
+
+  handlerLookMore = () => {
+    this.tabOpen({
+      id: this.lookMoreViewId,
+      title: '我的所有单据',
+      url: `/sei-flow-task-web/task/myOrder`,
+    });
   };
 
   renderItemTitle = item => {
@@ -248,7 +259,7 @@ class MyOrderInProcess extends PureComponent {
     return (
       <>
         <div className="sub-title">{`前 ${maxCount} 项`}</div>
-        <Button type="link" style={{ padding: 0 }}>
+        <Button type="link" style={{ padding: 0 }} onClick={this.handlerLookMore}>
           查看更多...
         </Button>
       </>

@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:56
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 10:34:33
+ * @Last Modified time: 2020-06-19 11:31:19
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -15,7 +15,7 @@ import { formartUrl, constants } from '@/utils';
 import ExtAction from './ExtAction';
 import styles from './index.less';
 
-const { request, eventBus } = utils;
+const { request, eventBus, getUUID } = utils;
 const { USER_ACTION } = constants;
 const { TextArea } = Input;
 
@@ -27,6 +27,8 @@ class MyWorkDone extends PureComponent {
   static showFlowRevokeOpinionValidate;
 
   static confirmModal;
+
+  static lookMoreViewId;
 
   static propTypes = {
     title: PropTypes.string,
@@ -58,6 +60,7 @@ class MyWorkDone extends PureComponent {
 
   constructor(props) {
     super(props);
+    this.lookMoreViewId = getUUID();
     this.flowRevokeOpinion = '';
     this.showFlowRevokeOpinionValidate = false;
     this.state = {
@@ -132,6 +135,14 @@ class MyWorkDone extends PureComponent {
     } else {
       window.open(item.url, item.title);
     }
+  };
+
+  handlerLookMore = () => {
+    this.tabOpen({
+      id: this.lookMoreViewId,
+      title: '更多已办事项',
+      url: `/sei-flow-task-web/task/workDone`,
+    });
   };
 
   renderItemTitle = item => {
@@ -300,7 +311,7 @@ class MyWorkDone extends PureComponent {
     return (
       <>
         <div className="sub-title">{`前 ${maxCount} 项`}</div>
-        <Button type="link" style={{ padding: 0 }}>
+        <Button type="link" style={{ padding: 0 }} onClick={this.handlerLookMore}>
           查看更多...
         </Button>
       </>
