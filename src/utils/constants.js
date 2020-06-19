@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-12 16:28:44
+ * @Last Modified time: 2020-06-19 09:32:10
  */
 import { base } from '../../public/app.config.json';
 
@@ -94,6 +94,12 @@ const USER_ACTION = {
 /** 流程状态枚举 */
 const FLOW_STATUS = {
   COMPLETED: 'COMPLETED',
+};
+
+/** 待办排序枚举 */
+const FLOW_TODO_SORT = {
+  ASC: 'asc',
+  DESC: 'desc',
 };
 
 /** Echart Skin */
@@ -203,4 +209,5 @@ export default {
   ANIMATE_EFFECT,
   USER_ACTION,
   FLOW_STATUS,
+  FLOW_TODO_SORT,
 };

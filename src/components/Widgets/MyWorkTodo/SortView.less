@@ -1,0 +1,20 @@
+@import '../../../themes/vars.less';
+.action-menu-box {
+  :global {
+    .ant-dropdown-menu-item {
+      padding: 2px 16px;
+      .selected {
+        position: absolute;
+        left: 4px;
+        line-height: 42px;
+      }
+      .view-popover-box-trigger {
+        display: inline-block;
+        padding: 8px;
+      }
+      &.ant-dropdown-menu-item-selected {
+        background-color: @menu-item-active-bg;
+      }
+    }
+  }
+}

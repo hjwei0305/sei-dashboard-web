@@ -5,9 +5,11 @@ import { get, isEqual } from 'lodash';
 import moment from 'moment';
 import { Tooltip, Button } from 'antd';
 import { utils, ListLoader, ListCard } from 'suid';
-import { formartUrl, taskColor } from '@/utils';
+import { formartUrl, taskColor, constants } from '@/utils';
+import SortView from './SortView';
 
-const { request, eventBus } = utils;
+const { request, eventBus, getUUID } = utils;
+const { FLOW_TODO_SORT } = constants;
 
 class GroupList extends PureComponent {
   static propTypes = {
@@ -22,8 +24,13 @@ class GroupList extends PureComponent {
     }).isRequired,
   };
 
+  static sortType;
+
+  static lookMoreViewId;
+
   constructor(props) {
     super(props);
+    this.sortType = FLOW_TODO_SORT.ASC;
     this.state = {
       loading: false,
       dataSource: [],
@@ -31,6 +38,7 @@ class GroupList extends PureComponent {
   }
 
   componentDidMount() {
+    this.lookMoreViewId = getUUID();
     const { groupItem } = this.props;
     if (groupItem) {
       this.getData();
@@ -104,12 +112,26 @@ class GroupList extends PureComponent {
     }
   };
 
+  handlerSort = sortTpe => {
+    this.sortType = sortTpe;
+  };
+
+  handlerLookMore = () => {
+    const { groupItem } = this.props;
+    const currentViewTypeId = get(groupItem, 'businessModeId', null);
+    this.tabOpen({
+      id: this.lookMoreViewId,
+      title: '更多待办事项',
+      url: `/sei-flow-task-web/task/workTodo?currentViewTypeId=${currentViewTypeId}`,
+    });
+  };
+
   renderItemExtra = item => {
     return (
       <Tooltip
         title={
           <>
-            <span>待办创建时间</span>
+            <span>待办到达时间</span>
             <br />
             <span style={{ fontSize: 12 }}>
               {moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}
@@ -134,18 +156,20 @@ class GroupList extends PureComponent {
   };
 
   renderCustomTool = () => {
-    const { groupItem, maxCount } = this.props;
-    const groupItemCount = get(groupItem, 'count', 0);
-    const { dataSource } = this.state;
-    if (groupItemCount > dataSource.length) {
-      return (
-        <>
+    const { maxCount } = this.props;
+    return (
+      <>
+        <div className="left-tool-box">
           <div className="sub-title">{`前 ${maxCount} 项`}</div>
-          <Button type="link">查看全部</Button>
-        </>
-      );
-    }
-    return null;
+          <Button type="link" onClick={this.handlerLookMore}>
+            查看更多...
+          </Button>
+        </div>
+        <div className="right-tool-box">
+          <SortView sortTpe={this.sortType} onSort={this.handlerSort} />
+        </div>
+      </>
+    );
   };
 
   renderWorkTodoList = () => {
