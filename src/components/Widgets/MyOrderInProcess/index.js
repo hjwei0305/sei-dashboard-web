@@ -9,15 +9,13 @@ import { formartUrl, constants, taskColor } from '@/utils';
 import ExtAction from './ExtAction';
 import styles from './index.less';
 
-const { request, eventBus, formatMsg, getUUID } = utils;
+const { request, eventBus, formatMsg } = utils;
 const { USER_ACTION } = constants;
 
 class MyOrderInProcess extends PureComponent {
   static timer = null;
 
   static confirmModal;
-
-  static lookMoreViewId;
 
   static propTypes = {
     title: PropTypes.string,
@@ -49,7 +47,6 @@ class MyOrderInProcess extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.lookMoreViewId = getUUID();
     this.state = {
       loading: false,
       dataSource: [],
@@ -126,7 +123,7 @@ class MyOrderInProcess extends PureComponent {
 
   handlerLookMore = () => {
     this.tabOpen({
-      id: this.lookMoreViewId,
+      id: '9e1ba51b-befb-47ce-a4fd-a9e96544c85f',
       title: '我的所有单据',
       url: `/sei-flow-task-web/task/myOrder`,
     });

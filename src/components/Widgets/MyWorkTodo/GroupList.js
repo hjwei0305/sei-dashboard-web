@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 11:25:49
+ * @Last Modified time: 2020-06-19 12:32:09
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -14,7 +14,7 @@ import { utils, ListLoader, ListCard } from 'suid';
 import { formartUrl, taskColor, constants } from '@/utils';
 import SortView from './SortView';
 
-const { request, eventBus, getUUID } = utils;
+const { request, eventBus } = utils;
 const { FLOW_TODO_SORT } = constants;
 
 class GroupList extends PureComponent {
@@ -32,8 +32,6 @@ class GroupList extends PureComponent {
 
   static sortType;
 
-  static lookMoreViewId;
-
   constructor(props) {
     super(props);
     this.sortType = FLOW_TODO_SORT.ASC;
@@ -44,7 +42,6 @@ class GroupList extends PureComponent {
   }
 
   componentDidMount() {
-    this.lookMoreViewId = getUUID();
     const { groupItem } = this.props;
     if (groupItem) {
       this.getData();
@@ -131,7 +128,7 @@ class GroupList extends PureComponent {
     const { groupItem } = this.props;
     const currentViewTypeId = get(groupItem, 'businessModeId', null);
     this.tabOpen({
-      id: this.lookMoreViewId,
+      id: '0ef8d3ec-145f-40cf-b899-183b54c813f2',
       title: '更多待办事项',
       url: `/sei-flow-task-web/task/workTodo?currentViewTypeId=${currentViewTypeId}`,
     });

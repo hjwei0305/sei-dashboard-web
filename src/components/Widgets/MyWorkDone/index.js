@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:56
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 11:31:19
+ * @Last Modified time: 2020-06-19 12:33:12
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -15,7 +15,7 @@ import { formartUrl, constants } from '@/utils';
 import ExtAction from './ExtAction';
 import styles from './index.less';
 
-const { request, eventBus, getUUID } = utils;
+const { request, eventBus } = utils;
 const { USER_ACTION } = constants;
 const { TextArea } = Input;
 
@@ -27,8 +27,6 @@ class MyWorkDone extends PureComponent {
   static showFlowRevokeOpinionValidate;
 
   static confirmModal;
-
-  static lookMoreViewId;
 
   static propTypes = {
     title: PropTypes.string,
@@ -60,7 +58,6 @@ class MyWorkDone extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.lookMoreViewId = getUUID();
     this.flowRevokeOpinion = '';
     this.showFlowRevokeOpinionValidate = false;
     this.state = {
@@ -139,7 +136,7 @@ class MyWorkDone extends PureComponent {
 
   handlerLookMore = () => {
     this.tabOpen({
-      id: this.lookMoreViewId,
+      id: '173021e9-9d0f-4ab9-8b24-a4284702e9a0',
       title: '更多已办事项',
       url: `/sei-flow-task-web/task/workDone`,
     });
