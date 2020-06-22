@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-22 17:42:00
+ * @Last Modified time: 2020-06-22 20:05:01
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -190,7 +190,7 @@ class MyWorkTodo extends PureComponent {
     };
     return (
       <>
-        {groupData.length === 0 ? (
+        {groupData.length > 0 ? (
           <>
             <div className="group-todo">
               <Slider ref={this.handlerGroupSliderRef} {...carouselGroupProps}>
