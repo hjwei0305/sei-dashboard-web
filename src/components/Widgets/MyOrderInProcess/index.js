@@ -124,7 +124,7 @@ class MyOrderInProcess extends PureComponent {
   handlerLookMore = () => {
     this.tabOpen({
       id: '9e1ba51b-befb-47ce-a4fd-a9e96544c85f',
-      title: '我的所有单据',
+      title: '我的单据',
       url: `/sei-flow-task-web/task/myOrder`,
     });
   };

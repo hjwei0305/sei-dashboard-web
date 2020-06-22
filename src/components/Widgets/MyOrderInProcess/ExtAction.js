@@ -26,7 +26,6 @@ const menuData = () => [
     title: '终止审批',
     key: USER_ACTION.FLOW_END,
     disabled: true,
-    icon: 'right',
   },
 ];
 

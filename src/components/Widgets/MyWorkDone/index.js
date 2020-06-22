@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:56
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 13:39:59
+ * @Last Modified time: 2020-06-19 14:07:57
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -173,8 +173,6 @@ class MyWorkDone extends PureComponent {
       case USER_ACTION.VIEW_ORDER:
         this.handlerViewOrder(record);
         break;
-      case USER_ACTION.FLOW_HISTORY:
-        break;
       case USER_ACTION.FLOW_REVOKE:
         this.flowRevokeConfirm(record);
         break;
@@ -233,7 +231,7 @@ class MyWorkDone extends PureComponent {
 
   flowRevokeConfirm = doneItem => {
     this.confirmModal = Modal.confirm({
-      title: '撤回确认',
+      title: '我要撤销',
       content: this.renderflowRevokeConfirmContent(),
       icon: <ExtIcon type="exclamation-circle" antd />,
       okText: '确定',
