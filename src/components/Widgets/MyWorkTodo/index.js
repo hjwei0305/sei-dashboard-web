@@ -2,13 +2,14 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 10:24:08
+ * @Last Modified time: 2020-06-22 17:42:00
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get } from 'lodash';
 import Slider from 'react-slick';
+import { Empty } from 'antd';
 import { utils, ListLoader, ExtIcon } from 'suid';
 import { formartUrl } from '../../../utils';
 import GroupList from './GroupList';
@@ -189,26 +190,35 @@ class MyWorkTodo extends PureComponent {
     };
     return (
       <>
-        <div className="group-todo">
-          <Slider ref={this.handlerGroupSliderRef} {...carouselGroupProps}>
-            {groupData.map((item, index) => {
-              return (
-                <div
-                  className={cls('todo-type-item', { select: selectItemIndex === index })}
-                  key={`group_${item.businessModeId}`}
-                  onClick={() => this.handlerGroupSelect(index)}
-                >
-                  <div className="total">{item.count}</div>
-                  <div className="title">{item.businessModelName}</div>
-                  <div className="arrow-line" />
-                </div>
-              );
-            })}
-          </Slider>
-        </div>
-        <div className="group-list-todo">
-          <GroupList {...groupListProps} />
-        </div>
+        {groupData.length === 0 ? (
+          <>
+            <div className="group-todo">
+              <Slider ref={this.handlerGroupSliderRef} {...carouselGroupProps}>
+                {groupData.map((item, index) => {
+                  return (
+                    <div
+                      className={cls('todo-type-item', { select: selectItemIndex === index })}
+                      key={`group_${item.businessModeId}`}
+                      onClick={() => this.handlerGroupSelect(index)}
+                    >
+                      <div className="total">{item.count}</div>
+                      <div className="title">{item.businessModelName}</div>
+                      <div className="arrow-line" />
+                    </div>
+                  );
+                })}
+              </Slider>
+            </div>
+            <div className="group-list-todo">
+              <GroupList {...groupListProps} />
+            </div>
+          </>
+        ) : (
+          <Empty
+            description="暂无待办项"
+            image={<ExtIcon type="empty-box" style={{ fontSize: 80, color: '#999' }} />}
+          />
+        )}
       </>
     );
   };
