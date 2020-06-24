@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 12:32:09
+ * @Last Modified time: 2020-06-24 13:40:12
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -14,8 +14,8 @@ import { utils, ListLoader, ListCard } from 'suid';
 import { formartUrl, taskColor, constants } from '@/utils';
 import SortView from './SortView';
 
-const { request, eventBus } = utils;
-const { FLOW_TODO_SORT } = constants;
+const { request, eventBus, storage } = utils;
+const { FLOW_TODO_SORT, FLOW_TODO_LOCAL_STORAGE } = constants;
 
 class GroupList extends PureComponent {
   static propTypes = {
@@ -34,7 +34,8 @@ class GroupList extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.sortType = FLOW_TODO_SORT.ASC;
+    this.sortType =
+      storage.sessionStorage.get(FLOW_TODO_LOCAL_STORAGE.sortTypeKey) || FLOW_TODO_SORT.ASC;
     this.state = {
       loading: false,
       dataSource: [],
@@ -121,6 +122,7 @@ class GroupList extends PureComponent {
 
   handlerSort = sortTpe => {
     this.sortType = sortTpe;
+    storage.sessionStorage.set(FLOW_TODO_LOCAL_STORAGE.sortTypeKey, sortTpe);
     this.getData();
   };
 

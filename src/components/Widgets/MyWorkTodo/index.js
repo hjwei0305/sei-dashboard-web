@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-22 20:05:01
+ * @Last Modified time: 2020-06-24 12:46:49
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -11,11 +11,12 @@ import { get } from 'lodash';
 import Slider from 'react-slick';
 import { Empty } from 'antd';
 import { utils, ListLoader, ExtIcon } from 'suid';
-import { formartUrl } from '../../../utils';
+import { formartUrl, constants } from '../../../utils';
 import GroupList from './GroupList';
 import styles from './index.less';
 
-const { request } = utils;
+const { request, storage } = utils;
+const { FLOW_TODO_LOCAL_STORAGE } = constants;
 
 const NextArrow = props => {
   const { className, style, onClick } = props;
@@ -86,11 +87,12 @@ class MyWorkTodo extends PureComponent {
 
   constructor(props) {
     super(props);
+    const selectItemIndex = storage.sessionStorage.get(FLOW_TODO_LOCAL_STORAGE.groupKey) || 0;
     this.state = {
       loading: false,
       groupData: [],
       groupSlider: null,
-      selectItemIndex: 0,
+      selectItemIndex,
     };
   }
 
@@ -167,6 +169,7 @@ class MyWorkTodo extends PureComponent {
     this.setState({
       selectItemIndex: index,
     });
+    storage.sessionStorage.set(FLOW_TODO_LOCAL_STORAGE.groupKey, index);
   };
 
   renderMyWorkTodo = () => {
@@ -177,6 +180,7 @@ class MyWorkTodo extends PureComponent {
       infinite: false,
       slidesToShow: group.maxCount,
       swipeToSlide: true,
+      initialSlide: selectItemIndex,
       nextArrow: <NextArrow className="next-arrow" />,
       prevArrow: <PrevArrow className="prev-arrow" />,
     };

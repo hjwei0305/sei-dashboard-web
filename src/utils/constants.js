@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 09:32:10
+ * @Last Modified time: 2020-06-24 12:35:01
  */
 import { base } from '../../public/app.config.json';
 
@@ -100,6 +100,12 @@ const FLOW_STATUS = {
 const FLOW_TODO_SORT = {
   ASC: 'asc',
   DESC: 'desc',
+};
+
+/** 待办本地存储 */
+const FLOW_TODO_LOCAL_STORAGE = {
+  groupKey: '2bcce3b7-c7c5-4a5e-af85-ba216ab3409b',
+  sortTypeKey: 'b7ba1005-85b8-45e9-b788-90babfe5c112',
 };
 
 /** Echart Skin */
@@ -210,4 +216,5 @@ export default {
   USER_ACTION,
   FLOW_STATUS,
   FLOW_TODO_SORT,
+  FLOW_TODO_LOCAL_STORAGE,
 };
