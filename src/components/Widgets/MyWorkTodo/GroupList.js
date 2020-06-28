@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-24 13:40:12
+ * @Last Modified time: 2020-06-28 14:14:02
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -11,13 +11,15 @@ import { get, isEqual, toUpper } from 'lodash';
 import moment from 'moment';
 import { Tooltip, Button } from 'antd';
 import { utils, ListLoader, ListCard } from 'suid';
-import { formartUrl, taskColor, constants } from '@/utils';
+import { formartUrl, taskColor, constants, userUtils } from '@/utils';
 import SortView from './SortView';
 
 const { request, eventBus, storage } = utils;
 const { FLOW_TODO_SORT, FLOW_TODO_LOCAL_STORAGE } = constants;
 
 class GroupList extends PureComponent {
+  static userId;
+
   static propTypes = {
     maxCount: PropTypes.number,
     groupItem: PropTypes.object,
@@ -34,8 +36,11 @@ class GroupList extends PureComponent {
 
   constructor(props) {
     super(props);
+    const currentUser = userUtils.getCurrentUser();
+    this.userId = currentUser.userId;
     this.sortType =
-      storage.sessionStorage.get(FLOW_TODO_LOCAL_STORAGE.sortTypeKey) || FLOW_TODO_SORT.ASC;
+      storage.sessionStorage.get(`${this.userId}_${FLOW_TODO_LOCAL_STORAGE.sortTypeKey}`) ||
+      FLOW_TODO_SORT.ASC;
     this.state = {
       loading: false,
       dataSource: [],
@@ -122,7 +127,7 @@ class GroupList extends PureComponent {
 
   handlerSort = sortTpe => {
     this.sortType = sortTpe;
-    storage.sessionStorage.set(FLOW_TODO_LOCAL_STORAGE.sortTypeKey, sortTpe);
+    storage.sessionStorage.set(`${this.userId}_${FLOW_TODO_LOCAL_STORAGE.sortTypeKey}`, sortTpe);
     this.getData();
   };
 

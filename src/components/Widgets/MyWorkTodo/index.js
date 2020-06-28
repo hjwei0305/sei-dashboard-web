@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-24 12:46:49
+ * @Last Modified time: 2020-06-28 14:13:23
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -11,7 +11,7 @@ import { get } from 'lodash';
 import Slider from 'react-slick';
 import { Empty } from 'antd';
 import { utils, ListLoader, ExtIcon } from 'suid';
-import { formartUrl, constants } from '../../../utils';
+import { formartUrl, constants, userUtils } from '@/utils';
 import GroupList from './GroupList';
 import styles from './index.less';
 
@@ -48,6 +48,8 @@ class MyWorkTodo extends PureComponent {
   static timer = null;
 
   static groupSliderRef = null;
+
+  static userId;
 
   static propTypes = {
     title: PropTypes.string,
@@ -87,7 +89,10 @@ class MyWorkTodo extends PureComponent {
 
   constructor(props) {
     super(props);
-    const selectItemIndex = storage.sessionStorage.get(FLOW_TODO_LOCAL_STORAGE.groupKey) || 0;
+    const currentUser = userUtils.getCurrentUser();
+    this.userId = currentUser.userId;
+    const selectItemIndex =
+      storage.sessionStorage.get(`${this.userId}_${FLOW_TODO_LOCAL_STORAGE.groupKey}`) || 0;
     this.state = {
       loading: false,
       groupData: [],
@@ -169,7 +174,7 @@ class MyWorkTodo extends PureComponent {
     this.setState({
       selectItemIndex: index,
     });
-    storage.sessionStorage.set(FLOW_TODO_LOCAL_STORAGE.groupKey, index);
+    storage.sessionStorage.set(`${this.userId}_${FLOW_TODO_LOCAL_STORAGE.groupKey}`, index);
   };
 
   renderMyWorkTodo = () => {
