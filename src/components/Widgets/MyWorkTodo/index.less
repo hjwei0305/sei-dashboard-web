@@ -98,12 +98,14 @@
         &:hover {
           transform: translateY(-4px);
         }
-        .total {
-          padding: 0 8px;
-          color: fade(@primary-color, 85%);
-          font-weight: 700;
-          font-size: 32px;
-          letter-spacing: 2px;
+        .total-box {
+          .total {
+            padding: 0 8px;
+            color: fade(@primary-color, 85%);
+            font-weight: 700;
+            font-size: 32px;
+            letter-spacing: 2px;
+          }
         }
         .title {
           padding: 0 16px 8px 16px;
@@ -128,6 +130,18 @@
           }
           &:hover {
             transform: translateY(0);
+          }
+          .total-box {
+            .total {
+              padding: 0 0 0 8px;
+            }
+            .suffix {
+              font-size: 16px;
+              &::before {
+                padding: 0 2px;
+                content: '/';
+              }
+            }
           }
         }
       }

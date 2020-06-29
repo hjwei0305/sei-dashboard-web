@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-28 14:13:23
+ * @Last Modified time: 2020-06-28 15:23:34
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -51,6 +51,8 @@ class MyWorkTodo extends PureComponent {
 
   static userId;
 
+  static total;
+
   static propTypes = {
     title: PropTypes.string,
     timer: PropTypes.shape({
@@ -91,6 +93,7 @@ class MyWorkTodo extends PureComponent {
     super(props);
     const currentUser = userUtils.getCurrentUser();
     this.userId = currentUser.userId;
+    this.total = 0;
     const selectItemIndex =
       storage.sessionStorage.get(`${this.userId}_${FLOW_TODO_LOCAL_STORAGE.groupKey}`) || 0;
     this.state = {
@@ -148,6 +151,9 @@ class MyWorkTodo extends PureComponent {
         .then(res => {
           if (res.success) {
             const groupData = get(res, reader.data, []) || [];
+            groupData.forEach(gp => {
+              this.total += gp.count;
+            });
             this.setState({
               groupData,
             });
@@ -210,7 +216,12 @@ class MyWorkTodo extends PureComponent {
                       key={`group_${item.businessModeId}`}
                       onClick={() => this.handlerGroupSelect(index)}
                     >
-                      <div className="total">{item.count}</div>
+                      <div className="total-box">
+                        <span className="total">{item.count}</span>
+                        {selectItemIndex === index ? (
+                          <span className="suffix">{this.total}</span>
+                        ) : null}
+                      </div>
                       <div className="title">{item.businessModelName}</div>
                       <div className="arrow-line" />
                     </div>
