@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-30 13:12:07
+ * @Last Modified time: 2020-06-30 13:43:32
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -129,7 +129,7 @@ class StatisticGrid extends PureComponent {
     if (item.linkedUrl) {
       this.tabOpen({
         id,
-        title,
+        title: `${title}-${item.title}`,
         url: item.linkedUrl,
       });
     }
