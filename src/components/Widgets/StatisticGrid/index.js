@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-30 13:43:32
+ * @Last Modified time: 2020-06-30 15:04:41
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -188,7 +188,7 @@ class StatisticGrid extends PureComponent {
             {data.map((item, index) => {
               const key = `col_${index}`;
               return (
-                <Col span={cols} key={key}>
+                <Col span={cols} key={key} title={item.title}>
                   <Card
                     bordered={false}
                     hoverable={!!item.linkedUrl}
