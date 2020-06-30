@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-30 12:10:19
+ * @Last Modified time: 2020-06-30 13:12:07
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -13,12 +13,13 @@ import { utils, ListLoader, ExtIcon } from 'suid';
 import { formartUrl } from '../../../utils';
 import styles from './index.less';
 
-const { request } = utils;
+const { request, eventBus } = utils;
 
 class StatisticGrid extends PureComponent {
   static timer = null;
 
   static propTypes = {
+    id: PropTypes.string,
     title: PropTypes.string,
     timer: PropTypes.shape({
       interval: PropTypes.number,
@@ -34,11 +35,13 @@ class StatisticGrid extends PureComponent {
     className: PropTypes.string,
     itemRender: PropTypes.func,
     dataSplit: PropTypes.bool,
+    showTitle: PropTypes.bool,
   };
 
   static defaultProps = {
     title: '',
     dataSplit: false,
+    showTitle: false,
     timer: {
       interval: 0,
     },
@@ -109,6 +112,29 @@ class StatisticGrid extends PureComponent {
     }
   };
 
+  tabOpen = item => {
+    if (window.top !== window.self) {
+      eventBus.emit('openTab', {
+        id: item.id,
+        title: item.title,
+        url: item.url,
+      });
+    } else {
+      window.open(item.url, item.title);
+    }
+  };
+
+  handlerLink = item => {
+    const { title, id } = this.props;
+    if (item.linkedUrl) {
+      this.tabOpen({
+        id,
+        title,
+        url: item.linkedUrl,
+      });
+    }
+  };
+
   renderDataSplit = (item, index) => {
     const { title, value = 0 } = item;
     const data = isNaN(value) ? '0' : value || '0';
@@ -163,7 +189,12 @@ class StatisticGrid extends PureComponent {
               const key = `col_${index}`;
               return (
                 <Col span={cols} key={key}>
-                  <Card bordered={false} className={{ split: dataSplit }}>
+                  <Card
+                    bordered={false}
+                    hoverable={!!item.linkedUrl}
+                    className={{ split: dataSplit }}
+                    onClick={() => this.handlerLink(item)}
+                  >
                     {this.handlerItemRender(item, index)}
                   </Card>
                 </Col>
@@ -179,9 +210,14 @@ class StatisticGrid extends PureComponent {
 
   render() {
     const { loading } = this.state;
-    const { style, className } = this.props;
+    const { style, className, showTitle } = this.props;
     return (
-      <div className={cls('statistic-grid', styles['statistic-grid-box'], className)} style={style}>
+      <div
+        className={cls('statistic-grid', styles['statistic-grid-box'], className, {
+          [styles['show-title']]: showTitle,
+        })}
+        style={style}
+      >
         {loading ? <ListLoader /> : this.renderStatistic()}
       </div>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { omit, toLower } from 'lodash';
+import { omit, toLower, get } from 'lodash';
 import { message } from 'antd';
 import { utils } from 'suid';
 import { Widgets } from '../../components';
@@ -41,6 +41,7 @@ const getWidget = (widget, layout, theme) => {
       layout: defaultLayout,
       className: toLower(component.type),
     };
+    const showHeader = get(component, 'props.showTitle', false);
     switch (component.type) {
       case COMPONENT_TYPE.ECHART_PIE:
         return {
@@ -54,8 +55,8 @@ const getWidget = (widget, layout, theme) => {
         };
       case COMPONENT_TYPE.STATISTIC_GRID:
         return {
-          widget: <StatisticGrid {...omit(component.props, ['title'])} skin={primarySkin} />,
-          showHeader: false,
+          widget: <StatisticGrid id={props.id} {...component.props} skin={primarySkin} />,
+          showHeader,
           ...props,
         };
       case COMPONENT_TYPE.MY_WORK_TODO:

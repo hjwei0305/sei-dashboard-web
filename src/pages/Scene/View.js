@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-12 17:23:34
+ * @Last Modified time: 2020-06-30 13:11:06
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -190,7 +190,7 @@ class SceneView extends Component {
           };
         case COMPONENT_TYPE.STATISTIC_GRID:
           return {
-            widget: <StatisticGrid {...omit(component.props, ['title'])} skin={primarySkin} />,
+            widget: <StatisticGrid id={props.id} {...component.props} skin={primarySkin} />,
             ...props,
           };
         case COMPONENT_TYPE.MY_WORK_TODO:

@@ -73,11 +73,13 @@ class StatisticGridForm extends PureComponent {
             color: params.iconColor,
           },
           name: params.widgetTypeName,
+          showHeader: params.showHeader,
           description: params.widgetTypeDescription,
           props: {
             timer: {
               interval: timer ? rest.interval : 0,
             },
+            showTitle: rest.showTitle,
             title: params.name,
             dataSplit: rest.dataSplit,
             store: {
@@ -195,6 +197,13 @@ class StatisticGridForm extends PureComponent {
             <p className="desc">接口返回数据体的属性名</p>
           </FormItem>
           <div className="title-group">其它</div>
+          <FormItem label="显示标题">
+            {getFieldDecorator('showTitle', {
+              initialValue: get(renderConfig, 'component.props.showTitle', false) || false,
+              valuePropName: 'checked',
+            })(<Switch size="small" />)}
+            <p className="desc">显示业务名称到面板上</p>
+          </FormItem>
           <FormItem label="统计值分离显示">
             {getFieldDecorator('dataSplit', {
               initialValue: get(renderConfig, 'component.props.dataSplit', false) || false,
