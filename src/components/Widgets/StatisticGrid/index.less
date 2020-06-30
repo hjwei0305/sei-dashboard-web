@@ -28,4 +28,12 @@
 .show-title {
   padding-top: 8px;
   background-color: @white;
+  .ant-statistic-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    &:hover {
+      text-overflow: 'clip';
+    }
+  }
 }
