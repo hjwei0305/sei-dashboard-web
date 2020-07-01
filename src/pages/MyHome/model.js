@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-01 22:16:47
+ * @Last Modified time: 2020-07-01 22:47:20
  */
 import React from 'react';
 import { omit, toLower, get } from 'lodash';
@@ -40,10 +40,9 @@ const getWidget = (widget, layout, theme) => {
       y: 0,
       i: widget.id,
     };
-    const closable = false;
     const props = {
       id: widget.id,
-      closable,
+      closable: true,
       title: component.props.title,
       layout: defaultLayout,
       className: toLower(component.type),
