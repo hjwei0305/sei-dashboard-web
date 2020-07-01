@@ -1,0 +1,25 @@
+/*
+ * @Author: Eason 
+ * @Date: 2020-04-03 11:21:06 
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-04-23 10:59:56
+ */
+
+@import '../../../themes/vars.less';
+.widget-assets-box {
+  position: relative;
+  padding: 0;
+  :global {
+    .ant-card-type-inner {
+      .ant-card-head {
+        background-color: @page-background-color;
+      }
+      .ant-card-body {
+        box-shadow: @box-shadow-base;
+      }
+    }
+    .ant-card {
+      margin: 24px 16px;
+    }
+  }
+}

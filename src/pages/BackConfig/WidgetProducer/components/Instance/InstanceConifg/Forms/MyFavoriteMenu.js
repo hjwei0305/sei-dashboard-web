@@ -45,7 +45,7 @@ class MyFavoriteMenuForm extends PureComponent {
 
   handlerFormSubmit = () => {
     const { timer } = this.state;
-    const { form, save, editData, widget, widgetGroup, color } = this.props;
+    const { form, save, editData, widget, widgetGroup, color, personalUse } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
         return;
@@ -54,6 +54,7 @@ class MyFavoriteMenuForm extends PureComponent {
         id: get(editData, 'id', null),
         name: formData.name,
         description: formData.description,
+        personalUse,
         iconColor: color || '#333333',
         widgetGroupCode: widgetGroup.code,
         widgetGroupId: widgetGroup.id,

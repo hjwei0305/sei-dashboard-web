@@ -45,7 +45,7 @@ class MyOrderInProcessForm extends PureComponent {
 
   handlerFormSubmit = () => {
     const { timer } = this.state;
-    const { form, save, editData, widget, widgetGroup, color } = this.props;
+    const { form, save, editData, widget, widgetGroup, color, personalUse } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
         return;
@@ -54,6 +54,7 @@ class MyOrderInProcessForm extends PureComponent {
         id: get(editData, 'id', null),
         name: formData.name,
         description: formData.description,
+        personalUse,
         iconColor: color || '#333333',
         widgetGroupCode: widgetGroup.code,
         widgetGroupId: widgetGroup.id,
@@ -122,6 +123,7 @@ class MyOrderInProcessForm extends PureComponent {
     const { getFieldDecorator } = form;
     const timerInterval = get(renderConfig, 'component.props.timer.interval', 0);
     const maxCountInterval = get(renderConfig, 'component.props.maxCount', 5);
+
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">

@@ -1,0 +1,97 @@
+/*
+ * @Author: Eason 
+ * @Date: 2020-04-03 11:20:20 
+ * @Last Modified by: Eason
+ * @Last Modified time: 2020-07-01 21:02:59
+ */
+@import '../../themes/vars.less';
+.my-scene-home-box {
+  position: relative;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  :global {
+    .ps__rail-y,
+    .ps__rail-x {
+      z-index: 100;
+    }
+    .portal-body {
+      position: relative;
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+      background-color: @page-background-color;
+      .action-tool-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 42px !important;
+        padding: 0 24px;
+        line-height: 42px;
+        background-color: @white;
+        .header-title {
+          color: fade(@black, 85%);
+          font-weight: 700;
+          font-size: 16px;
+        }
+        .header-sub-title {
+          margin-left: 8px;
+          color: fade(@black, 65%);
+        }
+        .tool-desc {
+          margin-left: 16px;
+          font-size: 12px;
+        }
+        .action-item {
+          display: inline-block;
+          width: 32px;
+          height: 32px;
+          margin-left: 8px;
+          line-height: 34px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all ease-in 0.2s;
+          &.primary {
+            color: @primary-color;
+          }
+          &.ant-dropdown-open,
+          &:hover {
+            color: @primary-color;
+            background-color: fade(@black, 5%);
+          }
+          &:last-child {
+            margin-left: 0;
+          }
+        }
+      }
+      .portal-box {
+        height: calc(100% - 42px) !important;
+        overflow: hidden;
+        background-color: fade(@black, 5%);
+        .suid-panel.panel-bordered {
+          border-color: transparent;
+          box-shadow: none;
+        }
+        .blank-empty {
+          background-color: transparent;
+        }
+        .suid-portal-panel {
+          background-color: transparent;
+        }
+        .suid-panel .panel-header {
+          background-color: @white;
+        }
+        .panel-header-title {
+          cursor: move;
+        }
+      }
+      .myworktodo {
+        .suid-panel.panel-bordered .panel-body {
+          .panel-content {
+            padding: 0;
+          }
+        }
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React, { PureComponent, Suspense } from 'react';
 import cls from 'classnames';
 import { isEqual, get } from 'lodash';
 import { connect } from 'dva';
-import { Drawer, Button, Avatar } from 'antd';
+import { Drawer, Button, Avatar, Switch } from 'antd';
 import { ScrollBar, ExtIcon, ListLoader } from 'suid';
 import { ColorSelect } from '../../../../../../components';
 import WidgetSelect from '../../WidgetSelect';
@@ -23,19 +23,27 @@ const { COMPONENT_TYPE } = constants;
 class InstanceConfig extends PureComponent {
   constructor(props) {
     super(props);
+    const { widgetInstance } = props;
+    const { currentWidgetInstance } = widgetInstance;
+    const personalUse = get(currentWidgetInstance, 'personalUse', false) || false;
     this.state = {
       color: '',
       showShadow: false,
       currentWidget: null,
+      personalUse,
     };
   }
 
   componentDidUpdate(prevProps) {
     const { widgetInstance } = this.props;
-    const { showFormModal } = widgetInstance;
+    const { showFormModal, currentWidgetInstance } = widgetInstance;
     if (!isEqual(prevProps.widgetInstance.showFormModal, showFormModal) && showFormModal === true) {
       this.getWidgetList();
       this.getCurrentWidgetInstance();
+    }
+    if (!isEqual(prevProps.widgetInstance.currentWidgetInstance, currentWidgetInstance)) {
+      const personalUse = get(currentWidgetInstance, 'personalUse', false) || false;
+      this.setState({ personalUse });
     }
   }
 
@@ -113,6 +121,12 @@ class InstanceConfig extends PureComponent {
     this.setState({ showShadow: false });
   };
 
+  handlerPersonalUseChange = checked => {
+    this.setState({
+      personalUse: checked,
+    });
+  };
+
   renderTitle = () => {
     const { widgetInstance } = this.props;
     const { currentWidgetInstance } = widgetInstance;
@@ -123,7 +137,7 @@ class InstanceConfig extends PureComponent {
   };
 
   renderForm = () => {
-    const { currentWidget, color } = this.state;
+    const { currentWidget, color, personalUse } = this.state;
     const { widgetInstance, currentWidgetGroup, save } = this.props;
     const { currentWidgetInstance } = widgetInstance;
     const formProps = {
@@ -132,6 +146,7 @@ class InstanceConfig extends PureComponent {
       editData: currentWidgetInstance,
       color,
       save,
+      personalUse,
       onFormRef: this.handlerFormRef,
     };
     if (currentWidget) {
@@ -186,12 +201,16 @@ class InstanceConfig extends PureComponent {
   render() {
     const { widgetInstance, loading } = this.props;
     const { showFormModal, widgetData } = widgetInstance;
-    const { color, currentWidget, showShadow } = this.state;
+    const { color, currentWidget, showShadow, personalUse } = this.state;
     const widgetDataLoading = loading.effects['widgetInstance/getWidgetList'];
     const widgetInstanceLoading = loading.effects['widgetInstance/getWidgetInstanceById'];
     const saving = loading.effects['widgetInstance/saveWidgetInstance'];
     const headerStyle = {
       boxShadow: showShadow ? ' 0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
+    };
+    const personalUseProps = {
+      checked: personalUse,
+      onChange: this.handlerPersonalUseChange,
     };
     return (
       <Drawer
@@ -244,6 +263,14 @@ class InstanceConfig extends PureComponent {
                     </div>
                   </div>
                 </div>
+                {currentWidget ? (
+                  <div className="box-item">
+                    <div className="title">用于个人</div>
+                    <div style={{ padding: '0 24px' }}>
+                      <Switch size="small" {...personalUseProps} />
+                    </div>
+                  </div>
+                ) : null}
                 <div className="box-item">{this.renderForm()}</div>
               </ScrollBar>
             </div>
