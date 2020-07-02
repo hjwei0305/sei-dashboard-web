@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-02 09:19:21
+ * @Last Modified time: 2020-07-02 11:16:06
  */
 import React from 'react';
 import { omit, toLower, get } from 'lodash';
@@ -10,12 +10,14 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import { message } from 'antd';
 import { utils } from 'suid';
 import { Widgets } from '../../components';
-import { constants } from '../../utils';
+import { constants, userUtils } from '../../utils';
 import { getWidgetInstanceById, getSceneHome, getWidgetAssets, saveSceneConfig } from './service';
 
 const { pathMatchRegexp, dvaModel, storage } = utils;
 const { modelExtend, model } = dvaModel;
-const { ECHART } = constants;
+const { ECHART, AUTH_POLICY } = constants;
+const currentUser = userUtils.getCurrentUser();
+console.log(currentUser);
 const {
   EchartPie,
   EchartBarLine,
@@ -40,9 +42,16 @@ const getWidget = (widget, layout, theme) => {
       y: 0,
       i: widget.id,
     };
+    let allowClose = widget.personalUse;
+    if (
+      currentUser.authorityPolicy === AUTH_POLICY.TENANT_ADMIN ||
+      currentUser.authorityPolicy === AUTH_POLICY.ADMIN
+    ) {
+      allowClose = true;
+    }
     const props = {
       id: widget.id,
-      closable: widget.personalUse,
+      closable: allowClose,
       title: component.props.title,
       layout: defaultLayout,
       className: toLower(component.type),

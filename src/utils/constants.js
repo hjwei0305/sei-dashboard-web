@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-24 12:35:01
+ * @Last Modified time: 2020-07-02 11:15:09
  */
 import { base } from '../../public/app.config.json';
 
@@ -106,6 +106,13 @@ const FLOW_TODO_SORT = {
 const FLOW_TODO_LOCAL_STORAGE = {
   groupKey: '2bcce3b7-c7c5-4a5e-af85-ba216ab3409b',
   sortTypeKey: 'b7ba1005-85b8-45e9-b788-90babfe5c112',
+};
+
+/** 权限类型 */
+const AUTH_POLICY = {
+  USER: 'NormalUser',
+  TENANT_ADMIN: 'TenantAdmin',
+  ADMIN: 'GlobalAdmin',
 };
 
 /** Echart Skin */
@@ -217,4 +224,5 @@ export default {
   FLOW_STATUS,
   FLOW_TODO_SORT,
   FLOW_TODO_LOCAL_STORAGE,
+  AUTH_POLICY,
 };
