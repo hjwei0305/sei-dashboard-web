@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:59
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-02 09:29:06
+ * @Last Modified time: 2020-07-02 10:40:15
  */
 
 import React, { PureComponent } from 'react';
@@ -58,13 +58,18 @@ class WidgetAssetSelect extends PureComponent {
 
   renderExtra = item => {
     const { doneKeys, loadingWidgetInstance, loadingWidgetId } = this.props;
+    let btnTitle = '添加';
+    const added = includes(doneKeys, item.id);
     const btnProps = {
       type: 'primary',
       loading: item.id === loadingWidgetId && loadingWidgetInstance,
-      disabled: includes(doneKeys, item.id),
+      disabled: added,
       onClick: e => this.handlerAdd(item, e),
     };
-    return <Button {...btnProps}>添加</Button>;
+    if (added) {
+      btnTitle = '已添加';
+    }
+    return <Button {...btnProps}>{btnTitle}</Button>;
   };
 
   render() {
