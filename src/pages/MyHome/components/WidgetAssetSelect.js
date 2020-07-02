@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:59
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-01 21:23:09
+ * @Last Modified time: 2020-07-02 09:29:06
  */
 
 import React, { PureComponent } from 'react';
@@ -84,7 +84,7 @@ class WidgetAssetSelect extends PureComponent {
     };
     return (
       <Drawer
-        title="部件资源 (快捷键关闭 ESC)"
+        title="组件资源 (快捷键关闭 ESC)"
         placement="right"
         width={420}
         className={cls(styles['assets-box'])}

@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-01 22:20:11
+ * @Last Modified time: 2020-07-02 09:29:21
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -399,7 +399,7 @@ class SceneMyHome extends Component {
                       className="action-item primary"
                       spin={loadingWidgetAssets}
                       onClick={this.handlerAddWidgetAssets}
-                      tooltip={this.getActionTooltip('添加部件', '快捷键 Ctrl + A')}
+                      tooltip={this.getActionTooltip('添加组件', '快捷键 Ctrl + A')}
                       antd
                     />
                     <Divider type="vertical" />
