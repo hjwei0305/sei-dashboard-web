@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-02 09:29:21
+ * @Last Modified time: 2020-07-02 09:31:00
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -316,7 +316,7 @@ class SceneMyHome extends Component {
               type="save"
               className="action-item"
               onClick={this.handlerSceneConfigSave}
-              tooltip={this.getActionTooltip('保存场景配置', '快捷键 Ctrl + S')}
+              tooltip={this.getActionTooltip('保存配置', '快捷键 Ctrl + S')}
               antd
             />
             <span className="tool-desc">{` ${tmpDuration} 更新`}</span>
