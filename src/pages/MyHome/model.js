@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-02 11:16:06
+ * @Last Modified time: 2020-07-06 13:27:28
  */
 import React from 'react';
 import { omit, toLower, get } from 'lodash';
@@ -17,7 +17,6 @@ const { pathMatchRegexp, dvaModel, storage } = utils;
 const { modelExtend, model } = dvaModel;
 const { ECHART, AUTH_POLICY } = constants;
 const currentUser = userUtils.getCurrentUser();
-console.log(currentUser);
 const {
   EchartPie,
   EchartBarLine,
