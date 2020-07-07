@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:56
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-19 14:07:57
+ * @Last Modified time: 2020-07-07 09:28:57
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -150,7 +150,7 @@ class MyWorkDone extends PureComponent {
   renderItemDescrption = item => {
     return (
       <>
-        {item.flowInstanceBusinessCode}
+        {`${item.flowInstanceBusinessCode}-${item.flowTaskName}`}
         <Tooltip
           title={
             <>

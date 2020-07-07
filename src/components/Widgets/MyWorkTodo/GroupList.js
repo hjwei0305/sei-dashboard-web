@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-28 14:14:02
+ * @Last Modified time: 2020-07-07 09:27:19
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -167,7 +167,7 @@ class GroupList extends PureComponent {
   };
 
   renderItemDescrption = item => {
-    return item.flowInstanceBusinessCode;
+    return `${item.flowInstanceBusinessCode}-${item.taskName}`;
   };
 
   renderCustomTool = () => {
