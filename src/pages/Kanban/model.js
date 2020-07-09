@@ -39,7 +39,7 @@ const getWidget = (widget, layout, theme) => {
       closable,
       title: component.props.title,
       layout: defaultLayout,
-      className: toLower(component.type),
+      className: `${toLower(component.type)} ${component.className}`,
     };
     const showHeader = get(component, 'props.showTitle', false);
     switch (component.type) {

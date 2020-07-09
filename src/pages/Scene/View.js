@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-30 13:11:06
+ * @Last Modified time: 2020-07-09 09:21:42
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -175,7 +175,7 @@ class SceneView extends Component {
         closable: true,
         title: component.props.title,
         layout: defaultLayout,
-        className: toLower(component.type),
+        className: `${toLower(component.type)} ${component.className || ''}`,
       };
       switch (component.type) {
         case COMPONENT_TYPE.ECHART_PIE:
