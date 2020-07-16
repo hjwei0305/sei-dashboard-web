@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:43
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-01 21:17:47
+ * @Last Modified time: 2020-07-16 14:21:18
  */
 
 import { utils } from 'suid';
@@ -23,9 +23,9 @@ export async function getSceneHome() {
   });
 }
 
-/** 保存场景配置信息 */
+/** 保存个人场景配置信息 */
 export async function saveSceneConfig(data) {
-  const url = `${SERVER_PATH}/sei-dashboard/scene/saveConfig`;
+  const url = `${SERVER_PATH}/sei-dashboard/scene/saveUserHome`;
   return request({
     url,
     method: 'POST',
