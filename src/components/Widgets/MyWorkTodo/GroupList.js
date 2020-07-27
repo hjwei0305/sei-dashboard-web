@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-07 09:27:19
+ * @Last Modified time: 2020-07-27 15:55:20
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -102,6 +102,7 @@ class GroupList extends PureComponent {
         id: item.id,
         title: item.title,
         url: item.url,
+        closeActiveParentTab: true,
       });
     } else {
       window.open(item.url, item.title);
