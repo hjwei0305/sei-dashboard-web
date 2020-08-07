@@ -2,13 +2,12 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-06 13:27:28
+ * @Last Modified time: 2020-08-08 00:06:09
  */
 import React from 'react';
 import { omit, toLower, get } from 'lodash';
 import { formatMessage } from 'umi-plugin-react/locale';
-import { message } from 'antd';
-import { utils } from 'suid';
+import { utils, message } from 'suid';
 import { Widgets } from '../../components';
 import { constants, userUtils } from '../../utils';
 import { getWidgetInstanceById, getSceneHome, getWidgetAssets, saveSceneConfig } from './service';

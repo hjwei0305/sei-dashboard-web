@@ -2,11 +2,10 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-27 14:34:15
+ * @Last Modified time: 2020-08-08 00:06:56
  */
 
-import { message } from 'antd';
-import { utils } from 'suid';
+import { utils, message } from 'suid';
 import { getSceneById, getScreenTemplateList, getScreenTemplateConfig } from '../service';
 
 const { dvaModel } = utils;

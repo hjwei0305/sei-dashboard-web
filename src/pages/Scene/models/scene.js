@@ -2,12 +2,11 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-27 14:33:37
+ * @Last Modified time: 2020-08-08 00:06:47
  */
 
 import { formatMessage } from 'umi-plugin-react/locale';
-import { message } from 'antd';
-import { utils } from 'suid';
+import { utils, message } from 'suid';
 import {
   getSceneList,
   saveScene,

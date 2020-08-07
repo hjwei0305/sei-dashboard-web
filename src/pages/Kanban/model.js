@@ -1,7 +1,6 @@
 import React from 'react';
 import { omit, toLower, get } from 'lodash';
-import { message } from 'antd';
-import { utils } from 'suid';
+import { utils, message } from 'suid';
 import { Widgets } from '../../components';
 import { constants } from '../../utils';
 import { getSceneByCode, getSceneHome } from './service';
