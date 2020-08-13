@@ -2,20 +2,20 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-27 15:55:20
+ * @Last Modified time: 2020-08-13 17:23:23
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get, isEqual, toUpper } from 'lodash';
 import moment from 'moment';
-import { Tooltip, Button } from 'antd';
+import { Tooltip, Button, Tag } from 'antd';
 import { utils, ListLoader, ListCard } from 'suid';
 import { formartUrl, taskColor, constants, userUtils } from '@/utils';
 import SortView from './SortView';
 
 const { request, eventBus, storage } = utils;
-const { FLOW_TODO_SORT, FLOW_TODO_LOCAL_STORAGE } = constants;
+const { FLOW_TODO_SORT, FLOW_TODO_LOCAL_STORAGE, PRIORITY } = constants;
 
 class GroupList extends PureComponent {
   static userId;
@@ -164,7 +164,17 @@ class GroupList extends PureComponent {
 
   renderItemTitle = item => {
     const title = item.businessModelRemark;
-    return <span title={title}>{title}</span>;
+    const priority = PRIORITY[item.priority];
+    return (
+      <>
+        <span title={title}>{title}</span>
+        {priority ? (
+          <Tag color={priority.color} style={{ marginLeft: 4 }}>
+            {priority.title}
+          </Tag>
+        ) : null}
+      </>
+    );
   };
 
   renderItemDescrption = item => {

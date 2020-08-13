@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-02 11:15:09
+ * @Last Modified time: 2020-08-13 17:22:13
  */
 import { base } from '../../public/app.config.json';
 
@@ -209,6 +209,12 @@ const ECHART = {
   },
 };
 
+const PRIORITY = {
+  '1': { title: '驳回', color: 'magenta' },
+  '2': { title: '撤回', color: 'volcano' },
+  '3': { title: '加急', color: 'red' },
+};
+
 export default {
   SCENE_TYPE,
   APP_BASE,
@@ -225,4 +231,5 @@ export default {
   FLOW_TODO_SORT,
   FLOW_TODO_LOCAL_STORAGE,
   AUTH_POLICY,
+  PRIORITY,
 };
