@@ -106,8 +106,12 @@ class Feature extends Component {
     this.listCardRef.handlerSearchChange(v);
   };
 
-  handlerSearch = () => {
-    this.listCardRef.handlerSearch();
+  handlerPressEnter = () => {
+    this.listCardRef.handlerPressEnter();
+  };
+
+  handlerSearch = v => {
+    this.listCardRef.handlerSearch(v);
   };
 
   renderCustomTool = () => {
@@ -117,7 +121,7 @@ class Feature extends Component {
           placeholder="输入代码或名称关键字查询"
           onChange={e => this.handlerSearchChange(e.target.value)}
           onSearch={this.handlerSearch}
-          onPressEnter={this.handlerSearch}
+          onPressEnter={this.handlerPressEnter}
           style={{ width: '100%' }}
         />
       </>
