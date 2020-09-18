@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-30 15:04:41
+ * @Last Modified time: 2020-09-18 09:24:46
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -179,8 +179,8 @@ class StatisticGrid extends PureComponent {
 
   renderStatistic = () => {
     const { data } = this.state;
-    const { skin = {}, dataSplit } = this.props;
-    const cols = data.length > 0 ? Math.floor(24 / data.length) : 0;
+    const { skin = {}, dataSplit, columnCount = 4 } = this.props;
+    const cols = data.length > 0 ? Math.floor(24 / columnCount) : 0;
     return (
       <>
         {data.length > 0 ? (

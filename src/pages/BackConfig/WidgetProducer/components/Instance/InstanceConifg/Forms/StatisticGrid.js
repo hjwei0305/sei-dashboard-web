@@ -81,6 +81,7 @@ class StatisticGridForm extends PureComponent {
               interval: timer ? rest.interval : 0,
             },
             showTitle: rest.showTitle,
+            columnCount: rest.columnCount,
             title: params.name,
             dataSplit: rest.dataSplit,
             store: {
@@ -204,6 +205,15 @@ class StatisticGridForm extends PureComponent {
               valuePropName: 'checked',
             })(<Switch size="small" />)}
             <p className="desc">显示业务名称到面板上</p>
+          </FormItem>
+          <FormItem label="显示的列数">
+            {getFieldDecorator('columnCount', {
+              initialValue: get(renderConfig, 'component.props.columnCount', 4) || 4,
+              valuePropName: 'checked',
+            })(<InputNumber precision={0} min={1} max={24} />)}
+            <p className="desc">
+              每行展示统计块数量,最大24列，最小1列;默认为4列,建议列数设置为偶数
+            </p>
           </FormItem>
           <FormItem label="统计值分离显示">
             {getFieldDecorator('dataSplit', {
