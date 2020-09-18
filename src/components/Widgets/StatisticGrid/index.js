@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-09-18 09:24:46
+ * @Last Modified time: 2020-09-18 10:10:10
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -192,7 +192,7 @@ class StatisticGrid extends PureComponent {
                   <Card
                     bordered={false}
                     hoverable={!!item.linkedUrl}
-                    className={{ split: dataSplit }}
+                    className={{ split: dataSplit, link: !!item.linkedUrl }}
                     onClick={() => this.handlerLink(item)}
                   >
                     {this.handlerItemRender(item, index)}
