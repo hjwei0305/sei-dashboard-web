@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-09-18 10:21:53
+ * @Last Modified time: 2020-09-18 10:25:06
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -184,7 +184,7 @@ class StatisticGrid extends PureComponent {
     return (
       <>
         {data.length > 0 ? (
-          <Row gutter={16} className={skin}>
+          <Row gutter={0} className={skin}>
             {data.map((item, index) => {
               const key = `col_${index}`;
               return (
