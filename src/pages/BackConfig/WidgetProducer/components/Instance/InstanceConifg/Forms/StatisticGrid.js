@@ -209,7 +209,6 @@ class StatisticGridForm extends PureComponent {
           <FormItem label="显示的列数">
             {getFieldDecorator('columnCount', {
               initialValue: get(renderConfig, 'component.props.columnCount', 4) || 4,
-              valuePropName: 'checked',
             })(<InputNumber precision={0} min={1} max={24} />)}
             <p className="desc">
               每行展示统计块数量,最大24列，最小1列;默认为4列,建议列数设置为偶数
