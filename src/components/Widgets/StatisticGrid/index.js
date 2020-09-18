@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-09-18 10:10:10
+ * @Last Modified time: 2020-09-18 10:21:53
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -165,14 +165,14 @@ class StatisticGrid extends PureComponent {
     if (itemRender) {
       return itemRender(item, index);
     }
-    const { title, value = 0, precision = 2, iconType, color, percent = false } = item;
+    const { title, value = 0, precision = 2, iconType, color, percent = false, suffix } = item;
     const statisticProps = {
       title,
       value,
       precision,
       valueStyle: color ? { color } : null,
       prefix: iconType ? <ExtIcon type={iconType} antd /> : null,
-      suffix: percent ? '%' : '',
+      suffix: percent ? '%' : suffix || '',
     };
     return dataSplit ? this.renderDataSplit(item, index) : <Statistic {...statisticProps} />;
   };
