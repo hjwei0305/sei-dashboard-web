@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-09-18 10:25:06
+ * @Last Modified time: 2020-09-25 16:27:19
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -179,8 +179,12 @@ class StatisticGrid extends PureComponent {
 
   renderStatistic = () => {
     const { data } = this.state;
-    const { skin = {}, dataSplit, columnCount = 4 } = this.props;
+    const { skin = {}, dataSplit, columnCount = 4, showTitle } = this.props;
     const cols = data.length > 0 ? Math.floor(24 / columnCount) : 0;
+    let overwriteColWidth = '';
+    if (!showTitle && !dataSplit) {
+      overwriteColWidth = `${100 / columnCount}%`;
+    }
     return (
       <>
         {data.length > 0 ? (
@@ -188,7 +192,7 @@ class StatisticGrid extends PureComponent {
             {data.map((item, index) => {
               const key = `col_${index}`;
               return (
-                <Col span={cols} key={key} title={item.title}>
+                <Col span={cols} key={key} title={item.title} style={{ width: overwriteColWidth }}>
                   <Card
                     bordered={false}
                     hoverable={!!item.linkedUrl}
