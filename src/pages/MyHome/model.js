@@ -2,10 +2,10 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-08-08 00:06:09
+ * @Last Modified time: 2020-09-25 16:02:31
  */
 import React from 'react';
-import { omit, toLower, get } from 'lodash';
+import { omit, toLower } from 'lodash';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { utils, message } from 'suid';
 import { Widgets } from '../../components';
@@ -54,7 +54,6 @@ const getWidget = (widget, layout, theme) => {
       layout: defaultLayout,
       className: toLower(component.type),
     };
-    const showHeader = get(component, 'props.showTitle', false);
     switch (component.type) {
       case COMPONENT_TYPE.ECHART_PIE:
         return {
@@ -69,7 +68,6 @@ const getWidget = (widget, layout, theme) => {
       case COMPONENT_TYPE.STATISTIC_GRID:
         return {
           widget: <StatisticGrid id={props.id} {...component.props} skin={primarySkin} />,
-          showHeader,
           ...props,
         };
       case COMPONENT_TYPE.MY_WORK_TODO:
