@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-07-02 09:31:00
+ * @Last Modified time: 2020-11-30 14:29:38
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -350,7 +350,7 @@ class SceneMyHome extends Component {
       layouts,
       rowHeight: 30,
       onLayoutChange: this.onLayoutChange,
-      preventCollision: true,
+      preventCollision: false,
       draggableHandle: '.panel-header-title',
       compactType: null,
       margin: [8, 8],
