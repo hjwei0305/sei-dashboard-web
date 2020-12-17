@@ -94,7 +94,6 @@
         text-align: center;
         border-radius: 4px;
         cursor: pointer;
-        transition: all 0.3s ease;
         &:hover {
           .total-box {
             transform: translateY(-4px);
@@ -104,7 +103,7 @@
           }
         }
         .total-box {
-          transition: all 0.3s ease;
+          transition: transform 0.2s ease;
           .total {
             padding: 0 8px;
             color: fade(@primary-color, 85%);
@@ -119,7 +118,7 @@
           color: fade(@black, 65%);
           white-space: nowrap;
           text-overflow: ellipsis;
-          transition: all 0.3s ease;
+          transition: color 0.2s ease;
         }
         .arrow-line {
           position: relative;
