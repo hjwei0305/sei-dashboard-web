@@ -96,9 +96,15 @@
         cursor: pointer;
         transition: all 0.3s ease;
         &:hover {
-          transform: translateY(-4px);
+          .total-box {
+            transform: translateY(-4px);
+          }
+          .title {
+            color: fade(@primary-color, 85%);
+          }
         }
         .total-box {
+          transition: all 0.3s ease;
           .total {
             padding: 0 8px;
             color: fade(@primary-color, 85%);
@@ -113,6 +119,7 @@
           color: fade(@black, 65%);
           white-space: nowrap;
           text-overflow: ellipsis;
+          transition: all 0.3s ease;
         }
         .arrow-line {
           position: relative;
