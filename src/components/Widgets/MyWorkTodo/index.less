@@ -96,10 +96,11 @@
         cursor: pointer;
         &:hover {
           .total-box {
-            transform: translateY(-4px);
+            transform: translateY(-4px) translateZ(0);
           }
           .title {
             color: fade(@primary-color, 85%);
+            transform: translate3d(0, 0, 0);
           }
         }
         .total-box {
