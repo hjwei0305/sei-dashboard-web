@@ -215,6 +215,12 @@ const PRIORITY = {
   '3': { title: '加急', color: 'red' },
 };
 
+const WARNINGSTATUS = {
+  'normal': { title: '正常', color: 'green' },
+  'warning': { title: '预警', color: 'volcano' },
+  'timeou': { title: '超时', color: 'red' },
+};
+
 export default {
   SCENE_TYPE,
   APP_BASE,
@@ -232,4 +238,5 @@ export default {
   FLOW_TODO_LOCAL_STORAGE,
   AUTH_POLICY,
   PRIORITY,
+  WARNINGSTATUS
 };

@@ -15,7 +15,7 @@ import { formartUrl, taskColor, constants, userUtils } from '@/utils';
 import SortView from './SortView';
 
 const { request, eventBus, storage } = utils;
-const { FLOW_TODO_SORT, FLOW_TODO_LOCAL_STORAGE, PRIORITY } = constants;
+const { FLOW_TODO_SORT, FLOW_TODO_LOCAL_STORAGE, PRIORITY, WARNINGSTATUS } = constants;
 
 class GroupList extends PureComponent {
   static userId;
@@ -162,15 +162,21 @@ class GroupList extends PureComponent {
     );
   };
 
-  renderItemTitle = item => {
+  renderItemTitle = ({ businessModelRemark: title, priority, timing, warningStatus, }) => {
     const title = item.businessModelRemark;
-    const priority = PRIORITY[item.priority];
+    const priorityInfo = PRIORITY[priority];
+    const warningStatusInfo = WARNINGSTATUS[warningStatus];
     return (
       <>
         <span title={title}>{title}</span>
-        {priority ? (
-          <Tag color={priority.color} style={{ marginLeft: 4 }}>
-            {priority.title}
+        {priorityInfo ? (
+          <Tag color={priorityInfo.color} style={{ marginLeft: 4 }}>
+            {priorityInfo.title}
+          </Tag>
+        ) : null}
+        {timing > 0 && warningStatus !== 'normal' ? (
+          <Tag color={warningStatusInfo.color} style={{ marginLeft: 4 }}>
+            {warningStatusInfo.title}
           </Tag>
         ) : null}
       </>
