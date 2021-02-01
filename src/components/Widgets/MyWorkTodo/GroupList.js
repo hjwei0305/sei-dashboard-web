@@ -163,7 +163,6 @@ class GroupList extends PureComponent {
   };
 
   renderItemTitle = ({ businessModelRemark: title, priority, timing, warningStatus, }) => {
-    const title = item.businessModelRemark;
     const priorityInfo = PRIORITY[priority];
     const warningStatusInfo = WARNINGSTATUS[warningStatus];
     return (
