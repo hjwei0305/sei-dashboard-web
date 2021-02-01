@@ -173,7 +173,7 @@ class GroupList extends PureComponent {
             {priorityInfo.title}
           </Tag>
         ) : null}
-        {timing > 0 && warningStatus !== 'normal' ? (
+        { timing > 0 &&  warningStatusInfo &&  warningStatus !== 'normal' ? (
           <Tag color={warningStatusInfo.color} style={{ marginLeft: 4 }}>
             {warningStatusInfo.title}
           </Tag>
