@@ -218,7 +218,7 @@ const PRIORITY = {
 const WARNINGSTATUS = {
   'normal': { title: '正常', color: 'green' },
   'warning': { title: '预警', color: 'volcano' },
-  'timeou': { title: '超时', color: 'red' },
+  'timeout': { title: '超时', color: 'red' },
 };
 
 export default {

@@ -165,7 +165,6 @@ class GroupList extends PureComponent {
   renderItemTitle = ({ businessModelRemark: title, priority, timing, warningStatus, }) => {
     const priorityInfo = PRIORITY[priority];
     const warningStatusInfo = WARNINGSTATUS[warningStatus];
-    console.log("GroupList -> renderItemTitle -> warningStatusInfo", warningStatusInfo)
     return (
       <>
         <span title={title}>{title}</span>
