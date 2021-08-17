@@ -257,7 +257,7 @@ class SceneView extends PureComponent {
                 tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000235', defaultMessage: '保存场景配置, 快捷键 Ctrl + S'}))}
                 antd
               />
-              <span className="tool-desc">{formatMessage({id: 'dashboard_000054', defaultMessage: '{editor}于{time}更新'}, {edior: lastEditorName, time: lastEditedDate})}</span>
+              <span className="tool-desc">{formatMessage({id: 'dashboard_000054', defaultMessage: '{editor}于{time}更新'}, {editor: lastEditorName, time: duration})}</span>
               </>
           )}
         </>
