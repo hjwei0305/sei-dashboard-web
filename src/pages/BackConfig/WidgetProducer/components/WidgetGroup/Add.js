@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Popover } from 'antd';
 import cls from 'classnames';
+import { formatMessage } from 'umi-plugin-react/locale';
 import Form from './Form';
 import styles from './index.less';
 

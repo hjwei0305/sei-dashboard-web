@@ -2,6 +2,7 @@ import React from 'react';
 import cls from 'classnames';
 import { ExtIcon } from 'suid';
 import { constants } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './DynamicEffect.less';
 
 const { ANIMATE_EFFECT } = constants;

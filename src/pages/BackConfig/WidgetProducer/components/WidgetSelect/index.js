@@ -4,6 +4,7 @@ import cls from 'classnames';
 import { isEqual } from 'lodash';
 import { Popover, Button } from 'antd';
 import { ScrollBar, ExtIcon, ListLoader } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 class WidgetSelect extends PureComponent {

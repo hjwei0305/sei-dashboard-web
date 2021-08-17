@@ -12,6 +12,7 @@ import { includes } from 'lodash';
 import PropTypes from 'prop-types';
 import { Popover, Button } from 'antd';
 import { ExtIcon, ScrollBar } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import WidgetAssets from '../WidgetAssets';
 import styles from './WidgetSelect.less';
 

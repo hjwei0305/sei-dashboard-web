@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { get, set, isObject, isEqual } from 'lodash';
 import { Drawer, Button, Input, Form, Switch } from 'antd';
 import { ScrollBar } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import WidgetInstance from './WidgetInstance';
 import DynamicEffect from './DynamicEffect';
 import styles from './index.less';
@@ -256,7 +257,7 @@ class TemplateConfig extends PureComponent {
     const config = { ...(templateConfig || {}) };
     return (
       <Drawer
-        title="{formatMessage({id: 'dashboard_000028', defaultMessage: '大屏模板配置'})} {formatMessage({id: 'dashboard_000023', defaultMessage: '(快捷键关闭'})} ESC)"
+        title={formatMessage({id: 'dashboard_000243', defaultMessage: '大屏模板配置, 快捷键关闭ESC'})}
         placement="right"
         width={420}
         className={cls(styles['config-box'])}

@@ -12,6 +12,7 @@ import { isEqual, get, isObject } from 'lodash';
 import { Divider, Empty } from 'antd';
 import { ExtIcon, ListLoader, HottedKey, ResizeMe } from 'suid';
 import empty from '@/assets/page_empty.svg';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { ScreenTemplate, DreamStar } from '../../components';
 import TemplateSelect from './components/TemplateSelect';
 import TemplateConfig from './components/TemplateConfig';
@@ -253,11 +254,11 @@ class SceneView extends PureComponent {
                 type="save"
                 className="action-item"
                 onClick={this.handlerSceneConfigSave}
-                tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000052', defaultMessage: '保存场景配置'}), '{formatMessage({id: 'dashboard_000053', defaultMessage: '快捷键'})} Ctrl + S')}
+                tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000235', defaultMessage: '保存场景配置, 快捷键 Ctrl + S'}))}
                 antd
               />
-              <span className="tool-desc">{`${lastEditorName}{formatMessage({id: 'dashboard_000054', defaultMessage: '于'})} ${duration} {formatMessage({id: 'dashboard_000055', defaultMessage: '更新'})}`}</span>
-            </>
+              <span className="tool-desc">{formatMessage({id: 'dashboard_000054', defaultMessage: '{editor}于{time}更新'}, {edior: lastEditorName, time: lastEditedDate})}</span>
+              </>
           )}
         </>
       );
@@ -381,8 +382,7 @@ class SceneView extends PureComponent {
                         className="action-item"
                         onClick={onToggle}
                         tooltip={this.getActionTooltip(
-                          collapsed ? formatMessage({id: 'dashboard_000057', defaultMessage: '显示场景列表'}) : formatMessage({id: 'dashboard_000058', defaultMessage: '隐藏场景列表'}),
-                          '{formatMessage({id: 'dashboard_000053', defaultMessage: '快捷键'})} Alt + C',
+                          collapsed ? formatMessage({id: 'dashboard_000057', defaultMessage: '显示场景列表'}) : formatMessage({id: 'dashboard_000236', defaultMessage: '隐藏场景列表, 快捷键 Alt + C'})                         
                         )}
                         antd
                       />
@@ -396,7 +396,7 @@ class SceneView extends PureComponent {
                       className="action-item primary"
                       spin={loadingTemplateAssets}
                       onClick={this.handlerTemplateSelect}
-                      tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000064', defaultMessage: '设置模板'}), '{formatMessage({id: 'dashboard_000053', defaultMessage: '快捷键'})} Ctrl + A')}
+                      tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000244', defaultMessage: '设置模板，快捷键 Ctrl + A'}))}
                       antd
                     />
                     {currentScreenTemplate ? (
@@ -405,7 +405,7 @@ class SceneView extends PureComponent {
                         className="action-item"
                         spin={loadingTemplateAssets}
                         onClick={this.handlerShowTemplateConfig}
-                        tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000065', defaultMessage: '模板配置'}), '{formatMessage({id: 'dashboard_000053', defaultMessage: '快捷键'})} Alt + S')}
+                        tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000237', defaultMessage: '模板配置, 快捷键 Alt + S'}))}
                         antd
                       />
                     ) : null}
@@ -414,8 +414,7 @@ class SceneView extends PureComponent {
                       className="action-item"
                       onClick={this.setFullScreen}
                       tooltip={this.getActionTooltip(
-                        fullScreen ? formatMessage({id: 'dashboard_000066', defaultMessage: '退出全屏'}) : formatMessage({id: 'dashboard_000067', defaultMessage: '全屏显示'}),
-                        '{formatMessage({id: 'dashboard_000053', defaultMessage: '快捷键'})} Alt + F',
+                        fullScreen ? formatMessage({id: 'dashboard_000066', defaultMessage: '退出全屏'}) : formatMessage({id: 'dashboard_000231', defaultMessage: '全屏显示, 快捷键 Alt + F'}),
                       )}
                       antd
                     />
@@ -426,7 +425,7 @@ class SceneView extends PureComponent {
                     this.renderScreenTemplate()
                   ) : (
                     <div className="blank-empty">
-                      <Empty image={empty} description="{formatMessage({id: 'dashboard_000068', defaultMessage: '大屏模板是空的，快捷键'})} Alt + {formatMessage({id: 'dashboard_000069', defaultMessage: 'S进行设置'})}" />
+                      <Empty image={empty} description={formatMessage({id: 'dashboard_000232', defaultMessage: '大屏模板是空的，快捷键 Alt + S 进行设置'})} />
                     </div>
                   )}
                 </div>

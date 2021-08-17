@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon, Animate } from 'suid';
 import { constants } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './SortView.less';
 
 const { getUUID } = utils;

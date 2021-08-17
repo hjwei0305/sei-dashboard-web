@@ -12,6 +12,7 @@ import Slider from 'react-slick';
 import { Empty } from 'antd';
 import { utils, ListLoader, ExtIcon } from 'suid';
 import { formartUrl, constants, userUtils } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import GroupList from './GroupList';
 import styles from './index.less';
 

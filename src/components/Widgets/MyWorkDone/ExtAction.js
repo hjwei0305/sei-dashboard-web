@@ -9,6 +9,7 @@ import cls from 'classnames';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon, WorkFlow } from 'suid';
 import { constants } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './ExtAction.less';
 
 const { getUUID } = utils;

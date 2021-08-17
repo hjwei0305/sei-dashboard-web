@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import { Row, Col, Popconfirm, Empty } from 'antd';
 import { utils, ListLoader, ExtIcon, ScrollBar } from 'suid';
 import { formartUrl } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 const { request, eventBus, formatMsg } = utils;

@@ -3,6 +3,7 @@ import cls from 'classnames';
 import PropTypes from 'prop-types';
 import { get, omit, startCase } from 'lodash';
 import { Col, Layout, Row } from 'antd';
+import { formatMessage } from 'umi-plugin-react/locale';
 import TimeClock from '../../TimeClock';
 import Widgets from '../../Widgets';
 import { constants } from '../../../utils';

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { Menu, Button } from 'antd';
 import { ExtIcon } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import DropOption from '../DropOption';
 import styles from './index.less';
 

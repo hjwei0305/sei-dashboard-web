@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import cls from 'classnames';
 import { Drawer, Card, List, Skeleton } from 'antd';
 import { ScrollBar, ListLoader, ExtIcon, Animate } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { constants } from '../../../utils';
 import styles from './TemplateSelect.less';
 
@@ -63,7 +64,7 @@ class TemplateSelect extends Component {
         };
         return (
             <Drawer
-                title="{formatMessage({id: 'dashboard_000024', defaultMessage: '设置大屏模板'})} {formatMessage({id: 'dashboard_000023', defaultMessage: '(快捷键关闭'})} ESC)"
+                title={formatMessage({id: 'dashboard_000240', defaultMessage: '设置大屏模板, 快捷键关闭ESC'})}
                 placement="right"
                 width={420}
                 className={cls(styles["assets-box"])}

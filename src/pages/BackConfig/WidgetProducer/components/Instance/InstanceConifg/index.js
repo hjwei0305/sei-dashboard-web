@@ -4,6 +4,7 @@ import { isEqual, get } from 'lodash';
 import { connect } from 'dva';
 import { Drawer, Button, Avatar, Switch } from 'antd';
 import { ScrollBar, ExtIcon, ListLoader } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { ColorSelect } from '../../../../../../components';
 import WidgetSelect from '../../WidgetSelect';
 import { constants } from '../../../../../../utils';

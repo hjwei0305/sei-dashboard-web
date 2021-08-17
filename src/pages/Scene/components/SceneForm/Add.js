@@ -8,6 +8,7 @@
 import React, { Component } from 'react';
 import cls from 'classnames';
 import { Button, Popover } from 'antd';
+import { formatMessage } from 'umi-plugin-react/locale';
 import Form from './Form';
 import styles from './index.less';
 

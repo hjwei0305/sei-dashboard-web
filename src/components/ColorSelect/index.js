@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 import { Tooltip } from 'antd';
 import { ExtIcon } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import DropOption from '../DropOption';
 
 class ColorSelect extends PureComponent {

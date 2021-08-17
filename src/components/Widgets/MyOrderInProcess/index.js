@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Button, Modal, Tooltip, Tag } from 'antd';
 import { utils, message, ListLoader, ListCard, ExtIcon } from 'suid';
 import { formartUrl, constants, taskColor } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import ExtAction from './ExtAction';
 import styles from './index.less';
 

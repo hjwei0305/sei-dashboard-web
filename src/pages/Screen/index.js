@@ -11,6 +11,7 @@ import { isEqual } from 'lodash';
 import { Empty } from 'antd';
 import { ListLoader, ResizeMe } from 'suid';
 import empty from '@/assets/page_empty.svg';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { ScreenTemplate, DreamStar } from '../../components';
 import { constants } from '../../utils';
 import styles from './index.less';

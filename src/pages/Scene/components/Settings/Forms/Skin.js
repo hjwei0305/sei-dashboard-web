@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { get } from 'lodash';
 import { Card, Tooltip } from 'antd';
 import { ExtIcon } from 'suid'
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './Skin.less'
 
 const Tag = ({ color, check, ...rest }) => (
