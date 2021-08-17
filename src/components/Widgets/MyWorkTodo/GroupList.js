@@ -192,7 +192,7 @@ class GroupList extends PureComponent {
     return (
       <>
         <div className="left-tool-box">
-          <div className="sub-title">{`{formatMessage({id: 'dashboard_000202', defaultMessage: '前'})} ${maxCount} {formatMessage({id: 'dashboard_000140', defaultMessage: '项'})}`}</div>
+          <div className="sub-title">{`${formatMessage({id: 'dashboard_000202', defaultMessage: '前'})} ${maxCount} ${formatMessage({id: 'dashboard_000140', defaultMessage: '项'})}`}</div>
           <Button type="link" onClick={this.handlerLookMore}>
             {formatMessage({id: 'dashboard_000203', defaultMessage: '查看更多'})}...
           </Button>

@@ -256,7 +256,7 @@ class MyOrderInProcess extends PureComponent {
     const { maxCount } = this.props;
     return (
       <>
-        <div className="sub-title">{`{formatMessage({id: 'dashboard_000202', defaultMessage: '前'})} ${maxCount} {formatMessage({id: 'dashboard_000140', defaultMessage: '项'})}`}</div>
+        <div className="sub-title">{`${formatMessage({id: 'dashboard_000202', defaultMessage: '前'})} ${maxCount} ${formatMessage({id: 'dashboard_000140', defaultMessage: '项'})}`}</div>
         <Button type="link" style={{ padding: 0 }} onClick={this.handlerLookMore}>
           {formatMessage({id: 'dashboard_000203', defaultMessage: '查看更多'})}...
         </Button>
