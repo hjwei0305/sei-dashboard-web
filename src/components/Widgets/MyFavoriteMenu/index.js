@@ -151,7 +151,7 @@ class MyFavoriteMenu extends PureComponent {
         {dataSource.length === 0 ? (
           <Empty
             image={<ExtIcon type="empty-data" className="empty-data" />}
-            description="暂无收藏数据"
+            description={formatMessage({id: 'dashboard_000220', defaultMessage: '暂无收藏数据'})}
           />
         ) : (
           dataSource.map(menuItem => {

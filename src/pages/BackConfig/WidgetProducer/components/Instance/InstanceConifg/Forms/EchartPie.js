@@ -136,8 +136,8 @@ class EchartPieForm extends PureComponent {
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
-          <div className="title-group">基本配置</div>
-          <FormItem hasFeedback label="组件类型">
+          <div className="title-group">{formatMessage({id: 'dashboard_000114', defaultMessage: '基本配置'})}</div>
+          <FormItem hasFeedback label={formatMessage({id: 'dashboard_000103', defaultMessage: '组件类型'})}>
             {getFieldDecorator('widgetType', {
               initialValue: get(editData, 'widgetTypeName', widget.name || null),
               rules: [
@@ -149,37 +149,37 @@ class EchartPieForm extends PureComponent {
               <Input addonBefore={get(editData, 'widgetTypeCode', widget.code || null)} disabled />,
             )}
           </FormItem>
-          <FormItem hasFeedback label="业务名称">
+          <FormItem hasFeedback label={formatMessage({id: 'dashboard_000115', defaultMessage: '业务名称'})}>
             {getFieldDecorator('name', {
               initialValue: get(editData, 'name', null),
               rules: [
                 {
                   required: true,
-                  message: '业务名称不能为空',
+                  message: formatMessage({id: 'dashboard_000116', defaultMessage: '业务名称不能为空'}),
                 },
               ],
             })(<Input autoComplete="off" />)}
           </FormItem>
-          <FormItem label="功能描述">
+          <FormItem label={formatMessage({id: 'dashboard_000117', defaultMessage: '功能描述'})}>
             {getFieldDecorator('description', {
               initialValue: get(editData, 'description', null),
               rules: [
                 {
                   required: true,
-                  message: '功能描述不能为空',
+                  message: formatMessage({id: 'dashboard_000108', defaultMessage: '功能描述不能为空'}),
                 },
               ],
             })(<TextArea style={{ resize: 'none' }} autoSize={false} rows={4} />)}
           </FormItem>
-          <div className="title-group">定时器</div>
-          <FormItem label="启用定时器" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+          <div className="title-group">{formatMessage({id: 'dashboard_000118', defaultMessage: '定时器'})}</div>
+          <FormItem label={formatMessage({id: 'dashboard_000119', defaultMessage: '启用定时器'})} {...formItemInlineLayout} style={{ marginBottom: 0 }}>
             <Switch size="small" {...timerProps} />
           </FormItem>
           {timer ? (
             <FormItem
               layout="inline"
               className="timer-body"
-              label="间隔时间(分钟)"
+              label={formatMessage({id: 'dashboard_000120', defaultMessage: '间隔时间(分钟)'})}
               {...formItemInlineLayout}
               style={{ marginBottom: 0 }}
             >
@@ -189,82 +189,82 @@ class EchartPieForm extends PureComponent {
               <DropdownOption interval={timerInterval} onChange={this.handlerTimerIntervalChange} />
             </FormItem>
           ) : null}
-          <div className="title-group">数据配置</div>
-          <FormItem label="系列名称" hasFeedback>
+          <div className="title-group">{formatMessage({id: 'dashboard_000121', defaultMessage: '数据配置'})}</div>
+          <FormItem label={formatMessage({id: 'dashboard_000148', defaultMessage: '系列名称'})} hasFeedback>
             {getFieldDecorator('seriesName', {
               initialValue: get(renderConfig, 'component.props.seriesName', null),
               rules: [
                 {
                   required: true,
-                  message: '数据接口不能为空',
+                  message: formatMessage({id: 'dashboard_000123', defaultMessage: '数据接口不能为空'}),
                 },
               ],
             })(<Input />)}
           </FormItem>
-          <FormItem label="数据接口" hasFeedback>
+          <FormItem label={formatMessage({id: 'dashboard_000122', defaultMessage: '数据接口'})} hasFeedback>
             {getFieldDecorator('storeUrl', {
               initialValue: get(renderConfig, 'component.props.store.url', null),
               rules: [
                 {
                   required: true,
-                  message: '数据接口不能为空',
+                  message: formatMessage({id: 'dashboard_000123', defaultMessage: '数据接口不能为空'}),
                 },
               ],
             })(<Input />)}
-            <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000124', defaultMessage: '数据接口可以是相对路径也可以是以http(s)开头的绝对路径'})}</p>
           </FormItem>
-          <FormItem label="图例" hasFeedback>
+          <FormItem label={formatMessage({id: 'dashboard_000149', defaultMessage: '图例'})} hasFeedback>
             {getFieldDecorator('legendData', {
               initialValue: get(renderConfig, 'component.props.reader.legendData', null),
               rules: [
                 {
                   required: true,
-                  message: '图例不能为空',
+                  message: formatMessage({id: 'dashboard_000150', defaultMessage: '图例不能为空'}),
                 },
               ],
             })(<Input />)}
-            <p className="desc">图例数据节点:接口返回数据结构请参照官网Echart的legend配置</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000151', defaultMessage: '图例数据节点'})}:{formatMessage({id: 'dashboard_000152', defaultMessage: '接口返回数据结构请参照官网Echart的legend配置'})}</p>
           </FormItem>
-          <FormItem label="系列" hasFeedback>
+          <FormItem label={formatMessage({id: 'dashboard_000153', defaultMessage: '系列'})} hasFeedback>
             {getFieldDecorator('seriesData', {
               initialValue: get(renderConfig, 'component.props.reader.seriesData', null),
               rules: [
                 {
                   required: true,
-                  message: '系列不能为空',
+                  message: formatMessage({id: 'dashboard_000154', defaultMessage: '系列不能为空'}),
                 },
               ],
             })(<Input />)}
-            <p className="desc">系列数据节点:接口返回数据结构请参照官网Echart的series配置</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000155', defaultMessage: '系列数据节点'})}:{formatMessage({id: 'dashboard_000156', defaultMessage: '接口返回数据结构请参照官网Echart的series配置'})}</p>
           </FormItem>
-          <div className="title-group">其它</div>
-          <FormItem label="显示汇总" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+          <div className="title-group">{formatMessage({id: 'dashboard_000128', defaultMessage: '其它'})}</div>
+          <FormItem label={formatMessage({id: 'dashboard_000157', defaultMessage: '显示汇总'})} {...formItemInlineLayout} style={{ marginBottom: 0 }}>
             <Switch size="small" checked={showSummary} onChange={this.handlerSummaryChange} />
           </FormItem>
           {showSummary ? (
             <>
-              <FormItem label="汇总标题" hasFeedback>
+              <FormItem label={formatMessage({id: 'dashboard_000158', defaultMessage: '汇总标题'})} hasFeedback>
                 {getFieldDecorator('summaryTitle', {
                   initialValue: get(renderConfig, 'component.props.summary.title', null),
                   rules: [
                     {
                       required: true,
-                      message: '汇总标题不能为空',
+                      message: formatMessage({id: 'dashboard_000159', defaultMessage: '汇总标题不能为空'}),
                     },
                   ],
                 })(<Input />)}
               </FormItem>
-              <FormItem label="汇总数据" hasFeedback>
+              <FormItem label={formatMessage({id: 'dashboard_000160', defaultMessage: '汇总数据'})} hasFeedback>
                 {getFieldDecorator('summaryData', {
                   initialValue: get(renderConfig, 'component.props.summary.data', null),
                   rules: [
                     {
                       required: true,
-                      message: '汇总数据不能为空',
+                      message: formatMessage({id: 'dashboard_000161', defaultMessage: '汇总数据不能为空'}),
                     },
                   ],
                 })(<Input />)}
-                <p className="desc">接口返回数据体的汇总数据节点属性名称</p>
+                <p className="desc">{formatMessage({id: 'dashboard_000162', defaultMessage: '接口返回数据体的汇总数据节点属性名称'})}</p>
               </FormItem>
             </>
           ) : null}

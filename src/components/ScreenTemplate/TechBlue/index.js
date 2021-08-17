@@ -315,7 +315,7 @@ class TechBlue extends Component {
             <div className="time-wrap">
               <TimeClock color="#6cbcf3" />
             </div>
-            <div className="screen-title">{this.getFormConifgValue('north-title', '大屏标题')}</div>
+            <div className="screen-title">{this.getFormConifgValue('north-title', formatMessage({id: 'dashboard_000223', defaultMessage: '大屏标题'}))}</div>
           </Header>
           <Content className="view-box">
             <Row className="auto-height">

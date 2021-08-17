@@ -69,7 +69,7 @@ class Settings extends Component {
         };
         return (
             <Drawer
-                title="数据看板设置 (快捷键关闭 ESC)"
+                title="{formatMessage({id: 'dashboard_000034', defaultMessage: '数据看板设置'})} {formatMessage({id: 'dashboard_000023', defaultMessage: '(快捷键关闭'})} ESC)"
                 placement="right"
                 width={420}
                 className={cls(styles["assets-box"])}

@@ -137,7 +137,7 @@ class GroupList extends PureComponent {
     const currentViewTypeId = get(groupItem, 'businessModeId', null);
     this.tabOpen({
       id: '0ef8d3ec-145f-40cf-b899-183b54c813f2',
-      title: '更多待办事项',
+      title: formatMessage({id: 'dashboard_000201', defaultMessage: '更多待办事项'}),
       url: `/sei-flow-task-web/task/workTodo?currentViewTypeId=${currentViewTypeId}`,
     });
   };
@@ -147,7 +147,7 @@ class GroupList extends PureComponent {
       <Tooltip
         title={
           <>
-            <span>待办到达时间</span>
+            <span>{formatMessage({id: 'dashboard_000200', defaultMessage: '待办到达时间'})}</span>
             <br />
             <span style={{ fontSize: 12 }}>
               {moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}
@@ -191,9 +191,9 @@ class GroupList extends PureComponent {
     return (
       <>
         <div className="left-tool-box">
-          <div className="sub-title">{`前 ${maxCount} 项`}</div>
+          <div className="sub-title">{`{formatMessage({id: 'dashboard_000202', defaultMessage: '前'})} ${maxCount} {formatMessage({id: 'dashboard_000140', defaultMessage: '项'})}`}</div>
           <Button type="link" onClick={this.handlerLookMore}>
-            查看更多...
+            {formatMessage({id: 'dashboard_000203', defaultMessage: '查看更多'})}...
           </Button>
         </div>
         <div className="right-tool-box">

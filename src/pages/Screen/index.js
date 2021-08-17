@@ -111,7 +111,7 @@ class ScreenView extends PureComponent {
       default:
         return (
           <div className="blank-empty">
-            <Empty image={empty} description="此模板暂时没有实现" />
+            <Empty image={empty} description={formatMessage({id: 'dashboard_000011', defaultMessage: '此模板暂时没有实现'})} />
           </div>
         );
     }

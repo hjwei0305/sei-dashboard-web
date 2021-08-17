@@ -63,7 +63,7 @@ class TemplateSelect extends Component {
         };
         return (
             <Drawer
-                title="设置大屏模板 (快捷键关闭 ESC)"
+                title="{formatMessage({id: 'dashboard_000024', defaultMessage: '设置大屏模板'})} {formatMessage({id: 'dashboard_000023', defaultMessage: '(快捷键关闭'})} ESC)"
                 placement="right"
                 width={420}
                 className={cls(styles["assets-box"])}

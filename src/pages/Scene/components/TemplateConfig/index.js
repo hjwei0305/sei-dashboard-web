@@ -176,7 +176,7 @@ class TemplateConfig extends PureComponent {
             rules: [
               {
                 required: it.required || false,
-                message: `${it.text}不能为空`,
+                message: `${it.text}{formatMessage({id: 'dashboard_000025', defaultMessage: '不能为空'})}`,
               },
             ],
           })(<Input autoComplete="off" />)}
@@ -196,7 +196,7 @@ class TemplateConfig extends PureComponent {
       };
       return (
         <>
-          <div className="sub-title">组件实例配置</div>
+          <div className="sub-title">{formatMessage({id: 'dashboard_000026', defaultMessage: '组件实例配置'})}</div>
           <WidgetInstance {...widgetInstanceProps} />
         </>
       );
@@ -229,7 +229,7 @@ class TemplateConfig extends PureComponent {
     const animateEffect = get(globalConfig, 'animateEffect', {}) || {};
     return (
       <>
-        <FormItem label="使用动效" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+        <FormItem label={formatMessage({id: 'dashboard_000027', defaultMessage: '使用动效'})} {...formItemInlineLayout} style={{ marginBottom: 0 }}>
           <Switch
             size="small"
             checked={showAnimateEffect}
@@ -256,7 +256,7 @@ class TemplateConfig extends PureComponent {
     const config = { ...(templateConfig || {}) };
     return (
       <Drawer
-        title="大屏模板配置 (快捷键关闭 ESC)"
+        title="{formatMessage({id: 'dashboard_000028', defaultMessage: '大屏模板配置'})} {formatMessage({id: 'dashboard_000023', defaultMessage: '(快捷键关闭'})} ESC)"
         placement="right"
         width={420}
         className={cls(styles['config-box'])}
@@ -269,7 +269,7 @@ class TemplateConfig extends PureComponent {
         <div className="form-box">
           <ScrollBar onYReachStart={this.handerYReachStart} onScrollDown={this.handerScrollDown}>
             <Form {...formItemLayout} layout="vertical">
-              <div className="group-title">全局配置</div>
+              <div className="group-title">{formatMessage({id: 'dashboard_000029', defaultMessage: '全局配置'})}</div>
               {this.renderGlobalFormItems()}
               {Object.keys(config).map(key => {
                 const item = config[key];
@@ -286,7 +286,7 @@ class TemplateConfig extends PureComponent {
         </div>
         <div className="foot-box">
           <Button icon="save" onClick={this.handlerSubmit} type="primary" loading={saving}>
-            保存
+            {formatMessage({id: 'dashboard_000030', defaultMessage: '保存'})}
           </Button>
         </div>
       </Drawer>

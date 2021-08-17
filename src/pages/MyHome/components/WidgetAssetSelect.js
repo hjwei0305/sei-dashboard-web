@@ -58,7 +58,7 @@ class WidgetAssetSelect extends PureComponent {
 
   renderExtra = item => {
     const { doneKeys, loadingWidgetInstance, loadingWidgetId } = this.props;
-    let btnTitle = '添加';
+    let btnTitle ={formatMessage({id: 'dashboard_000020', defaultMessage: '添加'})};
     const added = includes(doneKeys, item.id);
     const btnProps = {
       type: 'primary',
@@ -67,7 +67,7 @@ class WidgetAssetSelect extends PureComponent {
       onClick: e => this.handlerAdd(item, e),
     };
     if (added) {
-      btnTitle = '已添加';
+      btnTitle ={formatMessage({id: 'dashboard_000021', defaultMessage: '已添加'})};
     }
     return <Button {...btnProps}>{btnTitle}</Button>;
   };
@@ -89,7 +89,7 @@ class WidgetAssetSelect extends PureComponent {
     };
     return (
       <Drawer
-        title="组件资源 (快捷键关闭 ESC)"
+        title="{formatMessage({id: 'dashboard_000032', defaultMessage: '组件资源'})} {formatMessage({id: 'dashboard_000023', defaultMessage: '(快捷键关闭'})} ESC)"
         placement="right"
         width={420}
         className={cls(styles['assets-box'])}

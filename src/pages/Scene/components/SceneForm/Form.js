@@ -49,7 +49,7 @@ class SceneForm extends PureComponent {
   render() {
     const { form, editData, saving } = this.props;
     const { getFieldDecorator } = form;
-    const title = editData ? '编辑场景' : '新建场景';
+    const title = editData ? formatMessage({id: 'dashboard_000039', defaultMessage: '编辑场景'}) : formatMessage({id: 'dashboard_000040', defaultMessage: '新建场景'});
     getFieldDecorator('sceneCategory', {
       initialValue: get(editData, 'sceneCategory', 'DASHBOARD'),
       rules: [
@@ -77,16 +77,16 @@ class SceneForm extends PureComponent {
             <span className="title">{title}</span>
           </div>
           <Form {...formItemLayout}>
-            <FormItem label="代码">
+            <FormItem label={formatMessage({id: 'dashboard_000041', defaultMessage: '代码'})}>
               {getFieldDecorator('code', {
                 initialValue: get(editData, 'code', ''),
                 rules: [
                   {
                     required: false,
-                    message: '自动生成',
+                    message: formatMessage({id: 'dashboard_000042', defaultMessage: '自动生成'}),
                   },
                 ],
-              })(<Input disabled placeholder="自动生成" autoComplete="off" />)}
+              })(<Input disabled placeholder={formatMessage({id: 'dashboard_000042', defaultMessage: '自动生成'})} autoComplete="off" />)}
             </FormItem>
             <FormItem label={formatMessage({ id: 'global.name', defaultMessage: '名称' })}>
               {getFieldDecorator('name', {
@@ -104,7 +104,7 @@ class SceneForm extends PureComponent {
             </FormItem>
             <FormItem label={formatMessage({ id: 'global.sceneType', defaultMessage: '场景类型' })}>
               {getFieldDecorator('sceneCategoryRemark', {
-                initialValue: get(editData, 'sceneCategoryRemark', '仪表盘'),
+                initialValue: get(editData, 'sceneCategoryRemark', formatMessage({id: 'dashboard_000046', defaultMessage: '仪表盘'})),
                 rules: [
                   {
                     required: true,
@@ -116,13 +116,13 @@ class SceneForm extends PureComponent {
                 ],
               })(<ComboList {...sceneCategoryProps} />)}
             </FormItem>
-            <FormItem label="序号">
+            <FormItem label={formatMessage({id: 'dashboard_000048', defaultMessage: '序号'})}>
               {getFieldDecorator('rank', {
                 initialValue: get(editData, 'rank', 0),
                 rules: [
                   {
                     required: true,
-                    message: '序号不能为空',
+                    message: formatMessage({id: 'dashboard_000049', defaultMessage: '序号不能为空'}),
                   },
                 ],
               })(<InputNumber precision={0} />)}

@@ -13,7 +13,7 @@ const AnimateEffect = ({ effectKey, onChange }) => {
     });
     return (
         <div className={cls(styles['effect-box'])}>
-            <div className="head-title">动效类型</div>
+            <div className="head-title">{formatMessage({id: 'dashboard_000033', defaultMessage: '动效类型'})}</div>
             <div className="effect-body">
                 {
                     effectList.map(({ key, title }) => (

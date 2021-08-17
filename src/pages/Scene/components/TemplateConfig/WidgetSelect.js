@@ -78,7 +78,7 @@ class WidgetSelect extends PureComponent {
       disabled: includes(widgetSelectKeys, item.id),
       onClick: e => this.handlerSelect(item, e),
     };
-    return <Button {...btnProps}>选择</Button>;
+    return <Button {...btnProps}>{formatMessage({id: 'dashboard_000031', defaultMessage: '选择'})}</Button>;
   };
 
   renderWidgetAssets = () => {
@@ -103,7 +103,7 @@ class WidgetSelect extends PureComponent {
     const { children } = this.props;
     return (
       <Popover
-        title={<span className="title">组件资源</span>}
+        title={<span className="title">{formatMessage({id: 'dashboard_000032', defaultMessage: '组件资源'})}</span>}
         trigger="click"
         placement="leftTop"
         visible={visible}

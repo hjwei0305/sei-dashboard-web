@@ -5,7 +5,7 @@ import moment from 'moment';
 import styles from './index.less';
 
 const getTime = () => {
-  return moment().format('YYYY年MM月DD日  dddd  HH:mm:ss');
+  return moment().format('{formatMessage({id: 'dashboard_000222', defaultMessage: 'YYYY年MM月DD日'})}  dddd  HH:mm:ss');
 };
 
 class TimeClock extends PureComponent {

@@ -36,7 +36,7 @@ class FeatureGroupForm extends PureComponent {
   render() {
     const { form, groupData, saving } = this.props;
     const { getFieldDecorator } = form;
-    const title = groupData ? '编辑看板组' : '新建看板组';
+    const title = groupData ? formatMessage({id: 'dashboard_000104', defaultMessage: '编辑看板组'}) : formatMessage({id: 'dashboard_000105', defaultMessage: '新建看板组'});
     return (
       <div key="form-box" className={cls(styles['form-box'])}>
         <div className="base-view-body">
@@ -58,7 +58,7 @@ class FeatureGroupForm extends PureComponent {
                 ],
               })(<Input autoComplete="off" />)}
             </FormItem>
-            <FormItem label="代码">
+            <FormItem label={formatMessage({id: 'dashboard_000041', defaultMessage: '代码'})}>
               {getFieldDecorator('code', {
                 initialValue: groupData ? groupData.code : '',
                 rules: [
@@ -82,24 +82,24 @@ class FeatureGroupForm extends PureComponent {
                 />,
               )}
             </FormItem>
-            <FormItem label="描述">
+            <FormItem label={formatMessage({id: 'dashboard_000093', defaultMessage: '描述'})}>
               {getFieldDecorator('description', {
                 initialValue: get(groupData, 'description', null),
                 rules: [
                   {
                     required: true,
-                    message: '功能描述不能为空',
+                    message: formatMessage({id: 'dashboard_000108', defaultMessage: '功能描述不能为空'}),
                   },
                 ],
               })(<TextArea style={{ resize: 'none' }} autoSize={false} rows={4} />)}
             </FormItem>
-            <FormItem label="序号">
+            <FormItem label={formatMessage({id: 'dashboard_000048', defaultMessage: '序号'})}>
               {getFieldDecorator('rank', {
                 initialValue: get(groupData, 'rank', null),
                 rules: [
                   {
                     required: true,
-                    message: '序号不能为空',
+                    message: formatMessage({id: 'dashboard_000049', defaultMessage: '序号不能为空'}),
                   },
                 ],
               })(<InputNumber precision={0} />)}

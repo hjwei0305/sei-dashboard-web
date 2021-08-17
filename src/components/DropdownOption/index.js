@@ -17,7 +17,7 @@ class DropdownOption extends PureComponent {
 
   static defaultProps = {
     interval: 0,
-    suffix: '分钟',
+    suffix: formatMessage({id: 'dashboard_000224', defaultMessage: '分钟'}),
   };
 
   constructor(props) {

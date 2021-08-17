@@ -235,7 +235,7 @@ class MyWorkTodo extends PureComponent {
           </>
         ) : (
           <Empty
-            description="暂无待办项"
+            description={formatMessage({id: 'dashboard_000197', defaultMessage: '暂无待办项'})}
             image={<ExtIcon type="empty-box" style={{ fontSize: 80, color: '#999' }} />}
           />
         )}

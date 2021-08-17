@@ -56,7 +56,7 @@ class ColorSelect extends PureComponent {
     return (
       <Fragment>
         <DropOption overlay={this.getColorPicker()}>
-          <Tooltip title="设置图标颜色" placement="top" arrowPointAtCenter>
+          <Tooltip title={formatMessage({id: 'dashboard_000225', defaultMessage: '设置图标颜色'})} placement="top" arrowPointAtCenter>
             {children || <ExtIcon type="bg-colors" style={{ ...triggerStyle }} antd />}
           </Tooltip>
         </DropOption>

@@ -79,7 +79,7 @@ const SCREEN_TEMPLATE = {
 const ANIMATE_EFFECT = {
   DREAM_START: {
     key: 'dream-star',
-    title: '梦幻星空',
+    title: formatMessage({id: 'dashboard_000000', defaultMessage: '梦幻星空'}),
   },
 };
 
@@ -210,15 +210,15 @@ const ECHART = {
 };
 
 const PRIORITY = {
-  '1': { title: '驳回', color: 'magenta' },
-  '2': { title: '撤回', color: 'volcano' },
-  '3': { title: '加急', color: 'red' },
+  '1': { title: formatMessage({id: 'dashboard_000001', defaultMessage: '驳回'}), color: 'magenta' },
+  '2': { title: formatMessage({id: 'dashboard_000002', defaultMessage: '撤回'}), color: 'volcano' },
+  '3': { title: formatMessage({id: 'dashboard_000003', defaultMessage: '加急'}), color: 'red' },
 };
 
 const WARNINGSTATUS = {
-  'normal': { title: '正常', color: 'green' },
-  'warning': { title: '预警', color: 'volcano' },
-  'timeout': { title: '超时', color: 'red' },
+  'normal': { title: formatMessage({id: 'dashboard_000004', defaultMessage: '正常'}), color: 'green' },
+  'warning': { title: formatMessage({id: 'dashboard_000005', defaultMessage: '预警'}), color: 'volcano' },
+  'timeout': { title: formatMessage({id: 'dashboard_000006', defaultMessage: '超时'}), color: 'red' },
 };
 
 export default {

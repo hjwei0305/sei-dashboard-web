@@ -319,7 +319,7 @@ class SceneView extends Component {
           {configSaving ? (
             <>
               <ExtIcon type="loading" className="action-item" antd />
-              <span className="tool-desc">保存中...</span>
+              <span className="tool-desc">{formatMessage({id: 'dashboard_000051', defaultMessage: '保存中'})}...</span>
             </>
           ) : (
             <>
@@ -327,10 +327,10 @@ class SceneView extends Component {
                 type="save"
                 className="action-item"
                 onClick={this.handlerSceneConfigSave}
-                tooltip={this.getActionTooltip('保存场景配置', '快捷键 Ctrl + S')}
+                tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000052', defaultMessage: '保存场景配置'}), '{formatMessage({id: 'dashboard_000053', defaultMessage: '快捷键'})} Ctrl + S')}
                 antd
               />
-              <span className="tool-desc">{`${lastEditorName}于 ${tmpDuration} 更新`}</span>
+              <span className="tool-desc">{`${lastEditorName}{formatMessage({id: 'dashboard_000054', defaultMessage: '于'})} ${tmpDuration} {formatMessage({id: 'dashboard_000055', defaultMessage: '更新'})}`}</span>
             </>
           )}
         </>
@@ -345,7 +345,7 @@ class SceneView extends Component {
     return (
       <>
         <span className="header-title"> {currentScene.name}</span>
-        <span className="header-sub-title">场景组件实例配置</span>
+        <span className="header-sub-title">{formatMessage({id: 'dashboard_000056', defaultMessage: '场景组件实例配置'})}</span>
       </>
     );
   };
@@ -420,8 +420,8 @@ class SceneView extends Component {
                         className="action-item"
                         onClick={onToggle}
                         tooltip={this.getActionTooltip(
-                          collapsed ? '显示场景列表' : '隐藏场景列表',
-                          '快捷键 Alt + C',
+                          collapsed ? formatMessage({id: 'dashboard_000057', defaultMessage: '显示场景列表'}) : formatMessage({id: 'dashboard_000058', defaultMessage: '隐藏场景列表'}),
+                          '{formatMessage({id: 'dashboard_000053', defaultMessage: '快捷键'})} Alt + C',
                         )}
                         antd
                       />
@@ -435,7 +435,7 @@ class SceneView extends Component {
                       className="action-item primary"
                       spin={loadingWidgetAssets}
                       onClick={this.handlerAddWidgetAssets}
-                      tooltip={this.getActionTooltip('添加组件', '快捷键 Ctrl + A')}
+                      tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000059', defaultMessage: '添加组件'}), '{formatMessage({id: 'dashboard_000053', defaultMessage: '快捷键'})} Ctrl + A')}
                       antd
                     />
                     <Divider type="vertical" />
@@ -443,7 +443,7 @@ class SceneView extends Component {
                       type="setting"
                       className="action-item"
                       onClick={this.handlerShowSettings}
-                      tooltip={this.getActionTooltip('看板设置', '快捷键 Alt + S')}
+                      tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000060', defaultMessage: '看板设置'}), '{formatMessage({id: 'dashboard_000053', defaultMessage: '快捷键'})} Alt + S')}
                       antd
                     />
                   </div>
@@ -456,7 +456,7 @@ class SceneView extends Component {
                       <div className="blank-empty">
                         <Empty
                           image={empty}
-                          description="暂时没有组件，可使用Ctrl + A快捷键添加组件"
+                          description="{formatMessage({id: 'dashboard_000061', defaultMessage: '暂时没有组件，可使用Ctrl'})} + {formatMessage({id: 'dashboard_000062', defaultMessage: 'A快捷键添加组件'})}"
                         />
                       </div>
                     )}

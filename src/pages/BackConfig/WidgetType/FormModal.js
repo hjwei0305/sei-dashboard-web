@@ -80,13 +80,13 @@ class FormModal extends PureComponent {
               ],
             })(<Input maxLength={30} />)}
           </FormItem>
-          <FormItem label="图标">
+          <FormItem label={formatMessage({id: 'dashboard_000092', defaultMessage: '图标'})}>
             {getFieldDecorator('iconType', {
               initialValue: get(rowData, 'iconType', ''),
               rules: [
                 {
                   required: true,
-                  message: '图标不能为空',
+                  message: formatMessage({id: 'dashboard_000099', defaultMessage: '图标不能为空'}),
                 },
               ],
             })(<Input maxLength={50} />)}
@@ -97,18 +97,18 @@ class FormModal extends PureComponent {
               rules: [
                 {
                   required: true,
-                  message: '描述不能为空',
+                  message: formatMessage({id: 'dashboard_000100', defaultMessage: '描述不能为空'}),
                 },
               ],
             })(<TextArea style={{ resize: 'none' }} autoSize={false} rows={4} />)}
           </FormItem>
-          <FormItem label="序号">
+          <FormItem label={formatMessage({id: 'dashboard_000048', defaultMessage: '序号'})}>
             {getFieldDecorator('rank', {
               initialValue: get(rowData, 'rank', 0),
               rules: [
                 {
                   required: true,
-                  message: '序号不能为空',
+                  message: formatMessage({id: 'dashboard_000049', defaultMessage: '序号不能为空'}),
                 },
               ],
             })(<InputNumber precision={0} />)}

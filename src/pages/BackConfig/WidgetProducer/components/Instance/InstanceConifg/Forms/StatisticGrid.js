@@ -120,8 +120,8 @@ class StatisticGridForm extends PureComponent {
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
-          <div className="title-group">基本配置</div>
-          <FormItem hasFeedback label="组件类型">
+          <div className="title-group">{formatMessage({id: 'dashboard_000114', defaultMessage: '基本配置'})}</div>
+          <FormItem hasFeedback label={formatMessage({id: 'dashboard_000103', defaultMessage: '组件类型'})}>
             {getFieldDecorator('widgetType', {
               initialValue: get(editData, 'widgetTypeName', widget.name || null),
               rules: [
@@ -133,37 +133,37 @@ class StatisticGridForm extends PureComponent {
               <Input addonBefore={get(editData, 'widgetTypeCode', widget.code || null)} disabled />,
             )}
           </FormItem>
-          <FormItem hasFeedback label="业务名称">
+          <FormItem hasFeedback label={formatMessage({id: 'dashboard_000115', defaultMessage: '业务名称'})}>
             {getFieldDecorator('name', {
               initialValue: get(editData, 'name', null),
               rules: [
                 {
                   required: true,
-                  message: '业务名称不能为空',
+                  message: formatMessage({id: 'dashboard_000116', defaultMessage: '业务名称不能为空'}),
                 },
               ],
             })(<Input autoComplete="off" />)}
           </FormItem>
-          <FormItem label="功能描述">
+          <FormItem label={formatMessage({id: 'dashboard_000117', defaultMessage: '功能描述'})}>
             {getFieldDecorator('description', {
               initialValue: get(editData, 'description', null),
               rules: [
                 {
                   required: true,
-                  message: '功能描述不能为空',
+                  message: formatMessage({id: 'dashboard_000108', defaultMessage: '功能描述不能为空'}),
                 },
               ],
             })(<TextArea style={{ resize: 'none' }} autoSize={false} rows={4} />)}
           </FormItem>
-          <div className="title-group">定时器</div>
-          <FormItem label="启用定时器" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+          <div className="title-group">{formatMessage({id: 'dashboard_000118', defaultMessage: '定时器'})}</div>
+          <FormItem label={formatMessage({id: 'dashboard_000119', defaultMessage: '启用定时器'})} {...formItemInlineLayout} style={{ marginBottom: 0 }}>
             <Switch size="small" checked={timer} onChange={this.handlerTimerChange} />
           </FormItem>
           {timer ? (
             <FormItem
               layout="inline"
               className="timer-body"
-              label="间隔时间(分钟)"
+              label={formatMessage({id: 'dashboard_000120', defaultMessage: '间隔时间(分钟)'})}
               {...formItemInlineLayout}
               style={{ marginBottom: 0 }}
             >
@@ -173,53 +173,53 @@ class StatisticGridForm extends PureComponent {
               <DropdownOption interval={timerInterval} onChange={this.handlerTimerIntervalChange} />
             </FormItem>
           ) : null}
-          <div className="title-group">数据配置</div>
-          <FormItem label="数据接口" hasFeedback>
+          <div className="title-group">{formatMessage({id: 'dashboard_000121', defaultMessage: '数据配置'})}</div>
+          <FormItem label={formatMessage({id: 'dashboard_000122', defaultMessage: '数据接口'})} hasFeedback>
             {getFieldDecorator('storeUrl', {
               initialValue: get(renderConfig, 'component.props.store.url', null),
               rules: [
                 {
                   required: true,
-                  message: '数据接口不能为空',
+                  message: formatMessage({id: 'dashboard_000123', defaultMessage: '数据接口不能为空'}),
                 },
               ],
             })(<Input />)}
-            <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000124', defaultMessage: '数据接口可以是相对路径也可以是以http(s)开头的绝对路径'})}</p>
           </FormItem>
-          <FormItem label="数据节点" hasFeedback>
+          <FormItem label={formatMessage({id: 'dashboard_000125', defaultMessage: '数据节点'})} hasFeedback>
             {getFieldDecorator('data', {
               initialValue: get(renderConfig, 'component.props.reader.data', null),
               rules: [
                 {
                   required: true,
-                  message: '数据节点不能为空',
+                  message: formatMessage({id: 'dashboard_000126', defaultMessage: '数据节点不能为空'}),
                 },
               ],
             })(<Input />)}
-            <p className="desc">接口返回数据体的属性名</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000127', defaultMessage: '接口返回数据体的属性名'})}</p>
           </FormItem>
-          <div className="title-group">其它</div>
-          <FormItem label="显示标题">
+          <div className="title-group">{formatMessage({id: 'dashboard_000128', defaultMessage: '其它'})}</div>
+          <FormItem label={formatMessage({id: 'dashboard_000129', defaultMessage: '显示标题'})}>
             {getFieldDecorator('showTitle', {
               initialValue: get(renderConfig, 'component.props.showTitle', false) || false,
               valuePropName: 'checked',
             })(<Switch size="small" />)}
-            <p className="desc">显示业务名称到面板上</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000130', defaultMessage: '显示业务名称到面板上'})}</p>
           </FormItem>
-          <FormItem label="显示的列数">
+          <FormItem label={formatMessage({id: 'dashboard_000131', defaultMessage: '显示的列数'})}>
             {getFieldDecorator('columnCount', {
               initialValue: get(renderConfig, 'component.props.columnCount', 4) || 4,
             })(<InputNumber precision={0} min={1} max={24} />)}
             <p className="desc">
-              每行展示统计块数量,最大24列，最小1列;默认为4列,建议列数设置为偶数
+              {formatMessage({id: 'dashboard_000132', defaultMessage: '每行展示统计块数量,最大24列，最小1列'})};{formatMessage({id: 'dashboard_000133', defaultMessage: '默认为4列,建议列数设置为偶数'})}
             </p>
           </FormItem>
-          <FormItem label="统计值分离显示">
+          <FormItem label={formatMessage({id: 'dashboard_000134', defaultMessage: '统计值分离显示'})}>
             {getFieldDecorator('dataSplit', {
               initialValue: get(renderConfig, 'component.props.dataSplit', false) || false,
               valuePropName: 'checked',
             })(<Switch size="small" />)}
-            <p className="desc">显示的每位数字将分别用DOM包裹</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000135', defaultMessage: '显示的每位数字将分别用DOM包裹'})}</p>
           </FormItem>
         </Form>
       </div>

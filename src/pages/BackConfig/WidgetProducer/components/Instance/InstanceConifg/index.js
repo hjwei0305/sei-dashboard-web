@@ -131,9 +131,9 @@ class InstanceConfig extends PureComponent {
     const { widgetInstance } = this.props;
     const { currentWidgetInstance } = widgetInstance;
     if (currentWidgetInstance) {
-      return '编辑看板组件实例';
+      return formatMessage({id: 'dashboard_000110', defaultMessage: '编辑看板组件实例'});
     }
-    return '新建看板组件实例';
+    return formatMessage({id: 'dashboard_000111', defaultMessage: '新建看板组件实例'});
   };
 
   renderForm = () => {
@@ -235,7 +235,7 @@ class InstanceConfig extends PureComponent {
                 onScrollDown={this.handerScrollDown}
               >
                 <div className="box-item">
-                  <div className="title">组件信息</div>
+                  <div className="title">{formatMessage({id: 'dashboard_000112', defaultMessage: '组件信息'})}</div>
                   <div className="widget-box horizontal">
                     <div className="row-start widget-icon">
                       <ColorSelect
@@ -265,7 +265,7 @@ class InstanceConfig extends PureComponent {
                 </div>
                 {currentWidget ? (
                   <div className="box-item">
-                    <div className="title">用于个人</div>
+                    <div className="title">{formatMessage({id: 'dashboard_000113', defaultMessage: '用于个人'})}</div>
                     <div style={{ padding: '0 24px' }}>
                       <Switch size="small" {...personalUseProps} />
                     </div>
@@ -281,7 +281,7 @@ class InstanceConfig extends PureComponent {
                 loading={saving}
                 onClick={() => this.formRef.handlerFormSubmit()}
               >
-                保存
+                {formatMessage({id: 'dashboard_000030', defaultMessage: '保存'})}
               </Button>
             </div>
           </>
