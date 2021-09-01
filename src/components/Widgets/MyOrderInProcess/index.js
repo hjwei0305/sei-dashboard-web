@@ -181,7 +181,7 @@ class MyOrderInProcess extends PureComponent {
     }
     this.tabOpen({
       id: doneItem.businessId,
-      title: `{formatMessage({id: 'dashboard_000206', defaultMessage: '单据详情-'})}${doneItem.businessCode}`,
+      title: `${formatMessage({id: 'dashboard_000206', defaultMessage: '单据详情-'})}${doneItem.businessCode}`,
       url,
     });
   };

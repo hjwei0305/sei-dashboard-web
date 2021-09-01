@@ -190,7 +190,7 @@ class MyWorkDone extends PureComponent {
     }
     this.tabOpen({
       id: doneItem.flowInstanceBusinessId,
-      title: `{formatMessage({id: 'dashboard_000206', defaultMessage: '单据详情-'})}${doneItem.flowInstanceBusinessCode}`,
+      title: `${formatMessage({id: 'dashboard_000206', defaultMessage: '单据详情-'})}${doneItem.flowInstanceBusinessCode}`,
       url,
     });
   };

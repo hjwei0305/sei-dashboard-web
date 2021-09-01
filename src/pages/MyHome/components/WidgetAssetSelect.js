@@ -90,7 +90,7 @@ class WidgetAssetSelect extends PureComponent {
     };
     return (
       <Drawer
-        title="{formatMessage({id: 'dashboard_000032', defaultMessage: '组件资源'})} {formatMessage({id: 'dashboard_000023', defaultMessage: '(快捷键关闭'})} ESC)"
+        title={formatMessage({id: 'dashboard_000023', defaultMessage: '组件资源(快捷键关闭 ESC)'})}
         placement="right"
         width={420}
         className={cls(styles['assets-box'])}

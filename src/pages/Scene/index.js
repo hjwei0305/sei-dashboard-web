@@ -130,7 +130,7 @@ class SceneHome extends Component {
 
   handlerCopy = router => {
     copy(router);
-    message.success(`${router} {formatMessage({id: 'dashboard_000014', defaultMessage: '已复制到剪贴板'})}`);
+    message.success(`${router} ${formatMessage({id: 'dashboard_000014', defaultMessage: '已复制到剪贴板'})}`);
   };
 
   renderCustomTool = () => {
