@@ -12,6 +12,7 @@ import Slider from 'react-slick';
 import { Empty } from 'antd';
 import { utils, ListLoader, ExtIcon } from 'suid';
 import { formartUrl, constants, userUtils } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import GroupList from './GroupList';
 import styles from './index.less';
 
@@ -235,7 +236,7 @@ class MyWorkTodo extends PureComponent {
           </>
         ) : (
           <Empty
-            description="暂无待办项"
+            description={formatMessage({id: 'dashboard_000197', defaultMessage: '暂无待办项'})}
             image={<ExtIcon type="empty-box" style={{ fontSize: 80, color: '#999' }} />}
           />
         )}

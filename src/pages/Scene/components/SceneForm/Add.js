@@ -8,6 +8,7 @@
 import React, { Component } from 'react';
 import cls from 'classnames';
 import { Button, Popover } from 'antd';
+import { formatMessage } from 'umi-plugin-react/locale';
 import Form from './Form';
 import styles from './index.less';
 
@@ -48,7 +49,7 @@ class SceneAdd extends Component {
       >
         <span className={cls('form-popover-box-trigger')}>
           <Button icon="plus" type="link">
-            场景
+            {formatMessage({id: 'dashboard_000050', defaultMessage: '场景'})}
           </Button>
         </span>
       </Popover>

@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon, Animate } from 'suid';
 import { constants } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './SortView.less';
 
 const { getUUID } = utils;
@@ -11,12 +12,12 @@ const { Item } = Menu;
 
 const menuData = [
   {
-    title: '升序',
+    title: formatMessage({id: 'dashboard_000198', defaultMessage: '升序'}),
     key: FLOW_TODO_SORT.ASC,
     disabled: false,
   },
   {
-    title: '降序',
+    title: formatMessage({id: 'dashboard_000199', defaultMessage: '降序'}),
     key: FLOW_TODO_SORT.DESC,
     disabled: false,
   },
@@ -86,7 +87,7 @@ class SortView extends PureComponent {
           onVisibleChange={this.onVisibleChange}
         >
           <span className="sort-box">
-            <span className="label">待办到达时间</span>
+            <span className="label">{formatMessage({id: 'dashboard_000200', defaultMessage: '待办到达时间'})}</span>
             <Animate type="bounceIn" style={{ display: 'inline-block' }}>
               <ExtIcon className={cls('action-item')} type={selectedKey} />
             </Animate>

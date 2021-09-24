@@ -12,6 +12,7 @@ import { isEqual, omit, toLower, set } from 'lodash';
 import { Layout, Divider, Empty } from 'antd';
 import { ExtIcon, ScrollBar, PortalPanel, ListLoader, HottedKey } from 'suid';
 import empty from '@/assets/page_empty.svg';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { Widgets } from '../../components';
 import { constants } from '../../utils';
 import WidgetAssetSelect from './components/WidgetAssetSelect';
@@ -308,7 +309,7 @@ class SceneMyHome extends Component {
         {configSaving ? (
           <>
             <ExtIcon type="loading" className="action-item" antd />
-            <span className="tool-desc">保存中...</span>
+            <span className="tool-desc">{formatMessage({id: 'dashboard_000051', defaultMessage: '保存中'})}...</span>
           </>
         ) : (
           <>
@@ -316,10 +317,10 @@ class SceneMyHome extends Component {
               type="save"
               className="action-item"
               onClick={this.handlerSceneConfigSave}
-              tooltip={this.getActionTooltip('保存配置', '快捷键 Ctrl + S')}
+              tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000233', defaultMessage: '保存配置，快捷键 Ctrl + S'}))}
               antd
             />
-            <span className="tool-desc">{` ${tmpDuration} 更新`}</span>
+            <span className="tool-desc">{formatMessage({id: 'dashboard_000055', defaultMessage: '{time}更新'}, {time: tmpDuration})}</span>
           </>
         )}
       </>
@@ -329,8 +330,8 @@ class SceneMyHome extends Component {
   renderTitle = () => {
     return (
       <>
-        <span className="header-title">我的首页</span>
-        <span className="header-sub-title">自定义</span>
+        <span className="header-title">{formatMessage({id: 'dashboard_000071', defaultMessage: '我的首页'})}</span>
+        <span className="header-sub-title">{formatMessage({id: 'dashboard_000072', defaultMessage: '自定义'})}</span>
       </>
     );
   };
@@ -399,7 +400,7 @@ class SceneMyHome extends Component {
                       className="action-item primary"
                       spin={loadingWidgetAssets}
                       onClick={this.handlerAddWidgetAssets}
-                      tooltip={this.getActionTooltip('添加组件', '快捷键 Ctrl + A')}
+                      tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000234', defaultMessage: '添加组件, 快捷键 Ctrl + A'}))}
                       antd
                     />
                     <Divider type="vertical" />
@@ -408,8 +409,7 @@ class SceneMyHome extends Component {
                       className="action-item"
                       onClick={this.handlerFullScreen}
                       tooltip={this.getActionTooltip(
-                        fullScreen ? '退出全屏' : '全屏显示',
-                        '快捷键 Alt + F',
+                        fullScreen ? formatMessage({id: 'dashboard_000066', defaultMessage: '退出全屏'}) : formatMessage({id: 'dashboard_000231', defaultMessage: '全屏显示, 快捷键 Alt + F'}),         
                       )}
                       antd
                     />
@@ -423,7 +423,7 @@ class SceneMyHome extends Component {
                       <div className="blank-empty">
                         <Empty
                           image={empty}
-                          description="暂时没有组件，可使用Ctrl + A快捷键添加组件"
+                          description={formatMessage({id: 'dashboard_000239', defaultMessage: '暂时没有组件，可使用Ctrl + A快捷键添加组件'})}
                         />
                       </div>
                     )}

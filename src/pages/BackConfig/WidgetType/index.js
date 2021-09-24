@@ -165,7 +165,7 @@ class WidgetType extends Component {
         ),
       },
       {
-        title: '图标',
+        title: formatMessage({id: 'dashboard_000092', defaultMessage: '图标'}),
         dataIndex: 'iconType',
         width: 80,
         required: true,

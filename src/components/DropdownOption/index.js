@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { Menu, Button } from 'antd';
 import { ExtIcon } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import DropOption from '../DropOption';
 import styles from './index.less';
 
@@ -17,7 +18,7 @@ class DropdownOption extends PureComponent {
 
   static defaultProps = {
     interval: 0,
-    suffix: '分钟',
+    suffix: formatMessage({id: 'dashboard_000224', defaultMessage: '分钟'}),
   };
 
   constructor(props) {

@@ -9,6 +9,7 @@ import cls from 'classnames';
 import { connect } from "dva";
 import { Drawer } from 'antd';
 import { ScrollBar } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import Skin from './Forms/Skin';
 import { constants } from '../../../../utils';
 import styles from './index.less';
@@ -69,7 +70,7 @@ class Settings extends Component {
         };
         return (
             <Drawer
-                title="数据看板设置 (快捷键关闭 ESC)"
+                title={formatMessage({id: 'dashboard_000242', defaultMessage: '数据看板设置, 快捷键关闭ESC'})}
                 placement="right"
                 width={420}
                 className={cls(styles["assets-box"])}

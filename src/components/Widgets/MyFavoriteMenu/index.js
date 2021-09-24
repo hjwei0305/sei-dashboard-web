@@ -5,6 +5,7 @@ import { get } from 'lodash';
 import { Row, Col, Popconfirm, Empty } from 'antd';
 import { utils, ListLoader, ExtIcon, ScrollBar } from 'suid';
 import { formartUrl } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 const { request, eventBus, formatMsg } = utils;
@@ -151,7 +152,7 @@ class MyFavoriteMenu extends PureComponent {
         {dataSource.length === 0 ? (
           <Empty
             image={<ExtIcon type="empty-data" className="empty-data" />}
-            description="暂无收藏数据"
+            description={formatMessage({id: 'dashboard_000220', defaultMessage: '暂无收藏数据'})}
           />
         ) : (
           dataSource.map(menuItem => {

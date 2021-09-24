@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { get } from 'lodash';
 import { Card, Tooltip } from 'antd';
 import { ExtIcon } from 'suid'
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './Skin.less'
 
 const Tag = ({ color, check, ...rest }) => (
@@ -22,23 +23,23 @@ const Skin = ({ theme, onChange }) => {
     const colorList = [
         {
             key: 'light',
-            title: "默认",
+            title: formatMessage({id: 'dashboard_000035', defaultMessage: '默认'}),
             color: '#d8d9da',
         },
         {
             key: 'darkgrey',
-            title: '暗黑',
+            title: formatMessage({id: 'dashboard_000036', defaultMessage: '暗黑'}),
             color: '#202024',
         },
         {
             key: 'darkblue',
-            title: "科技",
+            title: formatMessage({id: 'dashboard_000037', defaultMessage: '科技'}),
             color: '#061f59',
         },
     ];
     return (
         <Card
-            title="主题设置"
+            title={formatMessage({id: 'dashboard_000038', defaultMessage: '主题设置'})}
             bordered={false}
             className={cls(styles['skin-box'])}
         >

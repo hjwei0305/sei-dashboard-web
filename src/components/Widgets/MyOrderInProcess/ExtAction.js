@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon, WorkFlow } from 'suid';
 import { constants } from '@/utils';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './ExtAction.less';
 
 const { getUUID } = utils;
@@ -13,17 +14,17 @@ const { FlowHistoryButton } = WorkFlow;
 
 const menuData = () => [
   {
-    title: '查看单据',
+    title: formatMessage({id: 'dashboard_000211', defaultMessage: '查看单据'}),
     key: USER_ACTION.VIEW_ORDER,
     disabled: false,
   },
   {
-    title: '审批历史',
+    title: formatMessage({id: 'dashboard_000212', defaultMessage: '审批历史'}),
     key: USER_ACTION.FLOW_HISTORY,
     disabled: false,
   },
   {
-    title: '终止审批',
+    title: formatMessage({id: 'dashboard_000219', defaultMessage: '终止审批'}),
     key: USER_ACTION.FLOW_END,
     disabled: true,
   },

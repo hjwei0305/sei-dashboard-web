@@ -4,6 +4,7 @@ import cls from 'classnames';
 import { isEqual } from 'lodash';
 import { Popover, Button } from 'antd';
 import { ScrollBar, ExtIcon, ListLoader } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 class WidgetSelect extends PureComponent {
@@ -101,7 +102,7 @@ class WidgetSelect extends PureComponent {
         content={this.renderWidgetItem()}
       >
         <Button type="primary" ghost>
-          组件类型
+          {formatMessage({id: 'dashboard_000103', defaultMessage: '组件类型'})}
         </Button>
       </Popover>
     );

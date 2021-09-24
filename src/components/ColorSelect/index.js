@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 import { Tooltip } from 'antd';
 import { ExtIcon } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import DropOption from '../DropOption';
 
 class ColorSelect extends PureComponent {
@@ -56,7 +57,7 @@ class ColorSelect extends PureComponent {
     return (
       <Fragment>
         <DropOption overlay={this.getColorPicker()}>
-          <Tooltip title="设置图标颜色" placement="top" arrowPointAtCenter>
+          <Tooltip title={formatMessage({id: 'dashboard_000225', defaultMessage: '设置图标颜色'})} placement="top" arrowPointAtCenter>
             {children || <ExtIcon type="bg-colors" style={{ ...triggerStyle }} antd />}
           </Tooltip>
         </DropOption>

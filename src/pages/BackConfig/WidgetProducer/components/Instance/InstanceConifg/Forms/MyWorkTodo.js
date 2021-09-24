@@ -3,6 +3,7 @@ import cls from 'classnames';
 import { omit, get } from 'lodash';
 import { Form, Input, Switch, InputNumber, Radio } from 'antd';
 import { DropdownOption } from '@/components';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './MyWorkTodo.less';
 
 const FormItem = Form.Item;
@@ -146,8 +147,8 @@ class MyWorkTodoForm extends PureComponent {
     return (
       <div className={cls(styles['form-box'])}>
         <Form {...formItemLayout} layout="vertical">
-          <div className="title-group">基本配置</div>
-          <FormItem hasFeedback label="组件类型">
+          <div className="title-group">{formatMessage({id: 'dashboard_000114', defaultMessage: '基本配置'})}</div>
+          <FormItem hasFeedback label={formatMessage({id: 'dashboard_000103', defaultMessage: '组件类型'})}>
             {getFieldDecorator('widgetType', {
               initialValue: get(editData, 'widgetTypeName', widget.name || null),
               rules: [
@@ -159,37 +160,37 @@ class MyWorkTodoForm extends PureComponent {
               <Input addonBefore={get(editData, 'widgetTypeCode', widget.code || null)} disabled />,
             )}
           </FormItem>
-          <FormItem hasFeedback label="业务名称">
+          <FormItem hasFeedback label={formatMessage({id: 'dashboard_000115', defaultMessage: '业务名称'})}>
             {getFieldDecorator('name', {
               initialValue: get(editData, 'name', null),
               rules: [
                 {
                   required: true,
-                  message: '业务名称不能为空',
+                  message: formatMessage({id: 'dashboard_000116', defaultMessage: '业务名称不能为空'}),
                 },
               ],
             })(<Input autoComplete="off" />)}
           </FormItem>
-          <FormItem label="功能描述">
+          <FormItem label={formatMessage({id: 'dashboard_000117', defaultMessage: '功能描述'})}>
             {getFieldDecorator('description', {
               initialValue: get(editData, 'description', null),
               rules: [
                 {
                   required: true,
-                  message: '功能描述不能为空',
+                  message: formatMessage({id: 'dashboard_000108', defaultMessage: '功能描述不能为空'}),
                 },
               ],
             })(<TextArea style={{ resize: 'none' }} autoSize={false} rows={4} />)}
           </FormItem>
-          <div className="title-group">定时器</div>
-          <FormItem label="启用定时器" {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+          <div className="title-group">{formatMessage({id: 'dashboard_000118', defaultMessage: '定时器'})}</div>
+          <FormItem label={formatMessage({id: 'dashboard_000119', defaultMessage: '启用定时器'})} {...formItemInlineLayout} style={{ marginBottom: 0 }}>
             <Switch size="small" checked={timer} onChange={this.handlerTimerChange} />
           </FormItem>
           {timer ? (
             <FormItem
               layout="inline"
               className="timer-body"
-              label="间隔时间(分钟)"
+              label={formatMessage({id: 'dashboard_000120', defaultMessage: '间隔时间(分钟)'})}
               {...formItemInlineLayout}
               style={{ marginBottom: 0 }}
             >
@@ -199,20 +200,20 @@ class MyWorkTodoForm extends PureComponent {
               <DropdownOption interval={timerInterval} onChange={this.handlerTimerIntervalChange} />
             </FormItem>
           ) : null}
-          <div className="title-group">类别数据配置</div>
-          <FormItem label="数据接口" hasFeedback>
+          <div className="title-group">{formatMessage({id: 'dashboard_000136', defaultMessage: '类别数据配置'})}</div>
+          <FormItem label={formatMessage({id: 'dashboard_000122', defaultMessage: '数据接口'})} hasFeedback>
             {getFieldDecorator('groupStoreUrl', {
               initialValue: get(renderConfig, 'component.props.group.store.url', null),
               rules: [
                 {
                   required: true,
-                  message: '数据接口不能为空',
+                  message: formatMessage({id: 'dashboard_000123', defaultMessage: '数据接口不能为空'}),
                 },
               ],
             })(<Input />)}
-            <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000124', defaultMessage: '数据接口可以是相对路径也可以是以http(s)开头的绝对路径'})}</p>
           </FormItem>
-          <FormItem label="请求类型">
+          <FormItem label={formatMessage({id: 'dashboard_000137', defaultMessage: '请求类型'})}>
             {getFieldDecorator('groupStoreType', {
               initialValue: get(renderConfig, 'component.props.group.store.type', 'POST'),
             })(
@@ -221,45 +222,45 @@ class MyWorkTodoForm extends PureComponent {
                 <Radio.Button value="GET">GET</Radio.Button>
               </Radio.Group>,
             )}
-            <p className="desc">数据接口请求类型</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000138', defaultMessage: '数据接口请求类型'})}</p>
           </FormItem>
-          <FormItem label="最大分组数量" layout="inline" className="timer-body">
+          <FormItem label={formatMessage({id: 'dashboard_000139', defaultMessage: '最大分组数量'})} layout="inline" className="timer-body">
             {getFieldDecorator('groupMaxCount', {
               initialValue: groupMaxCountInterval,
             })(<InputNumber precision={0} />)}
             <DropdownOption
-              suffix="项"
+              suffix={formatMessage({id: 'dashboard_000140', defaultMessage: '项'})}
               interval={groupMaxCountInterval}
               onChange={this.handlerGroupMaxCountIntervalChange}
             />
-            <p className="desc">每页显示待办分类的个数</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000141', defaultMessage: '每页显示待办分类的个数'})}</p>
           </FormItem>
-          <FormItem label="数据节点" hasFeedback>
+          <FormItem label={formatMessage({id: 'dashboard_000125', defaultMessage: '数据节点'})} hasFeedback>
             {getFieldDecorator('groupReaderData', {
               initialValue: get(renderConfig, 'component.props.group.reader.data', null),
               rules: [
                 {
                   required: true,
-                  message: '数据节点不能为空',
+                  message: formatMessage({id: 'dashboard_000126', defaultMessage: '数据节点不能为空'}),
                 },
               ],
             })(<Input />)}
-            <p className="desc">接口返回数据体的属性名</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000127', defaultMessage: '接口返回数据体的属性名'})}</p>
           </FormItem>
-          <div className="title-group">明细数据配置</div>
-          <FormItem label="数据接口" hasFeedback>
+          <div className="title-group">{formatMessage({id: 'dashboard_000142', defaultMessage: '明细数据配置'})}</div>
+          <FormItem label={formatMessage({id: 'dashboard_000122', defaultMessage: '数据接口'})} hasFeedback>
             {getFieldDecorator('groupListStoreUrl', {
               initialValue: get(renderConfig, 'component.props.groupList.store.url', null),
               rules: [
                 {
                   required: true,
-                  message: '数据接口不能为空',
+                  message: formatMessage({id: 'dashboard_000123', defaultMessage: '数据接口不能为空'}),
                 },
               ],
             })(<Input />)}
-            <p className="desc">数据接口可以是相对路径也可以是以http(s)开头的绝对路径</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000124', defaultMessage: '数据接口可以是相对路径也可以是以http(s)开头的绝对路径'})}</p>
           </FormItem>
-          <FormItem label="请求类型">
+          <FormItem label={formatMessage({id: 'dashboard_000137', defaultMessage: '请求类型'})}>
             {getFieldDecorator('groupListStoreType', {
               initialValue: get(renderConfig, 'component.props.groupList.store.type', 'POST'),
             })(
@@ -268,30 +269,30 @@ class MyWorkTodoForm extends PureComponent {
                 <Radio.Button value="GET">GET</Radio.Button>
               </Radio.Group>,
             )}
-            <p className="desc">数据接口请求类型</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000138', defaultMessage: '数据接口请求类型'})}</p>
           </FormItem>
-          <FormItem label="最大记录数" layout="inline" className="timer-body">
+          <FormItem label={formatMessage({id: 'dashboard_000143', defaultMessage: '最大记录数'})} layout="inline" className="timer-body">
             {getFieldDecorator('groupListMaxCount', {
               initialValue: groupListMaxCountInterval,
             })(<InputNumber precision={0} />)}
             <DropdownOption
-              suffix="条"
+              suffix={formatMessage({id: 'dashboard_000144', defaultMessage: '条'})}
               interval={groupListMaxCountInterval}
               onChange={this.handlerGroupListMaxCountIntervalChange}
             />
-            <p className="desc">接口获取记录最大条数</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000145', defaultMessage: '接口获取记录最大条数'})}</p>
           </FormItem>
-          <FormItem label="数据节点" hasFeedback>
+          <FormItem label={formatMessage({id: 'dashboard_000125', defaultMessage: '数据节点'})} hasFeedback>
             {getFieldDecorator('groupListReaderData', {
               initialValue: get(renderConfig, 'component.props.groupList.reader.data', null),
               rules: [
                 {
                   required: true,
-                  message: '数据节点不能为空',
+                  message: formatMessage({id: 'dashboard_000126', defaultMessage: '数据节点不能为空'}),
                 },
               ],
             })(<Input />)}
-            <p className="desc">接口返回数据体的属性名</p>
+            <p className="desc">{formatMessage({id: 'dashboard_000127', defaultMessage: '接口返回数据体的属性名'})}</p>
           </FormItem>
         </Form>
       </div>

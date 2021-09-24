@@ -116,7 +116,7 @@ class WidgetInstance extends Component {
     return (
       <>
         {`${currentWidgetGroup.name}`}
-        <span style={{ fontSize: 14, color: '#999', marginLeft: 8 }}>看板组件实例管理</span>
+        <span style={{ fontSize: 14, color: '#999', marginLeft: 8 }}>{formatMessage({id: 'dashboard_000109', defaultMessage: '看板组件实例管理'})}</span>
       </>
     );
   };
@@ -156,13 +156,13 @@ class WidgetInstance extends Component {
         required: true,
       },
       {
-        title: '描述',
+        title: formatMessage({id: 'dashboard_000093', defaultMessage: '描述'}),
         dataIndex: 'description',
         width: 360,
         required: true,
       },
       {
-        title: '组件类型',
+        title: formatMessage({id: 'dashboard_000103', defaultMessage: '组件类型'}),
         dataIndex: 'widgetTypeName',
         width: 160,
         optional: true,

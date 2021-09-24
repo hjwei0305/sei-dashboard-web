@@ -118,7 +118,7 @@ class Feature extends Component {
     return (
       <>
         <Search
-          placeholder="输入代码或名称关键字查询"
+          placeholder={formatMessage({id: 'dashboard_000101', defaultMessage: '输入代码或名称关键字查询'})}
           onChange={e => this.handlerSearchChange(e.target.value)}
           onSearch={this.handlerSearch}
           onPressEnter={this.handlerPressEnter}
@@ -169,7 +169,7 @@ class Feature extends Component {
     const selectedKeys = currentWidgetGroup ? [currentWidgetGroup.id] : [];
     const featureGroupprops = {
       className: 'left-content',
-      title: '看板组',
+      title: formatMessage({id: 'dashboard_000102', defaultMessage: '看板组'}),
       showSearch: false,
       loading: listLoading,
       dataSource: listData,
@@ -195,7 +195,7 @@ class Feature extends Component {
               <Instance />
             ) : (
               <div className="blank-empty">
-                <Empty image={empty} description="可选择左边列表项进行相应的操作" />
+                <Empty image={empty} description={formatMessage({id: 'dashboard_000019', defaultMessage: '可选择左边列表项进行相应的操作'})} />
               </div>
             )}
           </Col>

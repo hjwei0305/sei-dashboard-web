@@ -11,6 +11,7 @@ import { isEqual } from 'lodash';
 import { Empty } from 'antd';
 import { ListLoader, ResizeMe } from 'suid';
 import empty from '@/assets/page_empty.svg';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { ScreenTemplate, DreamStar } from '../../components';
 import { constants } from '../../utils';
 import styles from './index.less';
@@ -111,7 +112,7 @@ class ScreenView extends PureComponent {
       default:
         return (
           <div className="blank-empty">
-            <Empty image={empty} description="此模板暂时没有实现" />
+            <Empty image={empty} description={formatMessage({id: 'dashboard_000011', defaultMessage: '此模板暂时没有实现'})} />
           </div>
         );
     }

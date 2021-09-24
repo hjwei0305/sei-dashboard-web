@@ -3,6 +3,7 @@ import { Icon, Menu, Layout } from 'antd';
 import Link from 'umi/link';
 import cls from 'classnames';
 import { ScrollBar } from 'suid';
+import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 const { Header, Content } = Layout;
@@ -11,27 +12,27 @@ const { SubMenu } = Menu;
 const menuData = [
   {
     id: '10',
-    name: '后台管理',
+    name: formatMessage({id: 'dashboard_000084', defaultMessage: '后台管理'}),
     children: [
       {
         id: '100',
-        name: '组件注册',
+        name: formatMessage({id: 'dashboard_000085', defaultMessage: '组件注册'}),
         path: '/backConfig/widgetType',
       },
       {
         id: '101',
-        name: '组件实例',
+        name: formatMessage({id: 'dashboard_000086', defaultMessage: '组件实例'}),
         path: '/backConfig/widgetProducer',
       },
     ],
   },
   {
     id: '20',
-    name: '仪表盘管理',
+    name: formatMessage({id: 'dashboard_000087', defaultMessage: '仪表盘管理'}),
     children: [
       {
         id: '200',
-        name: '首页仪表盘',
+        name: formatMessage({id: 'dashboard_000088', defaultMessage: '首页仪表盘'}),
         path: '/portal/home',
       },
     ],
@@ -96,7 +97,7 @@ export default class Home extends Component {
   render() {
     return (
       <Layout className={cls(styles['main-box'])}>
-        <Header className={cls('menu-header')}>应用路由列表</Header>
+        <Header className={cls('menu-header')}>{formatMessage({id: 'dashboard_000089', defaultMessage: '应用路由列表'})}</Header>
         <Content className={cls('menu-box')}>
           <ScrollBar>
             <Menu key="Menu" mode="inline" theme="light">
