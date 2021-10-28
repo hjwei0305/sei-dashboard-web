@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-28 15:23:34
+ * @Last Modified time: 2021-10-28 09:59:22
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -11,8 +11,8 @@ import { get } from 'lodash';
 import Slider from 'react-slick';
 import { Empty } from 'antd';
 import { utils, ListLoader, ExtIcon } from 'suid';
-import { formartUrl, constants, userUtils } from '@/utils';
 import { formatMessage } from 'umi-plugin-react/locale';
+import { formartUrl, constants, userUtils } from '@/utils';
 import GroupList from './GroupList';
 import styles from './index.less';
 
@@ -125,7 +125,9 @@ class MyWorkTodo extends PureComponent {
   };
 
   endTimer = () => {
-    this.timer && window.clearInterval(this.timer);
+    if (this.timer) {
+      window.clearInterval(this.timer);
+    }
   };
 
   getData = p => {
@@ -134,7 +136,9 @@ class MyWorkTodo extends PureComponent {
     const { store, reader } = group;
     const { url, type } = store || {};
     const methodType = type || 'get';
-    !timerLoader && this.setState({ loading: true });
+    if (!timerLoader) {
+      this.setState({ loading: true });
+    }
     const requestOptions = {
       method: methodType,
       url: formartUrl(url),
@@ -161,7 +165,9 @@ class MyWorkTodo extends PureComponent {
           }
         })
         .finally(() => {
-          !timerLoader && this.setState({ loading: false });
+          if (!timerLoader) {
+            this.setState({ loading: false });
+          }
         });
     }
   };
@@ -176,7 +182,10 @@ class MyWorkTodo extends PureComponent {
   };
 
   handlerGroupSelect = index => {
-    const { groupSlider } = this.state;
+    const { groupSlider, loading } = this.state;
+    if (loading) {
+      return false;
+    }
     groupSlider.slickGoTo(index);
     this.setState({
       selectItemIndex: index,
@@ -236,7 +245,7 @@ class MyWorkTodo extends PureComponent {
           </>
         ) : (
           <Empty
-            description={formatMessage({id: 'dashboard_000197', defaultMessage: '暂无待办项'})}
+            description={formatMessage({ id: 'dashboard_000197', defaultMessage: '暂无待办项' })}
             image={<ExtIcon type="empty-box" style={{ fontSize: 80, color: '#999' }} />}
           />
         )}
