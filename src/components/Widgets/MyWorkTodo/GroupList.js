@@ -2,17 +2,18 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-08-13 17:23:23
+ * @Last Modified time: 2021-11-17 15:31:41
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import cls from 'classnames';
 import { get, isEqual, toUpper } from 'lodash';
 import moment from 'moment';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { Tooltip, Button, Tag } from 'antd';
 import { utils, ListLoader, ListCard } from 'suid';
 import { formartUrl, taskColor, constants, userUtils } from '@/utils';
-import { formatMessage } from 'umi-plugin-react/locale';
+
 import SortView from './SortView';
 
 const { request, eventBus, storage } = utils;
@@ -138,7 +139,7 @@ class GroupList extends PureComponent {
     const currentViewTypeId = get(groupItem, 'businessModeId', null);
     this.tabOpen({
       id: '0ef8d3ec-145f-40cf-b899-183b54c813f2',
-      title: formatMessage({id: 'dashboard_000201', defaultMessage: '更多待办事项'}),
+      title: formatMessage({ id: 'dashboard_000201', defaultMessage: '更多待办事项' }),
       url: `/sei-flow-task-web/task/workTodo?currentViewTypeId=${currentViewTypeId}`,
     });
   };
@@ -148,7 +149,7 @@ class GroupList extends PureComponent {
       <Tooltip
         title={
           <>
-            <span>{formatMessage({id: 'dashboard_000200', defaultMessage: '待办到达时间'})}</span>
+            <span>{formatMessage({ id: 'dashboard_000200', defaultMessage: '待办到达时间' })}</span>
             <br />
             <span style={{ fontSize: 12 }}>
               {moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}
@@ -163,7 +164,7 @@ class GroupList extends PureComponent {
     );
   };
 
-  renderItemTitle = ({ businessModelRemark: title, priority, timing, warningStatus, }) => {
+  renderItemTitle = ({ businessModelRemark: title, priority, timing, warningStatus }) => {
     const priorityInfo = PRIORITY[priority];
     const warningStatusInfo = WARNINGSTATUS[warningStatus];
     return (
@@ -171,12 +172,12 @@ class GroupList extends PureComponent {
         <span title={title}>{title}</span>
         {priorityInfo ? (
           <Tag color={priorityInfo.color} style={{ marginLeft: 4 }}>
-            {priorityInfo.title}
+            {formatMessage(priorityInfo.lang)}
           </Tag>
         ) : null}
-        { timing > 0 &&  warningStatusInfo &&  warningStatus !== 'normal' ? (
+        {timing > 0 && warningStatusInfo && warningStatus !== 'normal' ? (
           <Tag color={warningStatusInfo.color} style={{ marginLeft: 4 }}>
-            {warningStatusInfo.title}
+            {formatMessage(warningStatusInfo.lang)}
           </Tag>
         ) : null}
       </>
@@ -192,9 +193,12 @@ class GroupList extends PureComponent {
     return (
       <>
         <div className="left-tool-box">
-          <div className="sub-title">{`${formatMessage({id: 'dashboard_000202', defaultMessage: '前'})} ${maxCount} ${formatMessage({id: 'dashboard_000140', defaultMessage: '项'})}`}</div>
+          <div className="sub-title">{`${formatMessage({
+            id: 'dashboard_000202',
+            defaultMessage: '前',
+          })} ${maxCount} ${formatMessage({ id: 'dashboard_000140', defaultMessage: '项' })}`}</div>
           <Button type="link" onClick={this.handlerLookMore}>
-            {formatMessage({id: 'dashboard_000203', defaultMessage: '查看更多'})}...
+            {formatMessage({ id: 'dashboard_000203', defaultMessage: '查看更多' })}...
           </Button>
         </div>
         <div className="right-tool-box">
