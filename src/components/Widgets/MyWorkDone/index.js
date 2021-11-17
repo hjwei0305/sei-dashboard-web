@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:56
  * @Last Modified by: Eason
- * @Last Modified time: 2020-08-10 08:51:55
+ * @Last Modified time: 2021-11-17 15:38:01
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -11,8 +11,8 @@ import { get, trim } from 'lodash';
 import moment from 'moment';
 import { Button, Modal, Input, Alert, Tooltip, Tag } from 'antd';
 import { utils, message, ListLoader, ListCard, ExtIcon, Animate } from 'suid';
-import { formartUrl, constants } from '@/utils';
 import { formatMessage } from 'umi-plugin-react/locale';
+import { formartUrl, constants } from '@/utils';
 import ExtAction from './ExtAction';
 import styles from './index.less';
 
@@ -87,7 +87,9 @@ class MyWorkDone extends PureComponent {
   };
 
   endTimer = () => {
-    this.timer && window.clearInterval(this.timer);
+    if (this.timer) {
+      window.clearInterval(this.timer);
+    }
   };
 
   getData = p => {
@@ -101,7 +103,9 @@ class MyWorkDone extends PureComponent {
       url: formartUrl(url),
       headers: { neverCancel: true },
     };
-    !timerLoader && this.setState({ loading: true });
+    if (!timerLoader) {
+      this.setState({ loading: true });
+    }
     if (methodType.toLocaleLowerCase() === 'get') {
       requestOptions.params = params;
     } else {
@@ -118,7 +122,9 @@ class MyWorkDone extends PureComponent {
           }
         })
         .finally(() => {
-          !timerLoader && this.setState({ loading: false });
+          if (!timerLoader) {
+            this.setState({ loading: false });
+          }
         });
     }
   };
@@ -138,7 +144,7 @@ class MyWorkDone extends PureComponent {
   handlerLookMore = () => {
     this.tabOpen({
       id: '173021e9-9d0f-4ab9-8b24-a4284702e9a0',
-      title: formatMessage({id: 'dashboard_000204', defaultMessage: '更多已办事项'}),
+      title: formatMessage({ id: 'dashboard_000204', defaultMessage: '更多已办事项' }),
       url: `/sei-flow-task-web/task/workDone`,
     });
   };
@@ -155,7 +161,7 @@ class MyWorkDone extends PureComponent {
         <Tooltip
           title={
             <>
-              <span>{formatMessage({id: 'dashboard_000205', defaultMessage: '处理时间'})}</span>
+              <span>{formatMessage({ id: 'dashboard_000205', defaultMessage: '处理时间' })}</span>
               <br />
               <span style={{ fontSize: 12 }}>
                 {moment(item.actEndTime).format('YYYY-MM-DD HH:mm:ss')}
@@ -190,7 +196,9 @@ class MyWorkDone extends PureComponent {
     }
     this.tabOpen({
       id: doneItem.flowInstanceBusinessId,
-      title: `${formatMessage({id: 'dashboard_000206', defaultMessage: '单据详情-'})}${doneItem.flowInstanceBusinessCode}`,
+      title: `${formatMessage({ id: 'dashboard_000206', defaultMessage: '单据详情-' })}${
+        doneItem.flowInstanceBusinessCode
+      }`,
       url,
     });
   };
@@ -210,7 +218,7 @@ class MyWorkDone extends PureComponent {
         style={{ resize: 'none' }}
         autoSize={false}
         rows={4}
-        placeholder={formatMessage({id: 'dashboard_000207', defaultMessage: '请填写撤回的原因'})}
+        placeholder={formatMessage({ id: 'dashboard_000207', defaultMessage: '请填写撤回的原因' })}
         onChange={this.handlerOpinionChange}
       />
     );
@@ -218,7 +226,15 @@ class MyWorkDone extends PureComponent {
     if (this.showFlowRevokeOpinionValidate === true) {
       tip = (
         <Animate type="shake">
-          <Alert type="error" message={formatMessage({id: 'dashboard_000208', defaultMessage: '请填写你想要撤回的原因'})} style={{ marginBottom: 8 }} banner />
+          <Alert
+            type="error"
+            message={formatMessage({
+              id: 'dashboard_000208',
+              defaultMessage: '请填写你想要撤回的原因',
+            })}
+            style={{ marginBottom: 8 }}
+            banner
+          />
         </Animate>
       );
     }
@@ -232,11 +248,11 @@ class MyWorkDone extends PureComponent {
 
   flowRevokeConfirm = doneItem => {
     this.confirmModal = Modal.confirm({
-      title: formatMessage({id: 'dashboard_000209', defaultMessage: '我要撤销'}),
+      title: formatMessage({ id: 'dashboard_000209', defaultMessage: '我要撤销' }),
       content: this.renderflowRevokeConfirmContent(),
       icon: <ExtIcon type="exclamation-circle" antd />,
-      okText: formatMessage({id: 'dashboard_000184', defaultMessage: '确定'}),
-      cancelText: formatMessage({id: 'dashboard_000210', defaultMessage: '取消'}),
+      okText: formatMessage({ id: 'dashboard_000184', defaultMessage: '确定' }),
+      cancelText: formatMessage({ id: 'dashboard_000210', defaultMessage: '取消' }),
       onOk: () => {
         return new Promise(resolve => {
           if (!this.flowRevokeOpinion) {
@@ -306,9 +322,12 @@ class MyWorkDone extends PureComponent {
     const { maxCount } = this.props;
     return (
       <>
-        <div className="sub-title">{`${formatMessage({id: 'dashboard_000202', defaultMessage: '前'})} ${maxCount} ${formatMessage({id: 'dashboard_000140', defaultMessage: '项'})}`}</div>
+        <div className="sub-title">{`${formatMessage({
+          id: 'dashboard_000202',
+          defaultMessage: '前',
+        })} ${maxCount} ${formatMessage({ id: 'dashboard_000140', defaultMessage: '项' })}`}</div>
         <Button type="link" style={{ padding: 0 }} onClick={this.handlerLookMore}>
-          {formatMessage({id: 'dashboard_000203', defaultMessage: '查看更多'})}...
+          {formatMessage({ id: 'dashboard_000203', defaultMessage: '查看更多' })}...
         </Button>
       </>
     );

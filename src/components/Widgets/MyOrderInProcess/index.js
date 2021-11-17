@@ -5,8 +5,8 @@ import { get } from 'lodash';
 import moment from 'moment';
 import { Button, Modal, Tooltip, Tag } from 'antd';
 import { utils, message, ListLoader, ListCard, ExtIcon } from 'suid';
-import { formartUrl, constants, taskColor } from '@/utils';
 import { formatMessage } from 'umi-plugin-react/locale';
+import { formartUrl, constants, taskColor } from '@/utils';
 import ExtAction from './ExtAction';
 import styles from './index.less';
 
@@ -74,7 +74,9 @@ class MyOrderInProcess extends PureComponent {
   };
 
   endTimer = () => {
-    this.timer && window.clearInterval(this.timer);
+    if (this.timer) {
+      window.clearInterval(this.timer);
+    }
   };
 
   getData = p => {
@@ -88,7 +90,9 @@ class MyOrderInProcess extends PureComponent {
       url: formartUrl(url),
       headers: { neverCancel: true },
     };
-    !timerLoader && this.setState({ loading: true });
+    if (!timerLoader) {
+      this.setState({ loading: true });
+    }
     if (methodType.toLocaleLowerCase() === 'get') {
       requestOptions.params = params;
     } else {
@@ -105,7 +109,9 @@ class MyOrderInProcess extends PureComponent {
           }
         })
         .finally(() => {
-          !timerLoader && this.setState({ loading: false });
+          if (!timerLoader) {
+            this.setState({ loading: false });
+          }
         });
     }
   };
@@ -125,7 +131,7 @@ class MyOrderInProcess extends PureComponent {
   handlerLookMore = () => {
     this.tabOpen({
       id: '9e1ba51b-befb-47ce-a4fd-a9e96544c85f',
-      title: formatMessage({id: 'dashboard_000214', defaultMessage: '我的单据'}),
+      title: formatMessage({ id: 'dashboard_000214', defaultMessage: '我的单据' }),
       url: `/sei-flow-task-web/task/myOrder`,
     });
   };
@@ -142,7 +148,7 @@ class MyOrderInProcess extends PureComponent {
         <Tooltip
           title={
             <>
-              <span>{formatMessage({id: 'dashboard_000215', defaultMessage: '创建时间'})}</span>
+              <span>{formatMessage({ id: 'dashboard_000215', defaultMessage: '创建时间' })}</span>
               <br />
               <span style={{ fontSize: 12 }}>
                 {moment(item.createdDate).format('YYYY-MM-DD HH:mm:ss')}
@@ -181,7 +187,9 @@ class MyOrderInProcess extends PureComponent {
     }
     this.tabOpen({
       id: doneItem.businessId,
-      title: `${formatMessage({id: 'dashboard_000206', defaultMessage: '单据详情-'})}${doneItem.businessCode}`,
+      title: `${formatMessage({ id: 'dashboard_000206', defaultMessage: '单据详情-' })}${
+        doneItem.businessCode
+      }`,
       url,
     });
   };
@@ -189,22 +197,22 @@ class MyOrderInProcess extends PureComponent {
   renderflowRevokeConfirmContent = doneItem => {
     return (
       <>
-        {formatMessage({id: 'dashboard_000216', defaultMessage: '确定要终止单号为'})}
+        {formatMessage({ id: 'dashboard_000216', defaultMessage: '确定要终止单号为' })}
         <span style={{ color: 'rgba(0,0,0,0.65)', margin: '0 8px', fontWeight: 700 }}>
           {doneItem.businessCode}
         </span>
-        {formatMessage({id: 'dashboard_000217', defaultMessage: '的单据吗?'})}?
+        {formatMessage({ id: 'dashboard_000217', defaultMessage: '的单据吗?' })}?
       </>
     );
   };
 
   flowEndConfirm = doneItem => {
     this.confirmModal = Modal.confirm({
-      title: formatMessage({id: 'dashboard_000218', defaultMessage: '终止审批确认'}),
+      title: formatMessage({ id: 'dashboard_000218', defaultMessage: '终止审批确认' }),
       content: this.renderflowRevokeConfirmContent(doneItem),
       icon: <ExtIcon type="exclamation-circle" antd />,
-      okText: formatMessage({id: 'dashboard_000184', defaultMessage: '确定'}),
-      cancelText: formatMessage({id: 'dashboard_000210', defaultMessage: '取消'}),
+      okText: formatMessage({ id: 'dashboard_000184', defaultMessage: '确定' }),
+      cancelText: formatMessage({ id: 'dashboard_000210', defaultMessage: '取消' }),
       onOk: () => {
         return new Promise(resolve => {
           this.flowEndSubmit(doneItem, resolve);
@@ -256,9 +264,12 @@ class MyOrderInProcess extends PureComponent {
     const { maxCount } = this.props;
     return (
       <>
-        <div className="sub-title">{`${formatMessage({id: 'dashboard_000202', defaultMessage: '前'})} ${maxCount} ${formatMessage({id: 'dashboard_000140', defaultMessage: '项'})}`}</div>
+        <div className="sub-title">{`${formatMessage({
+          id: 'dashboard_000202',
+          defaultMessage: '前',
+        })} ${maxCount} ${formatMessage({ id: 'dashboard_000140', defaultMessage: '项' })}`}</div>
         <Button type="link" style={{ padding: 0 }} onClick={this.handlerLookMore}>
-          {formatMessage({id: 'dashboard_000203', defaultMessage: '查看更多'})}...
+          {formatMessage({ id: 'dashboard_000203', defaultMessage: '查看更多' })}...
         </Button>
       </>
     );
