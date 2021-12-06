@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2021-11-17 15:30:57
+ * @Last Modified time: 2021-12-06 18:37:35
  */
 import { formatMessage } from 'umi-plugin-react/locale';
 import { base } from '../../public/app.config.json';
@@ -214,6 +214,7 @@ const PRIORITY = {
   '1': { lang: { id: 'dashboard_000001', defaultMessage: '驳回' }, color: 'magenta' },
   '2': { lang: { id: 'dashboard_000002', defaultMessage: '撤回' }, color: 'volcano' },
   '3': { lang: { id: 'dashboard_000003', defaultMessage: '加急' }, color: 'red' },
+  '4': { lang: { id: 'dashboard_0000030', defaultMessage: '标注' }, color: 'blue' },
 };
 
 const WARNINGSTATUS = {
