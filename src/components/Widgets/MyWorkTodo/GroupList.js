@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2021-11-17 15:31:41
+ * @Last Modified time: 2021-12-08 23:23:23
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -164,17 +164,39 @@ class GroupList extends PureComponent {
     );
   };
 
-  renderItemTitle = ({ businessModelRemark: title, priority, timing, warningStatus }) => {
+  renderPriorityInfo = (priority, labelReason) => {
     const priorityInfo = PRIORITY[priority];
+    if (priorityInfo) {
+      if (labelReason && priority === '4') {
+        return (
+          <Tooltip title={labelReason}>
+            <Tag color={priority.color} style={{ marginLeft: 4 }}>
+              {formatMessage(priority.lang)}
+            </Tag>
+          </Tooltip>
+        );
+      }
+      return (
+        <Tag color={priorityInfo.color} style={{ marginLeft: 4 }}>
+          {formatMessage(priorityInfo.lang)}
+        </Tag>
+      );
+    }
+    return null;
+  };
+
+  renderItemTitle = ({
+    businessModelRemark: title,
+    priority,
+    labelReason,
+    timing,
+    warningStatus,
+  }) => {
     const warningStatusInfo = WARNINGSTATUS[warningStatus];
     return (
       <>
         <span title={title}>{title}</span>
-        {priorityInfo ? (
-          <Tag color={priorityInfo.color} style={{ marginLeft: 4 }}>
-            {formatMessage(priorityInfo.lang)}
-          </Tag>
-        ) : null}
+        {this.renderPriorityInfo(priority, labelReason)}
         {timing > 0 && warningStatusInfo && warningStatus !== 'normal' ? (
           <Tag color={warningStatusInfo.color} style={{ marginLeft: 4 }}>
             {formatMessage(warningStatusInfo.lang)}
