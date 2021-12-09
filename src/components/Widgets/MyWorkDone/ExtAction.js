@@ -2,14 +2,15 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:48
  * @Last Modified by: Eason
- * @Last Modified time: 2020-06-30 09:04:57
+ * @Last Modified time: 2021-12-09 18:18:34
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
+import { get } from 'lodash';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon, WorkFlow } from 'suid';
-import { constants } from '@/utils';
 import { formatMessage } from 'umi-plugin-react/locale';
+import { constants } from '@/utils';
 import styles from './ExtAction.less';
 
 const { getUUID } = utils;
@@ -20,17 +21,17 @@ const { FlowHistoryButton } = WorkFlow;
 
 const menuData = () => [
   {
-    title: formatMessage({id: 'dashboard_000211', defaultMessage: '查看单据'}),
+    title: formatMessage({ id: 'dashboard_000211', defaultMessage: '查看单据' }),
     key: USER_ACTION.VIEW_ORDER,
     disabled: false,
   },
   {
-    title: formatMessage({id: 'dashboard_000212', defaultMessage: '审批历史'}),
+    title: formatMessage({ id: 'dashboard_000212', defaultMessage: '审批历史' }),
     key: USER_ACTION.FLOW_HISTORY,
     disabled: false,
   },
   {
-    title: formatMessage({id: 'dashboard_000213', defaultMessage: '我要撤回'}),
+    title: formatMessage({ id: 'dashboard_000213', defaultMessage: '我要撤回' }),
     key: USER_ACTION.FLOW_REVOKE,
     disabled: true,
   },
@@ -85,6 +86,8 @@ class ExtAction extends PureComponent {
   getMenu = (menus, record) => {
     const { selectedKeys } = this.state;
     const menuId = getUUID();
+    const businessId = get(record, 'flowInstanceBusinessId', null);
+    const flowInstanceId = get(record, 'flowInstanceId', null);
     return (
       <Menu
         id={menuId}
@@ -103,7 +106,7 @@ class ExtAction extends PureComponent {
           if (m.key === USER_ACTION.FLOW_HISTORY) {
             return (
               <Item key={m.key}>
-                <FlowHistoryButton businessId={record.flowInstanceBusinessId}>
+                <FlowHistoryButton businessId={businessId} flowInstanceId={flowInstanceId}>
                   <span className="view-popover-box-trigger">{m.title}</span>
                 </FlowHistoryButton>
               </Item>

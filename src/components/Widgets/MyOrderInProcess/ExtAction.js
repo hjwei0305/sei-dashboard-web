@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
+import { get } from 'lodash';
 import { Dropdown, Menu } from 'antd';
 import { utils, ExtIcon, WorkFlow } from 'suid';
-import { constants } from '@/utils';
 import { formatMessage } from 'umi-plugin-react/locale';
+import { constants } from '@/utils';
 import styles from './ExtAction.less';
 
 const { getUUID } = utils;
@@ -14,17 +15,17 @@ const { FlowHistoryButton } = WorkFlow;
 
 const menuData = () => [
   {
-    title: formatMessage({id: 'dashboard_000211', defaultMessage: '查看单据'}),
+    title: formatMessage({ id: 'dashboard_000211', defaultMessage: '查看单据' }),
     key: USER_ACTION.VIEW_ORDER,
     disabled: false,
   },
   {
-    title: formatMessage({id: 'dashboard_000212', defaultMessage: '审批历史'}),
+    title: formatMessage({ id: 'dashboard_000212', defaultMessage: '审批历史' }),
     key: USER_ACTION.FLOW_HISTORY,
     disabled: false,
   },
   {
-    title: formatMessage({id: 'dashboard_000219', defaultMessage: '终止审批'}),
+    title: formatMessage({ id: 'dashboard_000219', defaultMessage: '终止审批' }),
     key: USER_ACTION.FLOW_END,
     disabled: true,
   },
@@ -75,6 +76,8 @@ class ExtAction extends PureComponent {
   getMenu = (menus, record) => {
     const { selectedKeys } = this.state;
     const menuId = getUUID();
+    const businessId = get(record, 'businessId', null);
+    const flowInstanceId = get(record, 'flowInstanceId', null);
     return (
       <Menu
         id={menuId}
@@ -93,7 +96,7 @@ class ExtAction extends PureComponent {
           if (m.key === USER_ACTION.FLOW_HISTORY) {
             return (
               <Item key={m.key}>
-                <FlowHistoryButton businessId={record.businessId}>
+                <FlowHistoryButton businessId={businessId} flowInstanceId={flowInstanceId}>
                   <span className="view-popover-box-trigger">{m.title}</span>
                 </FlowHistoryButton>
               </Item>
