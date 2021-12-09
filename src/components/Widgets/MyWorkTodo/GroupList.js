@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2021-12-09 17:00:55
+ * @Last Modified time: 2021-12-09 17:04:51
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -170,7 +170,7 @@ class GroupList extends PureComponent {
       if (labelReason && (priority === '4' || priority === 4)) {
         return (
           <Tooltip title={labelReason}>
-            <Tag color={priority.color} style={{ marginLeft: 4 }}>
+            <Tag color={priorityInfo.color} style={{ marginLeft: 4 }}>
               {formatMessage(priorityInfo.lang)}
             </Tag>
           </Tooltip>
