@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:33
  * @Last Modified by: Eason
- * @Last Modified time: 2021-12-08 23:23:23
+ * @Last Modified time: 2021-12-09 16:46:54
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -167,7 +167,7 @@ class GroupList extends PureComponent {
   renderPriorityInfo = (priority, labelReason) => {
     const priorityInfo = PRIORITY[priority];
     if (priorityInfo) {
-      if (labelReason && priority === '4') {
+      if (labelReason && (priority === '4' || priority === 4)) {
         return (
           <Tooltip title={labelReason}>
             <Tag color={priority.color} style={{ marginLeft: 4 }}>
@@ -185,13 +185,8 @@ class GroupList extends PureComponent {
     return null;
   };
 
-  renderItemTitle = ({
-    businessModelRemark: title,
-    priority,
-    labelReason,
-    timing,
-    warningStatus,
-  }) => {
+  renderItemTitle = item => {
+    const { businessModelRemark: title, priority, labelReason, timing, warningStatus } = item;
     const warningStatusInfo = WARNINGSTATUS[warningStatus];
     return (
       <>
