@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-28 15:00:33
+ * @Last Modified time: 2021-12-15 19:27:58
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -10,13 +10,13 @@ import { connect } from 'dva';
 import { isEqual } from 'lodash';
 import { Empty } from 'antd';
 import { ListLoader, ResizeMe } from 'suid';
-import empty from '@/assets/page_empty.svg';
 import { formatMessage } from 'umi-plugin-react/locale';
+import empty from '@/assets/page_empty.svg';
 import { ScreenTemplate, DreamStar } from '../../components';
 import { constants } from '../../utils';
 import styles from './index.less';
 
-const { TechBlue } = ScreenTemplate;
+const { TechBlue, TechBlueAdv } = ScreenTemplate;
 const { SCREEN_TEMPLATE, ANIMATE_EFFECT } = constants;
 
 @ResizeMe()
@@ -109,10 +109,23 @@ class ScreenView extends PureComponent {
             {this.getAnimateEffect()}
           </>
         );
+      case SCREEN_TEMPLATE.TECH_BLUE_ADV:
+        return (
+          <>
+            <TechBlueAdv {...templateProps} />
+            {this.getAnimateEffect()}
+          </>
+        );
       default:
         return (
           <div className="blank-empty">
-            <Empty image={empty} description={formatMessage({id: 'dashboard_000011', defaultMessage: '此模板暂时没有实现'})} />
+            <Empty
+              image={empty}
+              description={formatMessage({
+                id: 'dashboard_000011',
+                defaultMessage: '此模板暂时没有实现',
+              })}
+            />
           </div>
         );
     }
