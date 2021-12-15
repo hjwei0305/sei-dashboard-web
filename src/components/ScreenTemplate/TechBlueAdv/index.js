@@ -425,7 +425,7 @@ class TechBlueAdv extends Component {
           },
           detail: {
             width: 50,
-            fontSize: 24,
+            fontSize: region === 'center' ? 24 : 16,
             color: '#f8f8f8',
             formatter: `${amount}`,
           },
