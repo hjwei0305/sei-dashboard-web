@@ -2,18 +2,19 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:59
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-25 18:49:22
+ * @Last Modified time: 2021-12-14 17:17:06
  */
 
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
 import PropTypes from 'prop-types';
 import { get, set, isObject, isEqual } from 'lodash';
-import { Drawer, Button, Input, Form, Switch } from 'antd';
+import { Drawer, Button, Input, Form, Switch, Radio } from 'antd';
 import { ScrollBar } from 'suid';
 import { formatMessage } from 'umi-plugin-react/locale';
 import WidgetInstance from './WidgetInstance';
 import DynamicEffect from './DynamicEffect';
+import { constants } from '@/utils';
 import styles from './index.less';
 
 const FormItem = Form.Item;
@@ -35,11 +36,14 @@ const formItemInlineLayout = {
   },
 };
 
+const { SCREEN_TEMPLATE } = constants;
+
 @Form.create()
 class TemplateConfig extends PureComponent {
   static widgetSelectKeys = [];
 
   static propTypes = {
+    screenTemplate: PropTypes.string,
     showTemplateConfig: PropTypes.bool,
     templateConfig: PropTypes.object,
     screenTemplateConfigLoading: PropTypes.bool,
@@ -87,7 +91,9 @@ class TemplateConfig extends PureComponent {
   };
 
   handlerChangeScreenTemplate = (item, e) => {
-    e && e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+    }
     const { onChangeScreenTemplate, currentScreenTemplate } = this.props;
     if (onChangeScreenTemplate && currentScreenTemplate !== item.name) {
       onChangeScreenTemplate(item);
@@ -113,15 +119,11 @@ class TemplateConfig extends PureComponent {
         return;
       }
       Object.keys(formData).forEach(field => {
-        const regionRoot = field.split('-')[0];
-        const formConifg = get(templateConfig, [regionRoot, 'formConifg'], []) || [];
-        formConifg.forEach((configField, index) => {
+        const [regionRoot, areas, areaKey] = field.split('-');
+        const { formConifg = [] } = get(config, [regionRoot, areas, areaKey]) || {};
+        formConifg.forEach(configField => {
           if (configField.field === field) {
-            set(
-              templateConfig,
-              [regionRoot, 'formConifg', index.toString(), 'value'],
-              formData[field],
-            );
+            Object.assign(configField, { value: formData[field] });
           }
         });
       });
@@ -154,9 +156,9 @@ class TemplateConfig extends PureComponent {
 
   handlerWidgetSelect = (widgetKey, widget) => {
     const { templateConfig: originTemplateConfig } = this.state;
-    const regionRoot = widgetKey.split('-')[0];
+    const [regionRoot, areas, areaKey] = widgetKey.split('-');
     const templateConfig = { ...originTemplateConfig };
-    set(templateConfig, [regionRoot, 'widgets', widgetKey], widget);
+    set(templateConfig, [regionRoot, areas, areaKey, 'widgets', widgetKey], widget);
     this.setState(
       {
         templateConfig,
@@ -170,19 +172,46 @@ class TemplateConfig extends PureComponent {
     const { getFieldDecorator } = form;
     const formItemList = [...(formItems || [])];
     return formItemList.map(it => {
-      return (
-        <FormItem key={it.field} hasFeedback label={it.text}>
-          {getFieldDecorator(it.field, {
-            initialValue: get(it, 'value', null),
-            rules: [
-              {
-                required: it.required || false,
-                message: `${it.text}{formatMessage({id: 'dashboard_000025', defaultMessage: '不能为空'})}`,
-              },
-            ],
-          })(<Input autoComplete="off" />)}
-        </FormItem>
-      );
+      if (it.type === 'Input') {
+        return (
+          <FormItem key={it.field} hasFeedback label={it.text} style={{ marginBottom: 0 }}>
+            {getFieldDecorator(it.field, {
+              initialValue: get(it, 'value', null),
+              rules: [
+                {
+                  required: it.required || false,
+                  message: `${it.text}{formatMessage({id: 'dashboard_000025', defaultMessage: '不能为空'})}`,
+                },
+              ],
+            })(<Input autoComplete="off" />)}
+          </FormItem>
+        );
+      }
+      if (it.type === 'RadioGroup') {
+        const { value, options } = it;
+        return (
+          <FormItem key={it.field} label={it.text} style={{ marginBottom: 0 }}>
+            {getFieldDecorator(it.field, {
+              initialValue: value,
+              rules: [
+                {
+                  required: it.required || false,
+                  message: `${it.text}{formatMessage({id: 'dashboard_000025', defaultMessage: '不能为空'})}`,
+                },
+              ],
+            })(
+              <Radio.Group size="small">
+                {options.map(t => (
+                  <Radio.Button value={t.value} key={t.value}>
+                    {t.title}
+                  </Radio.Button>
+                ))}
+              </Radio.Group>,
+            )}
+          </FormItem>
+        );
+      }
+      return null;
     });
   };
 
@@ -197,7 +226,9 @@ class TemplateConfig extends PureComponent {
       };
       return (
         <>
-          <div className="sub-title">{formatMessage({id: 'dashboard_000026', defaultMessage: '组件实例配置'})}</div>
+          <div className="sub-title">
+            {formatMessage({ id: 'dashboard_000026', defaultMessage: '组件实例配置' })}
+          </div>
           <WidgetInstance {...widgetInstanceProps} />
         </>
       );
@@ -230,7 +261,11 @@ class TemplateConfig extends PureComponent {
     const animateEffect = get(globalConfig, 'animateEffect', {}) || {};
     return (
       <>
-        <FormItem label={formatMessage({id: 'dashboard_000027', defaultMessage: '使用动效'})} {...formItemInlineLayout} style={{ marginBottom: 0 }}>
+        <FormItem
+          label={formatMessage({ id: 'dashboard_000027', defaultMessage: '使用动效' })}
+          {...formItemInlineLayout}
+          style={{ marginBottom: 0 }}
+        >
           <Switch
             size="small"
             checked={showAnimateEffect}
@@ -244,8 +279,51 @@ class TemplateConfig extends PureComponent {
     );
   };
 
+  renderLayoutFormItems = () => {
+    const { templateConfig } = this.state;
+    const { screenTemplate } = this.props;
+    const config = { ...(templateConfig || {}) };
+    if (screenTemplate === SCREEN_TEMPLATE.TECH_BLUE) {
+      return Object.keys(config).map(key => {
+        const item = config[key];
+        return (
+          <div className="layout-box" key={key}>
+            <div className="group-title">{item.title}</div>
+            {this.renderFormItems(item.formConifg)}
+            {this.renderWidgetInstances(item.widgets)}
+          </div>
+        );
+      });
+    }
+    if (screenTemplate === SCREEN_TEMPLATE.TECH_BLUE_ADV) {
+      return Object.keys(config).map(key => {
+        const item = config[key];
+        return (
+          <div className="layout-box" key={key}>
+            <div className="group-title">{item.title}</div>
+            {Object.keys(item.areas).map(areaKey => {
+              const it = item.areas[areaKey];
+              return (
+                <div key={areaKey}>
+                  <div
+                    key={`${areaKey}_title`}
+                    style={{ marginTop: 16, fontSize: 16, fontStyle: 'italic' }}
+                  >
+                    {it.title}
+                  </div>
+                  {this.renderFormItems(it.formConifg)}
+                  {this.renderWidgetInstances(it.widgets)}
+                </div>
+              );
+            })}
+          </div>
+        );
+      });
+    }
+  };
+
   render() {
-    const { showShadow, templateConfig } = this.state;
+    const { showShadow } = this.state;
     const { showTemplateConfig, saving } = this.props;
     let headerStyle = {};
     if (showShadow) {
@@ -254,10 +332,12 @@ class TemplateConfig extends PureComponent {
         zIndex: 1,
       };
     }
-    const config = { ...(templateConfig || {}) };
     return (
       <Drawer
-        title={formatMessage({id: 'dashboard_000243', defaultMessage: '大屏模板配置, 快捷键关闭ESC'})}
+        title={formatMessage({
+          id: 'dashboard_000243',
+          defaultMessage: '大屏模板配置, 快捷键关闭ESC',
+        })}
         placement="right"
         width={420}
         className={cls(styles['config-box'])}
@@ -270,24 +350,17 @@ class TemplateConfig extends PureComponent {
         <div className="form-box">
           <ScrollBar onYReachStart={this.handerYReachStart} onScrollDown={this.handerScrollDown}>
             <Form {...formItemLayout} layout="vertical">
-              <div className="group-title">{formatMessage({id: 'dashboard_000029', defaultMessage: '全局配置'})}</div>
+              <div className="group-title">
+                {formatMessage({ id: 'dashboard_000029', defaultMessage: '全局配置' })}
+              </div>
               {this.renderGlobalFormItems()}
-              {Object.keys(config).map(key => {
-                const item = config[key];
-                return (
-                  <div className="layout-box" key={key}>
-                    <div className="group-title">{item.title}</div>
-                    {this.renderFormItems(item.formConifg)}
-                    {this.renderWidgetInstances(item.widgets)}
-                  </div>
-                );
-              })}
+              {this.renderLayoutFormItems()}
             </Form>
           </ScrollBar>
         </div>
         <div className="foot-box">
           <Button icon="save" onClick={this.handlerSubmit} type="primary" loading={saving}>
-            {formatMessage({id: 'dashboard_000030', defaultMessage: '保存'})}
+            {formatMessage({ id: 'dashboard_000030', defaultMessage: '保存' })}
           </Button>
         </div>
       </Drawer>

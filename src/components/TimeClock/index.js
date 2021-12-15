@@ -6,10 +6,14 @@ import { formatMessage } from 'umi-plugin-react/locale';
 import styles from './index.less';
 
 const getTime = () => {
-  return moment().format(formatMessage({id: 'dashboard_000222', defaultMessage: 'YYYY年MM月DD日'}),'dddd  HH:mm:ss');
+  return moment().format(
+    `${formatMessage({ id: 'dashboard_000222', defaultMessage: 'YYYY年MM月DD日' })} dddd  HH:mm:ss`,
+  );
 };
 
 class TimeClock extends PureComponent {
+  static timer;
+
   static propTypes = {
     color: PropTypes.string,
   };
@@ -26,11 +30,17 @@ class TimeClock extends PureComponent {
   }
 
   componentDidMount() {
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.setState({
         currentTime: getTime(),
       });
     }, 1000);
+  }
+
+  componentWillUnmount() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   render() {

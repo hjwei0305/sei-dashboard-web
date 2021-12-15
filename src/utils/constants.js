@@ -2,9 +2,8 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2021-12-06 18:37:35
+ * @Last Modified time: 2021-12-15 19:17:08
  */
-import { formatMessage } from 'umi-plugin-react/locale';
 import { base } from '../../public/app.config.json';
 
 /** 服务接口基地址，默认是当前站点的域名地址 */
@@ -62,6 +61,7 @@ const COMPONENT_TYPE = {
   MY_WORK_DONE: 'MyWorkDone',
   MY_ORDER_IN_PROCESS: 'MyOrderInProcess',
   MY_FAVORITE_MENU: 'MyFavoriteMenu',
+  ECHART_GAUGE: 'EchartGauge',
 };
 
 /** 场景类型 */
@@ -74,13 +74,14 @@ const SCENE_TYPE = {
 /** 大屏模板类型 */
 const SCREEN_TEMPLATE = {
   TECH_BLUE: 'TechBlue',
+  TECH_BLUE_ADV: 'TechBlueAdv',
 };
 
 /** 大屏背景动效 */
 const ANIMATE_EFFECT = {
   DREAM_START: {
     key: 'dream-star',
-    title: formatMessage({ id: 'dashboard_000000', defaultMessage: '梦幻星空' }),
+    lang: 'dashboard_000000',
   },
 };
 

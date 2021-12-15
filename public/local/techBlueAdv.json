@@ -1,0 +1,227 @@
+{
+    "north": {
+        "title": "顶部区域",
+        "areas": {
+            "area1": {
+                "title": "区域1",
+                "formConifg": [
+                    {
+                        "text": "标题",
+                        "field": "north-areas-area1-title",
+                        "type": "Input",
+                        "required": false,
+                        "value": ""
+                    }
+                ],
+                "widgets": null
+            }
+        }
+    },
+    "west": {
+        "title": "左侧区域",
+        "areas": {
+            "area1": {
+                "title": "区域1",
+                "formConifg": [
+                    {
+                        "text": "标题",
+                        "field": "west-areas-area1-title",
+                        "type": "Input",
+                        "required": false,
+                        "value": ""
+                    }
+                ],
+                "widgets": {
+                    "west-areas-area1-1": null
+                }
+            },
+            "area2": {
+                "title": "区域2",
+                "formConifg": [
+                    {
+                        "text": "标题",
+                        "field": "west-areas-area2-title",
+                        "type": "Input",
+                        "required": false,
+                        "value": ""
+                    }
+                ],
+                "widgets": {
+                    "west-areas-area2-1": null
+                }
+            },
+            "area3": {
+                "title": "区域3",
+                "formConifg": [
+                    {
+                        "text": "标题",
+                        "field": "west-areas-area3-title",
+                        "type": "Input",
+                        "required": false,
+                        "value": ""
+                    },
+                    {
+                        "text": "组件布局",
+                        "field": "west-areas-area3-layout",
+                        "type": "RadioGroup",
+                        "required": false,
+                        "value": "layout-horizontal",
+                        "options": [
+                            {
+                                "value": "layout-horizontal",
+                                "title": "水平"
+                            },
+                            {
+                                "value": "layout-vertical",
+                                "title": "垂直"
+                            }
+                        ]
+                    }
+                ],
+                "widgets": {
+                    "west-areas-area3-1": null,
+                    "west-areas-area3-2": null,
+                    "west-areas-area3-3": null
+                }
+            }
+        }
+    },
+    "center": {
+        "title": "中间区域",
+        "areas": {
+            "area1": {
+                "title": "区域1",
+                "formConifg": [
+                    {
+                        "text": "标题",
+                        "field": "center-areas-area1-title",
+                        "type": "Input",
+                        "required": false,
+                        "value": ""
+                    }
+                ],
+                "widgets": {
+                    "center-areas-area1-1": null
+                }
+            },
+            "area2": {
+                "title": "区域2",
+                "formConifg": [
+                    {
+                        "text": "组件布局",
+                        "field": "center-areas-area2-layout",
+                        "type": "RadioGroup",
+                        "required": false,
+                        "value": "layout-horizontal",
+                        "options": [
+                            {
+                                "value": "layout-horizontal",
+                                "title": "水平"
+                            },
+                            {
+                                "value": "layout-vertical",
+                                "title": "垂直"
+                            }
+                        ]
+                    }
+                ],
+                "widgets": {
+                    "center-areas-area2-1": null,
+                    "center-areas-area2-2": null,
+                    "center-areas-area2-3": null
+                }
+            },
+            "area3": {
+                "title": "区域3",
+                "formConifg": [
+                    {
+                        "text": "标题",
+                        "field": "center-areas-area3-title",
+                        "type": "Input",
+                        "required": false,
+                        "value": ""
+                    }
+                ],
+                "widgets": {
+                    "center-areas-area3-1": null
+                }
+            },
+            "area4": {
+                "title": "区域4",
+                "formConifg": [],
+                "widgets": {
+                    "center-areas-area4-1": null
+                }
+            }
+        }
+    },
+    "east": {
+        "title": "右侧区域",
+        "areas": {
+            "area1": {
+                "title": "区域1",
+                "formConifg": [
+                    {
+                        "text": "标题",
+                        "field": "east-areas-area1-title",
+                        "type": "Input",
+                        "required": false,
+                        "value": ""
+                    }
+                ],
+                "widgets": {
+                    "east-areas-area1-1": null
+                }
+            },
+            "area2": {
+                "title": "区域2",
+                "formConifg": [
+                    {
+                        "text": "标题",
+                        "field": "east-areas-area2-title",
+                        "type": "Input",
+                        "required": false,
+                        "value": ""
+                    }
+                ],
+                "widgets": {
+                    "east-areas-area2-01": null
+                }
+            },
+            "area3": {
+                "title": "区域3",
+                "formConifg": [
+                    {
+                        "text": "标题",
+                        "field": "east-areas-area3-title",
+                        "type": "Input",
+                        "required": false,
+                        "value": ""
+                    },
+                    {
+                        "text": "组件布局",
+                        "field": "east-areas-area3-layout",
+                        "type": "RadioGroup",
+                        "required": false,
+                        "value": "layout-horizontal",
+                        "options": [
+                            {
+                                "value": "layout-horizontal",
+                                "title": "水平"
+                            },
+                            {
+                                "value": "layout-vertical",
+                                "title": "垂直"
+                            }
+                        ]
+                    }
+                ],
+                "widgets": {
+                    "east-areas-area3-1": null,
+                    "east-areas-area3-2": null,
+                    "east-areas-area3-3": null
+                }
+            }
+        }
+    }
+}

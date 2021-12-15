@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:33
  * @Last Modified by: Eason
- * @Last Modified time: 2020-08-08 00:06:47
+ * @Last Modified time: 2021-12-14 14:44:43
  */
 
 import { formatMessage } from 'umi-plugin-react/locale';
@@ -84,11 +84,17 @@ export default modelExtend(model, {
         callback(re);
       }
     },
-    *delScene({ payload, callback }, { call }) {
+    *delScene({ payload, callback }, { call, put }) {
       const re = yield call(delScene, payload);
       message.destroy();
       if (re.success) {
         message.success(formatMessage({ id: 'global.delete-success', defaultMessage: '删除成功' }));
+        yield put({
+          type: 'updateState',
+          payload: {
+            currentScene: null,
+          },
+        });
       } else {
         message.error(re.message);
       }

@@ -2,4 +2,8 @@
     "name":"TechBlue",
     "title":"科技蓝",
     "snapshot":"tech_blue_snapshot.png"
+},{
+    "name":"TechBlueAdv",
+    "title":"科技蓝-高级",
+    "snapshot":"tech_blue_snapshot_adv.png"
 }]

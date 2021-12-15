@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-03 11:20:08
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-28 15:00:52
+ * @Last Modified time: 2021-12-13 19:08:13
  */
 import React, { PureComponent } from 'react';
 import cls from 'classnames';
@@ -11,8 +11,8 @@ import moment from 'moment';
 import { isEqual, get, isObject } from 'lodash';
 import { Divider, Empty } from 'antd';
 import { ExtIcon, ListLoader, HottedKey, ResizeMe } from 'suid';
-import empty from '@/assets/page_empty.svg';
 import { formatMessage } from 'umi-plugin-react/locale';
+import empty from '@/assets/page_empty.svg';
 import { ScreenTemplate, DreamStar } from '../../components';
 import TemplateSelect from './components/TemplateSelect';
 import TemplateConfig from './components/TemplateConfig';
@@ -20,7 +20,7 @@ import { constants } from '../../utils';
 import styles from './Screen.less';
 
 const { GlobalHotKeys } = HottedKey;
-const { TechBlue } = ScreenTemplate;
+const { TechBlue, TechBlueAdv } = ScreenTemplate;
 const { SCREEN_TEMPLATE, ANIMATE_EFFECT } = constants;
 
 @ResizeMe()
@@ -91,18 +91,15 @@ class SceneView extends PureComponent {
   };
 
   handlerChangeScreenTemplate = screenTemplate => {
-    const { screen, dispatch } = this.props;
-    const { currentScreenTemplate } = screen;
-    if (currentScreenTemplate) {
-      // todo 弹出确认框告知用户是否要切换模板，切换后配置数据可能会丢失
-    } else {
-      dispatch({
-        type: 'screen/updateState',
-        payload: {
-          currentScreenTemplate: screenTemplate.name,
-        },
-      });
-    }
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'screen/updateState',
+      payload: {
+        currentScreenTemplate: screenTemplate.name,
+        templateConfig: {},
+        globalConfig: {},
+      },
+    });
     this.onResize();
   };
 
@@ -246,7 +243,9 @@ class SceneView extends PureComponent {
           {configSaving ? (
             <>
               <ExtIcon type="loading" className="action-item" antd />
-              <span className="tool-desc">{formatMessage({id: 'dashboard_000051', defaultMessage: '保存中'})}...</span>
+              <span className="tool-desc">
+                {formatMessage({ id: 'dashboard_000051', defaultMessage: '保存中' })}...
+              </span>
             </>
           ) : (
             <>
@@ -254,11 +253,21 @@ class SceneView extends PureComponent {
                 type="save"
                 className="action-item"
                 onClick={this.handlerSceneConfigSave}
-                tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000235', defaultMessage: '保存场景配置, 快捷键 Ctrl + S'}))}
+                tooltip={this.getActionTooltip(
+                  formatMessage({
+                    id: 'dashboard_000235',
+                    defaultMessage: '保存场景配置, 快捷键 Ctrl + S',
+                  }),
+                )}
                 antd
               />
-              <span className="tool-desc">{formatMessage({id: 'dashboard_000054', defaultMessage: '{editor}于{time}更新'}, {editor: lastEditorName, time: duration})}</span>
-              </>
+              <span className="tool-desc">
+                {formatMessage(
+                  { id: 'dashboard_000054', defaultMessage: '{editor}于{time}更新' },
+                  { editor: lastEditorName, time: duration },
+                )}
+              </span>
+            </>
           )}
         </>
       );
@@ -272,7 +281,9 @@ class SceneView extends PureComponent {
     return (
       <>
         <span className="header-title"> {currentScene.name}</span>
-        <span className="header-sub-title">{formatMessage({id: 'dashboard_000063', defaultMessage: '场景配置'})}</span>
+        <span className="header-sub-title">
+          {formatMessage({ id: 'dashboard_000063', defaultMessage: '场景配置' })}
+        </span>
       </>
     );
   };
@@ -310,10 +321,23 @@ class SceneView extends PureComponent {
             {this.getAnimateEffect()}
           </>
         );
+      case SCREEN_TEMPLATE.TECH_BLUE_ADV:
+        return (
+          <>
+            <TechBlueAdv {...templateProps} />
+            {this.getAnimateEffect()}
+          </>
+        );
       default:
         return (
           <div className="blank-empty">
-            <Empty image={empty} description={formatMessage({id: 'dashboard_000011', defaultMessage: '此模板暂时没有实现'})} />
+            <Empty
+              image={empty}
+              description={formatMessage({
+                id: 'dashboard_000011',
+                defaultMessage: '此模板暂时没有实现',
+              })}
+            />
           </div>
         );
     }
@@ -358,6 +382,7 @@ class SceneView extends PureComponent {
     };
     const templateConfigProps = {
       showTemplateConfig,
+      screenTemplate: currentScreenTemplate,
       globalConfig,
       templateConfig,
       saving: configSaving,
@@ -382,7 +407,15 @@ class SceneView extends PureComponent {
                         className="action-item"
                         onClick={onToggle}
                         tooltip={this.getActionTooltip(
-                          collapsed ? formatMessage({id: 'dashboard_000057', defaultMessage: '显示场景列表'}) : formatMessage({id: 'dashboard_000236', defaultMessage: '隐藏场景列表, 快捷键 Alt + C'})                         
+                          collapsed
+                            ? formatMessage({
+                                id: 'dashboard_000057',
+                                defaultMessage: '显示场景列表',
+                              })
+                            : formatMessage({
+                                id: 'dashboard_000236',
+                                defaultMessage: '隐藏场景列表, 快捷键 Alt + C',
+                              }),
                         )}
                         antd
                       />
@@ -396,7 +429,12 @@ class SceneView extends PureComponent {
                       className="action-item primary"
                       spin={loadingTemplateAssets}
                       onClick={this.handlerTemplateSelect}
-                      tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000244', defaultMessage: '设置模板，快捷键 Ctrl + A'}))}
+                      tooltip={this.getActionTooltip(
+                        formatMessage({
+                          id: 'dashboard_000244',
+                          defaultMessage: '设置模板，快捷键 Ctrl + A',
+                        }),
+                      )}
                       antd
                     />
                     {currentScreenTemplate ? (
@@ -405,7 +443,12 @@ class SceneView extends PureComponent {
                         className="action-item"
                         spin={loadingTemplateAssets}
                         onClick={this.handlerShowTemplateConfig}
-                        tooltip={this.getActionTooltip(formatMessage({id: 'dashboard_000237', defaultMessage: '模板配置, 快捷键 Alt + S'}))}
+                        tooltip={this.getActionTooltip(
+                          formatMessage({
+                            id: 'dashboard_000237',
+                            defaultMessage: '模板配置, 快捷键 Alt + S',
+                          }),
+                        )}
                         antd
                       />
                     ) : null}
@@ -414,7 +457,12 @@ class SceneView extends PureComponent {
                       className="action-item"
                       onClick={this.setFullScreen}
                       tooltip={this.getActionTooltip(
-                        fullScreen ? formatMessage({id: 'dashboard_000066', defaultMessage: '退出全屏'}) : formatMessage({id: 'dashboard_000231', defaultMessage: '全屏显示, 快捷键 Alt + F'}),
+                        fullScreen
+                          ? formatMessage({ id: 'dashboard_000066', defaultMessage: '退出全屏' })
+                          : formatMessage({
+                              id: 'dashboard_000231',
+                              defaultMessage: '全屏显示, 快捷键 Alt + F',
+                            }),
                       )}
                       antd
                     />
@@ -425,7 +473,13 @@ class SceneView extends PureComponent {
                     this.renderScreenTemplate()
                   ) : (
                     <div className="blank-empty">
-                      <Empty image={empty} description={formatMessage({id: 'dashboard_000232', defaultMessage: '大屏模板是空的，快捷键 Alt + S 进行设置'})} />
+                      <Empty
+                        image={empty}
+                        description={formatMessage({
+                          id: 'dashboard_000232',
+                          defaultMessage: '大屏模板是空的，快捷键 Alt + S 进行设置',
+                        })}
+                      />
                     </div>
                   )}
                 </div>

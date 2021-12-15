@@ -5,6 +5,7 @@ import MyWorkTodo from './MyWorkTodo';
 import MyWorkDone from './MyWorkDone';
 import MyOrderInProcess from './MyOrderInProcess';
 import MyFavoriteMenu from './MyFavoriteMenu';
+import EchartGauge from './EchartGauge';
 
 export default {
   EchartPie,
@@ -14,4 +15,5 @@ export default {
   MyWorkDone,
   MyOrderInProcess,
   MyFavoriteMenu,
+  EchartGauge,
 };

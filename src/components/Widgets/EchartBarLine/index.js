@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:12
  * @Last Modified by: Eason
- * @Last Modified time: 2020-04-27 12:57:09
+ * @Last Modified time: 2021-12-15 16:24:09
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -83,7 +83,9 @@ class EchartBarLine extends PureComponent {
   };
 
   endTimer = () => {
-    this.timer && window.clearInterval(this.timer);
+    if (this.timer) {
+      window.clearInterval(this.timer);
+    }
   };
 
   getData = p => {
@@ -91,7 +93,9 @@ class EchartBarLine extends PureComponent {
     const { store, reader, summary } = this.props;
     const { url, type } = store || {};
     const methodType = type || 'get';
-    !timerLoader && this.setState({ loading: true });
+    if (!timerLoader) {
+      this.setState({ loading: true });
+    }
     const requestOptions = {
       method: methodType,
       url: formartUrl(url),
@@ -128,7 +132,9 @@ class EchartBarLine extends PureComponent {
           }
         })
         .finally(() => {
-          !timerLoader && this.setState({ loading: false });
+          if (!timerLoader) {
+            this.setState({ loading: false });
+          }
         });
     }
   };

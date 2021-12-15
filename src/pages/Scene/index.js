@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-03-20 14:52:21
  * @Last Modified by: Eason
- * @Last Modified time: 2020-08-31 14:31:28
+ * @Last Modified time: 2021-12-14 14:45:13
  */
 import React, { Component } from 'react';
 import cls from 'classnames';
@@ -45,14 +45,18 @@ class SceneHome extends Component {
           dispatch({
             type: 'scene/getSceneList',
           });
-          handlerPopoverHide && handlerPopoverHide();
+          if (handlerPopoverHide) {
+            handlerPopoverHide();
+          }
         }
       },
     });
   };
 
   delScene = (data, e) => {
-    e && e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+    }
     const { dispatch } = this.props;
     this.setState(
       {
@@ -130,14 +134,19 @@ class SceneHome extends Component {
 
   handlerCopy = router => {
     copy(router);
-    message.success(`${router} ${formatMessage({id: 'dashboard_000014', defaultMessage: '已复制到剪贴板'})}`);
+    message.success(
+      `${router} ${formatMessage({ id: 'dashboard_000014', defaultMessage: '已复制到剪贴板' })}`,
+    );
   };
 
   renderCustomTool = () => {
     return (
       <>
         <Search
-          placeholder={formatMessage({id: 'dashboard_000015', defaultMessage: '输入代码、名称关键字查询'})}
+          placeholder={formatMessage({
+            id: 'dashboard_000015',
+            defaultMessage: '输入代码、名称关键字查询',
+          })}
           onChange={e => this.handlerSearchChange(e.target.value)}
           onSearch={this.handlerSearch}
           onPressEnter={this.handlerPressEnter}
@@ -171,7 +180,9 @@ class SceneHome extends Component {
           <ExtIcon
             className={cls('action-item')}
             type="copy"
-            tooltip={{ title: formatMessage({id: 'dashboard_000016', defaultMessage: '复制访问路由'}) }}
+            tooltip={{
+              title: formatMessage({ id: 'dashboard_000016', defaultMessage: '复制访问路由' }),
+            }}
             antd
             onClick={() => this.handlerCopy(this.getScenePath(item))}
           />
@@ -221,7 +232,7 @@ class SceneHome extends Component {
     const selectedKeys = currentScene ? [currentScene.id] : [];
     const listCardProps = {
       className: 'left-content',
-      title: formatMessage({id: 'dashboard_000018', defaultMessage: '场景列表'}),
+      title: formatMessage({ id: 'dashboard_000018', defaultMessage: '场景列表' }),
       showSearch: false,
       loading: listLoading,
       selectedKeys,
@@ -253,7 +264,13 @@ class SceneHome extends Component {
             this.renderScene()
           ) : (
             <div className="blank-empty">
-              <Empty image={empty} description={formatMessage({id: 'dashboard_000019', defaultMessage: '可选择左边列表项进行相应的操作'})} />
+              <Empty
+                image={empty}
+                description={formatMessage({
+                  id: 'dashboard_000019',
+                  defaultMessage: '可选择左边列表项进行相应的操作',
+                })}
+              />
             </div>
           )}
         </Content>
