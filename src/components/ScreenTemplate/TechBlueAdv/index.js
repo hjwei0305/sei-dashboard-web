@@ -100,6 +100,9 @@ class TechBlueAdv extends Component {
             name: s.name,
             type: 'bar',
             stack: 'total',
+            label: {
+              show: true,
+            },
             emphasis: {
               focus: 'series',
             },
@@ -171,6 +174,10 @@ class TechBlueAdv extends Component {
             stack: 'Total',
             areaStyle: {
               opacity: 0.6,
+            },
+            label: {
+              show: true,
+              color: 'auto',
             },
             emphasis: {
               focus: 'series',
