@@ -497,4 +497,8 @@ export default {
   dashboard_000224: 'minutes',
 
   dashboard_000225: 'set icon color',
+
+  dashboard_000245: 'I want to rush it',
+
+  dashboard_000246: 'Successful urging',
 };

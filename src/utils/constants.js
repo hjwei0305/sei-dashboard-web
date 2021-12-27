@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-02-21 18:03:16
  * @Last Modified by: Eason
- * @Last Modified time: 2021-12-15 19:17:08
+ * @Last Modified time: 2021-12-27 14:49:16
  */
 import { base } from '../../public/app.config.json';
 
@@ -91,6 +91,7 @@ const USER_ACTION = {
   FLOW_HISTORY: 'Flow_History',
   FLOW_REVOKE: 'Flow_Revoke',
   FLOW_END: 'Flow_End',
+  FLOW_URGE: 'Flow_Urge',
 };
 
 /** 流程状态枚举 */

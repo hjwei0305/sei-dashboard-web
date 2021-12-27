@@ -8,6 +8,7 @@ import { utils, message, ListLoader, ListCard, ExtIcon } from 'suid';
 import { formatMessage } from 'umi-plugin-react/locale';
 import { formartUrl, constants, taskColor } from '@/utils';
 import ExtAction from './ExtAction';
+import UrgedForm from './UrgedForm';
 import styles from './index.less';
 
 const { request, eventBus, formatMsg } = utils;
@@ -17,6 +18,8 @@ class MyOrderInProcess extends PureComponent {
   static timer = null;
 
   static confirmModal;
+
+  static urgeRecord;
 
   static propTypes = {
     title: PropTypes.string,
@@ -51,6 +54,8 @@ class MyOrderInProcess extends PureComponent {
     this.state = {
       loading: false,
       dataSource: [],
+      urging: false,
+      showUrge: false,
     };
   }
 
@@ -164,6 +169,38 @@ class MyOrderInProcess extends PureComponent {
     );
   };
 
+  handlerUrge = data => {
+    const requestOptions = {
+      method: 'POST',
+      url: formartUrl('/api-gateway/flow-service/flowInstance/sendToUrgedInfo'),
+      data,
+    };
+    this.setState({ urging: true });
+    request(requestOptions)
+      .then(res => {
+        message.destroy();
+        if (res.success) {
+          message.success('催办成功');
+          this.handlerCloseShowUrge();
+          this.getData();
+        }
+      })
+      .finally(() => {
+        this.setState({ urging: false });
+      });
+  };
+
+  handlerShowUrge = record => {
+    this.urgeRecord = record;
+    this.setState({ showUrge: true });
+  };
+
+  handlerCloseShowUrge = () => {
+    this.setState({ showUrge: false }, () => {
+      this.urgeRecord = null;
+    });
+  };
+
   handlerAction = (key, record) => {
     switch (key) {
       case USER_ACTION.VIEW_ORDER:
@@ -173,6 +210,9 @@ class MyOrderInProcess extends PureComponent {
         break;
       case USER_ACTION.FLOW_END:
         this.flowEndConfirm(record);
+        break;
+      case USER_ACTION.FLOW_URGE:
+        this.handlerShowUrge(record);
         break;
       default:
     }
@@ -279,7 +319,7 @@ class MyOrderInProcess extends PureComponent {
     const { item } = avatar;
     const extActionProps = {
       onAction: this.handlerAction,
-      doneItem: item,
+      orderItem: item,
     };
     return <ExtAction {...extActionProps} />;
   };
@@ -302,10 +342,18 @@ class MyOrderInProcess extends PureComponent {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, urging, showUrge } = this.state;
+    const urgedFormProps = {
+      closeFormModal: this.handlerCloseShowUrge,
+      saving: urging,
+      showModal: showUrge,
+      save: this.handlerUrge,
+      flowInstanceId: get(this.urgeRecord, 'flowInstanceId'),
+    };
     return (
       <div className={cls(styles['my-order-in-process-list'])}>
         {loading ? <ListLoader /> : this.renderOrderList()}
+        <UrgedForm {...urgedFormProps} />
       </div>
     );
   }

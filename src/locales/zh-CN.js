@@ -283,4 +283,6 @@ export default {
   dashboard_000242: '数据看板设置, 快捷键关闭ESC',
   dashboard_000243: '大屏模板配置, 快捷键关闭ESC',
   dashboard_000244: '设置模板，快捷键 Ctrl + A',
+  dashboard_000245: '催办',
+  dashboard_000246: '催办成功',
 };

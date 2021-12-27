@@ -29,6 +29,11 @@ const menuData = () => [
     key: USER_ACTION.FLOW_END,
     disabled: true,
   },
+  {
+    title: formatMessage({ id: 'dashboard_000245', defaultMessage: '催办' }),
+    key: USER_ACTION.FLOW_URGE,
+    disabled: true,
+  },
 ];
 
 class ExtAction extends PureComponent {
@@ -46,11 +51,18 @@ class ExtAction extends PureComponent {
   }
 
   initActionMenus = () => {
-    const { doneItem } = this.props;
+    const { orderItem } = this.props;
     const menus = menuData();
-    if (doneItem.canManuallyEnd === true) {
+    if (orderItem.canManuallyEnd === true) {
       menus.forEach(m => {
         if (m.key === USER_ACTION.FLOW_END) {
+          Object.assign(m, { disabled: false });
+        }
+      });
+    }
+    if (orderItem.canUrged === true) {
+      menus.forEach(m => {
+        if (m.key === USER_ACTION.FLOW_URGE) {
           Object.assign(m, { disabled: false });
         }
       });
@@ -67,9 +79,9 @@ class ExtAction extends PureComponent {
       selectedKeys: '',
       menuShow: false,
     });
-    const { onAction, doneItem } = this.props;
+    const { onAction, orderItem } = this.props;
     if (onAction) {
-      onAction(e.key, doneItem);
+      onAction(e.key, orderItem);
     }
   };
 
@@ -121,14 +133,14 @@ class ExtAction extends PureComponent {
   };
 
   render() {
-    const { doneItem } = this.props;
+    const { orderItem } = this.props;
     const { menuShow, menusData } = this.state;
     return (
       <>
         {menusData.length > 0 ? (
           <Dropdown
             trigger={['click']}
-            overlay={this.getMenu(menusData, doneItem)}
+            overlay={this.getMenu(menusData, orderItem)}
             className="action-drop-down"
             placement="bottomLeft"
             visible={menuShow}
