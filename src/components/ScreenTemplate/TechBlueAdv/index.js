@@ -360,13 +360,23 @@ class TechBlueAdv extends Component {
               shadowColor: 'rgba(10, 103, 212, 0.8)',
               shadowBlur: 10,
             },
-            barWidth: '30%',
+            barWidth: seriesData.length > 0 ? this.getBarWidth(seriesData[0].data.length) : 0,
             data: seriesData.length > 0 ? seriesData[0].data : [],
           },
         ],
       };
     }
     return option;
+  };
+
+  getBarWidth = len => {
+    if (len <= 6) {
+      return 20;
+    }
+    if (len <= 10) {
+      return '30%';
+    }
+    return '20%';
   };
 
   setEchartGaugeOption = (data, title, region) => {
