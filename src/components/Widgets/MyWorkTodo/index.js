@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2021-10-28 09:59:22
+ * @Last Modified time: 2022-02-16 09:47:11
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -131,6 +131,7 @@ class MyWorkTodo extends PureComponent {
   };
 
   getData = p => {
+    const { selectItemIndex: originSelectItemIndex } = this.state;
     const { params = null, timerLoader = false } = p || {};
     const { group } = this.props;
     const { store, reader } = group;
@@ -155,13 +156,24 @@ class MyWorkTodo extends PureComponent {
       request(requestOptions)
         .then(res => {
           if (res.success) {
+            let selectItemIndex = originSelectItemIndex;
             const groupData = get(res, reader.data, []) || [];
+            if (!groupData[originSelectItemIndex]) {
+              selectItemIndex = 0;
+            }
             groupData.forEach(gp => {
               this.total += gp.count;
             });
-            this.setState({
-              groupData,
-            });
+            this.setState(
+              {
+                groupData,
+              },
+              () => {
+                if (groupData.length > 0) {
+                  this.handlerGroupSelect(selectItemIndex);
+                }
+              },
+            );
           }
         })
         .finally(() => {
