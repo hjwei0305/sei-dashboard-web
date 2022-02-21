@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2022-02-21 14:49:07
+ * @Last Modified time: 2022-02-21 15:15:15
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -157,7 +157,6 @@ class MyWorkTodo extends PureComponent {
         .then(res => {
           if (res.success) {
             let selectItemIndex = originSelectItemIndex;
-            console.log('init_state', selectItemIndex);
             const groupData = get(res, reader.data, []) || [];
             if (!groupData[selectItemIndex]) {
               selectItemIndex = 0;
@@ -172,8 +171,7 @@ class MyWorkTodo extends PureComponent {
               },
               () => {
                 if (groupData.length > 0) {
-                  this.handlerGroupSelect(selectItemIndex);
-                  console.log(999999, selectItemIndex);
+                  this.slickGoTo(selectItemIndex);
                 }
               },
             );
@@ -197,15 +195,20 @@ class MyWorkTodo extends PureComponent {
   };
 
   handlerGroupSelect = index => {
-    const { groupSlider, loading } = this.state;
+    const { loading } = this.state;
     if (loading) {
       return false;
     }
-    groupSlider.slickGoTo(index);
+    this.slickGoTo(index);
+  };
+
+  slickGoTo = idx => {
+    const { groupSlider } = this.state;
+    groupSlider.slickGoTo(idx);
     this.setState({
-      selectItemIndex: index,
+      selectItemIndex: idx,
     });
-    storage.sessionStorage.set(`${this.userId}_${FLOW_TODO_LOCAL_STORAGE.groupKey}`, index);
+    storage.sessionStorage.set(`${this.userId}_${FLOW_TODO_LOCAL_STORAGE.groupKey}`, idx);
   };
 
   renderMyWorkTodo = () => {
