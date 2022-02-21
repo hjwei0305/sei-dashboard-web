@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2022-02-21 15:15:15
+ * @Last Modified time: 2022-02-21 15:26:51
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -171,7 +171,7 @@ class MyWorkTodo extends PureComponent {
               },
               () => {
                 if (groupData.length > 0) {
-                  this.slickGoTo(selectItemIndex);
+                  this.handlerSlickGoTo(selectItemIndex);
                 }
               },
             );
@@ -199,16 +199,18 @@ class MyWorkTodo extends PureComponent {
     if (loading) {
       return false;
     }
-    this.slickGoTo(index);
+    this.handlerSlickGoTo(index);
   };
 
-  slickGoTo = idx => {
+  handlerSlickGoTo = idx => {
     const { groupSlider } = this.state;
-    groupSlider.slickGoTo(idx);
-    this.setState({
-      selectItemIndex: idx,
-    });
-    storage.sessionStorage.set(`${this.userId}_${FLOW_TODO_LOCAL_STORAGE.groupKey}`, idx);
+    if (groupSlider) {
+      groupSlider.slickGoTo(idx);
+      this.setState({
+        selectItemIndex: idx,
+      });
+      storage.sessionStorage.set(`${this.userId}_${FLOW_TODO_LOCAL_STORAGE.groupKey}`, idx);
+    }
   };
 
   renderMyWorkTodo = () => {
