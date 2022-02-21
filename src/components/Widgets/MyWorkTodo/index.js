@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2022-02-16 09:47:11
+ * @Last Modified time: 2022-02-21 14:49:07
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -157,10 +157,12 @@ class MyWorkTodo extends PureComponent {
         .then(res => {
           if (res.success) {
             let selectItemIndex = originSelectItemIndex;
+            console.log('init_state', selectItemIndex);
             const groupData = get(res, reader.data, []) || [];
-            if (!groupData[originSelectItemIndex]) {
+            if (!groupData[selectItemIndex]) {
               selectItemIndex = 0;
             }
+            this.total = 0;
             groupData.forEach(gp => {
               this.total += gp.count;
             });
@@ -171,6 +173,7 @@ class MyWorkTodo extends PureComponent {
               () => {
                 if (groupData.length > 0) {
                   this.handlerGroupSelect(selectItemIndex);
+                  console.log(999999, selectItemIndex);
                 }
               },
             );
