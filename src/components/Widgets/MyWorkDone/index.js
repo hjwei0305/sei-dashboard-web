@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-06-19 10:27:56
  * @Last Modified by: Eason
- * @Last Modified time: 2021-11-17 15:38:01
+ * @Last Modified time: 2022-02-18 23:42:24
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -190,9 +190,9 @@ class MyWorkDone extends PureComponent {
   handlerViewOrder = doneItem => {
     let url = formartUrl(doneItem.webBaseAddressAbsolute, doneItem.flowInstanceLookUrl);
     if (url.indexOf('?') === -1) {
-      url = `${url}?id=${doneItem.flowInstanceBusinessId}`;
+      url = `${url}?id=${doneItem.flowInstanceBusinessId}&instanceId=${doneItem.flowInstanceId}`;
     } else {
-      url = `${url}&id=${doneItem.flowInstanceBusinessId}`;
+      url = `${url}&id=${doneItem.flowInstanceBusinessId}&instanceId=${doneItem.flowInstanceId}`;
     }
     this.tabOpen({
       id: doneItem.flowInstanceBusinessId,
