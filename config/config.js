@@ -36,15 +36,7 @@ export default {
           include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch', 'antd/es'],
           exclude: ['@umijs/plugin-qiankun'],
         },
-        pwa:
-          process.env.NODE_ENV === 'production'
-            ? {
-              workboxPluginMode: 'InjectManifest',
-              workboxOptions: {
-                importWorkboxFrom: 'local',
-              },
-            }
-            : false,
+        pwa: false,
         locale: {
           enable: true,
           default: 'zh-CN',

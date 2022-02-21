@@ -2,7 +2,7 @@
  * @Author: Eason
  * @Date: 2020-04-09 10:13:17
  * @Last Modified by: Eason
- * @Last Modified time: 2022-02-21 15:26:51
+ * @Last Modified time: 2022-02-21 15:37:06
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -171,7 +171,9 @@ class MyWorkTodo extends PureComponent {
               },
               () => {
                 if (groupData.length > 0) {
-                  this.handlerSlickGoTo(selectItemIndex);
+                  setTimeout(() => {
+                    this.handlerSlickGoTo(selectItemIndex);
+                  }, 1000);
                 }
               },
             );
